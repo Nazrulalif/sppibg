@@ -134,7 +134,7 @@
 
                                                 <div id="childrenFields">
                                                     <div class="child-fields row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label for="name">Nama Pelajar</label>
                                                                 <input type="text" name="child[]" class="form-control"
@@ -143,9 +143,34 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label for="name">Tahun</label>
+                                                                {{-- <input type="text" name="year[]" class="form-control"
+                                                                    id=""> --}}
+                                                                    <select name="year[]" class="form-control" id="">
+                                                                        {{-- <option value="1">Tahun 1</option> --}}
+                                                                        <option>--Pilih--</option>
+                                                                        <option value="1">Tahun 1</option>
+                                                                        <option value="2">Tahun 2</option>
+                                                                        <option value="3">Tahun 3</option>
+                                                                        <option value="4">Tahun 4</option>
+                                                                        <option value="5">Tahun 5</option>
+                                                                        <option value="6">Tahun 6</option>
+                                                                    </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
                                                                 <label for="name">Kelas</label>
-                                                                <input type="text" name="class[]" class="form-control"
-                                                                    id="">
+                                                                {{-- <input type="text" name="class[]" class="form-control"
+                                                                    id=""> --}}
+                                                                    <select name="class[]" class="form-control" id="">
+                                                                        {{-- <option value="1">Tahun 1</option> --}}
+                                                                        <option>--Pilih--</option>
+                                                                        <option value="Bestari">Bestari</option>
+                                                                        <option value="Gemilang">Gemilang</option>
+                                                                        <option value="Cemerlang">Cemerlang</option>
+                                                                       
+                                                                    </select>
                                                             </div>
                                                         </div>
 
@@ -169,16 +194,38 @@
                                                             newChildField.classList.add('child-fields', 'row');
 
                                                             newChildField.innerHTML = `
+                                                            <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="name">Nama Pelajar</label>
+                                                                <input type="text" name="child[]" class="form-control"
+                                                                    id="">
+                                                            </div>
+                                                        </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="child" class="form-label">Nama Pelajar</label>
-                                                                    <input type="text" name="child[]" class="form-control">
+                                                                    <label for="child" class="form-label">Tahun</label>
+                                                                    <select name="year[]" class="form-control" id="">
+                                                                        
+                                                                        <option>--Pilih--</option>
+                                                                        <option value="1">Tahun 1</option>
+                                                                        <option value="2">Tahun 2</option>
+                                                                        <option value="3">Tahun 3</option>
+                                                                        <option value="4">Tahun 4</option>
+                                                                        <option value="5">Tahun 5</option>
+                                                                        <option value="6">Tahun 6</option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="class" class="form-label">Kelas</label>
-                                                                    <input type="text" name="class[]" class="form-control">
+                                                                    <select name="class[]" class="form-control" id="">
+                                                                        <option>--Pilih--</option>
+                                                                        <option value="Bestari">Bestari</option>
+                                                                        <option value="Gemilang">Gemilang</option>
+                                                                        <option value="Cemerlang">Cemerlang</option>
+                                                                       
+                                                                    </select>
                                                                 </div>
                                                             </div>
 
@@ -232,6 +279,7 @@
                                                                 <option value="1">Setiausaha</option>
                                                                 <option value="2">Yang Di-Pertua</option>
                                                                 <option value="3">Naib Yang Di-Pertua</option>
+                                                                <option value="6">Bendahari</option>
                                                                 <option value="4">Ahli Jawatankuasa</option>
                                                                 <option value="5">Ahli</option>
                                                             </select>

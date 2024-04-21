@@ -13,7 +13,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Kehadiran Mesyuarat</h1>
+                    {{-- <h1>Butiran Pembayaran Yuran Tahun {{$yuran->tahun}}</h1> --}}
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -28,25 +28,90 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>RM {{$jumlah_kutipan}}</h3>
+                            <p>Jumlah Kutipan</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-money-bill-wave-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{$selesai}}</h3>
+
+                            <p>Selesai Pembayaran</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>{{$belum_selesai}}</h3>
+
+                            <p>Belum Selesai Pembayaran</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{$jumlah_pelajar}}</h3>
+
+                            <p>Jumlah Pelajar</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Senarai Kehadiran</h3>
-                    <button type="button" onclick="openNewWindow()" class="btn btn-primary btn-sm float-right"><i
-                      class="fas fa-plus-circle"></i>
-                  Tambah</button>
+                    <h3 class="card-title">Senarai Pembayar</h3>
+                    <button type="button" onclick="openNewWindow()"
+                            class="btn btn-primary btn-sm float-right">
+                            Laporan
+                    </button>
+
                 </div>
+                <!-- /.card-header -->
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="active tab-pane" id="activity">
+
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Mesyuarat</th>
+                                        <th>Nama Pelajar</th>
+                                        <th>Nama Ahli</th>
+                                        <th>Yuran (RM)</th>
+                                        <th>Yuran Tambahan (RM)</th>
+                                        <th>Jumlah Bayar</th>
+                                        <th>Status</th>
                                         <th>Tarikh</th>
-                                        <th>Masa Mula</th>
-                                        <th>Masa Tamat</th>
                                         <th>Tindakan</th>
                                     </tr>
                                 </thead>
@@ -55,15 +120,14 @@
                                 </tbody>
                             </table>
                         </div>
-                        
                     </div>
 
                 </div>
                 <!-- /.card-body -->
-
             </div>
             <!-- /.card -->
         </div>
+
 
     </section>
     <!-- /.content -->
@@ -84,8 +148,15 @@
 <script src="{{asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
 <script src="{{asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>\
+{{-- sweetalert2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!-- FLOT CHARTS -->
+<script src="{{asset('plugins/flot/jquery.flot.j')}}s"></script>
+<!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+<script src="{{asset('plugins/flot/plugins/jquery.flot.resize.js')}}"></script>
+<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+<script src="{{asset('plugins/flot/plugins/jquery.flot.pie.js')}}"></script>
 {{-- Datatable2 --}}
 <script>
     $(document).ready(function () {
@@ -99,15 +170,15 @@
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
-            ajax: "{{ route('admin.kehadiran') }}",
+            ajax: "{{ route('admin.senarai-bayar', $data) }}",
             columnDefs: [{
                     width: '1%',
                     targets: 0
                 }, // Set 20% width for the first column
-                {
-                    width: '50%',
-                    targets: 1
-                }, // Set 30% width for the second column
+                // {
+                //     width: '50%',
+                //     targets: 1
+                // }, // Set 30% width for the second column
                 // {
                 //     width: '10%',
                 //     targets: 2
@@ -122,83 +193,72 @@
                     orderable: true,
                 },
                 {
-                    data: 'nama_mesyuarat',
+                    data: 'nama_pelajar',
                     name: 'name',
                     orderable: true, // Allow ordering for this column
+                },
+                {
+                    data: 'name',
+                    name: 'name',
+                    orderable: true, // Allow ordering for this column
+                },
+                {
+                    data: 'yuran',
+                    name: 'name',
+                    orderable: true, // Allow ordering for this column
+                },
+                {
+                    data: 'yuran_tambahan',
+                    name: 'jumlah_bayar',
+                    orderable: true, // Allow ordering for this column
+
+                },
+                {
+                    data: 'jumlah_yuran',
+                    name: 'jumlah_bayar',
+                    orderable: true, // Allow ordering for this column
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: true, // Allow ordering for this column
+                    className: 'dt-center',
+                    render: function (data, type, row) {
+                        if (data === 'Selesai') {
+                            return '<span class="badge badge-success">Selesai</span>';
+                        } else if (data === 'Bayaran Separa') {
+                            return '<span class="badge badge-warning">Bayaran Separa</span>';
+                        } else {
+                            return ''; // Return empty string for other cases
+                        }
+                    },
+
                 },
                 {
                     data: 'formatted_date',
-                    name: 'name',
+                    name: 'formatted_date',
                     orderable: true, // Allow ordering for this column
-                },
-                {
-                    data: 'formatted_mula',
-                    name: 'name',
-                    orderable: true, // Allow ordering for this column
-                },
-                {
-                    data: 'formatted_tamat',
-                    name: 'name',
-                    orderable: true, // Allow ordering for this column
+
                 },
                 {
                     data: null,
                     render: function (data, type, row) {
                         return `
                     <div class="">
-                        
-                      <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.kehadiran-qr', '') }}/${data.id}">
-                          <i class="fas fa-folder"></i>
-                        </a>
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                      </div>`;
+                        <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.yuran-butiran', '') }}/${data.id}">
+                            <i class="fas fa-folder"></i>
+                        </a>`;
                     },
                     orderable: false,
                     searchable: false
                 }
-                
             ],
-        });
-        $('#example2').on('click', '.deleteEvent', function () {
-            var id = $(this).data('id');
-            Swal.fire({
-                title: 'Adakah anda pasti?',
-                text: 'Anda akan memadam rekod ini',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#28a745',
-                cancelButtonColor: '#dc3545',
-                confirmButtonText: 'Ya, pasti',
-                cancelButtonText: 'Batal',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Perform the delete action
-                    window.location.href = "{{ route('admin.kehadiran-padam', '') }}/" + id;
-                }
-            });
         });
     });
 
 </script>
-{{-- open new window --}}
-<script>
-  function openNewWindow() {
-      // Define the URL of the new window
-      var route = '{{ route('admin.kehadiran-tambah') }}'; // Replace with your URL
 
-      // Define the size and position of the new window
-      var width = 600;
-      var height = 400;
-      var left = (window.innerWidth - width) / 2;
-      var top = (window.innerHeight - height) / 2;
 
-      // Open a new window with the specified URL, size, and position
-      window.open(route, '_blank', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
-  }
-
-</script>
 {{-- sweet alert --}}
 @if (Session::get('success'))
 <script>

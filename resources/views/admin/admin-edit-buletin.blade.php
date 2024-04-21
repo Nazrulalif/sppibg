@@ -53,20 +53,23 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="{{route("admin.buletin-update", [$data->id])}}" id="buletin-form" method="POST"
-                                enctype="multipart/form-data">
+                            <form action="{{route("admin.buletin-update", [$data->id])}}" id="buletin-form"
+                                method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
 
                                     <div class="form-group">
                                         <label for="name">Tajuk</label>
-                                        <input type="text" value="{{$data->nama_buletin}}" name="buletin_name" class="form-control" id="">
+                                        <input type="text" value="{{$data->nama_buletin}}" name="buletin_name"
+                                            class="form-control" id="">
                                         @if($errors->has('file'))
                                         <span class="text-danger">{{ $errors->first('buletin_name') }}</span>
                                         @endif
                                     </div>
                                     <div class="form-group">
-                                        <a class="btn btn-primary btn-sm" href="{{asset('uploads/buletin/'. $data->fail)}}" style="float: right">Papar</a>
+                                        <a class="btn btn-primary btn-sm"
+                                            href="{{asset('uploads/buletin/'. $data->fail)}}"
+                                            style="float: right">Papar</a>
                                         <label for="exampleInputFile">Fail</label>
                                         <div class="input-group">
 
@@ -81,26 +84,26 @@
                                             </div>
 
                                         </div>
-                                        
+
                                         @if($errors->has('file'))
                                         <span class="text-danger">{{ $errors->first('file') }}</span>
                                         @endif
                                     </div>
-                                        {{$data->fail}}
+                                    {{-- {{$data->fail}} --}}
 
-                                {{-- <iframe src="{{asset('uploads/buletin/'. $data->fail)}}" frameborder="0"></iframe> --}}
-
+                                    {{-- <iframe src="{{asset('uploads/buletin/'. $data->fail)}}"
+                                    frameborder="0"></iframe> --}}
+                                    <button type="submit" name="submit" value="2"
+                                        class="btn btn-success float-right ml-1">Simpan</button>
+                                    <button type="submit" name="submit" class="btn btn-info float-right ml-1"
+                                        value="1">Draf</button>
+                                    {{-- <a type="button" onclick="window.close();"
+                                        class="btn btn-secondary float-right">Tutup</a> --}}
                                 </div>
 
                                 <!-- /.card-body -->
 
-                                <div class="card-footer ">
-                                    <button type="submit" name="submit" value="2" class="btn btn-success float-right ml-1"
-                                         >Simpan</button>
-                                    <button type="submit" name="submit" class="btn btn-info float-right ml-1" value="1" >Draf</button>
-                                    <a type="button" onclick="window.close();"
-                                        class="btn btn-secondary float-right">Tutup</a>
-                                </div>
+
                             </form>
                         </div>
                     </div>
@@ -170,10 +173,11 @@
         // });
 
     </script>
-<script>
-    $(function () {
-      bsCustomFileInput.init();
-    });
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });
+
     </script>
 
 

@@ -40,7 +40,7 @@
         <ul class="nav nav-pills">
             <li class="nav-item">
                 <a class="nav-link active" href="#activity" data-toggle="tab">
-                    Pengguna sah
+                    Aktif
                 </a>
             </li>
             <li class="nav-item">
@@ -181,7 +181,7 @@
                         <a type="button" title="kemaskini" class="btn btn-info btn-sm" href="{{ route('admin.pengguna-edit', '') }}/${data.id}">
                             <i class="fas fa-pencil-alt"></i>
                         </a>
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
+                        <button title="nyah aktif" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
                             <i class="fas fa-trash"></i>
                         </button>
                       </div>`;
@@ -195,7 +195,7 @@
             var id = $(this).data('id');
             Swal.fire({
                 title: 'Adakah anda pasti?',
-                text: 'Anda akan memadam rekod ini',
+                text: 'Anda akan nyah aktif pengguna ini',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#28a745',
@@ -205,7 +205,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Perform the delete action
-                    window.location.href = "{{ route('admin.pengguna-padam', '') }}/" + id;
+                    window.location.href = "{{ route('admin.pengguna-nyah-aktif', '') }}/" + id;
                 }
             });
         });

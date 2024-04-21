@@ -3,7 +3,7 @@
 <aside class="main-sidebar elevation-4 sidebar-light-primary" style="background-color: #f4f6f9">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link" style="background-color: #ffffff">
-        <img src="{{asset('\assets\img\logo_sekolah.png')}} " alt="AdminLTE Logo" class="brand-image img-circle
+        <img src="{{asset('assets\img\logo_sekolah.png')}} " alt="AdminLTE Logo" class="brand-image img-circle
         elevation-0"
         style="opacity: .8">
         <span class="brand-text font-weight-bold ">SPPIBG (Admin)</span>
@@ -14,7 +14,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{asset('\assets\img\avatar.png')}}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{asset('assets\img\avatar.png')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{Auth::user()->name}}</a>
@@ -74,8 +74,8 @@
                         </li>
                     </ul>
                 </li> --}}
-                <li class="nav-item {{ (Request::is('admin/mesyuarat','admin/panggilan-mesyuarat-surat*', 'admin/usul_laporan*', 'admin/mesyuarat-butiran*', 'admin/kehadiran') ? 'menu-is-opening menu-open' : '') }}">
-                    <a href="#" class="nav-link {{ (Request::is('admin/mesyuarat', 'admin/panggilan-mesyuarat-surat*', 'admin/usul_laporan*', 'admin/mesyuarat-butiran*', 'admin/kehadiran') ? 'active' : '') }}">
+                <li class="nav-item {{ (Request::is('admin/mesyuarat','admin/panggilan-mesyuarat-surat*', 'admin/usul_laporan*', 'admin/mesyuarat-butiran*', 'admin/kehadiran', 'admin/kehadiran-qr*', 'admin/rekod-kehadiran') ? 'menu-is-opening menu-open' : '') }}">
+                    <a href="#" class="nav-link {{ (Request::is('admin/mesyuarat', 'admin/panggilan-mesyuarat-surat*', 'admin/usul_laporan*', 'admin/mesyuarat-butiran*', 'admin/kehadiran', 'admin/kehadiran-qr*', 'admin/rekod-kehadiran') ? 'active' : '') }}">
                         <i class="nav-icon fas fa-handshake"></i>
                         <p>
                             Mesyuarat
@@ -84,7 +84,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('admin.panggilan-mesyuarat')}}" class="nav-link {{ (Request::is('admin/mesyuarat','admin/panggilan-mesyuarat-surat*', 'admin/usul_laporan*', 'admin/mesyuarat-butiran*') ? 'active' : '') }}">
+                            <a href="{{route('admin.panggilan-mesyuarat')}}" class="nav-link {{ (Request::is('admin/mesyuarat','admin/panggilan-mesyuarat-surat*', 'admin/usul_laporan*', 'admin/mesyuarat-butiran*', ) ? 'active' : '') }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Senarai Mesyuarat</p>
                             </a>
@@ -102,23 +102,29 @@
                             </a>
                         </li> --}}
                         <li class="nav-item">
-                            <a href="{{route('admin.kehadiran')}}" class="nav-link {{ (Request::is('admin/kehadiran') ? 'active' : '') }}">
+                            <a href="{{route('admin.kehadiran')}}" class="nav-link {{ (Request::is('admin/kehadiran', 'admin/kehadiran-qr*') ? 'active' : '') }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Kehadiran</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.rekod-kehadiran')}}" class="nav-link {{ (Request::is('admin/rekod-kehadiran') ? 'active' : '') }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rekod Kehadiran</p>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('admin.aduan-cadangan')}}" class="nav-link {{ (Request::is('admin/aduan-cadangan') ? 'active' : '') }}">
-                        <i class="nav-icon fas fa-file"></i>
+                    <a href="{{route('admin.qr-reader')}}" class="nav-link {{ (Request::is('admin/qr-reader', 'admin/qr-berjaya') ? 'active' : '') }}">
+                        <i class="nav-icon fas fa-qrcode"></i>
                         <p>
-                            Aduan dan Cadangan
+                            iQr-Reader
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('admin.yuran')}}" class="nav-link {{ (Request::is('admin/yuran') ? 'active' : '') }}">
+                    <a href="{{route('admin.yuran')}}" class="nav-link {{ (Request::is('admin/yuran', 'admin/yuran-butiran*') ? 'active' : '') }}">
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
                             Yuran

@@ -138,7 +138,7 @@
                         <!-- Leave this empty or add a placeholder if needed -->
                     </div>
                     <div class="col-md-4 mb-10">
-                        <p>2 {{$item->kelas}}</p>
+                        <p> {{$item->tahun}} {{$item->kelas}}</p>
                     </div>
                 </div>
                 @endforeach

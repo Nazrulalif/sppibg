@@ -80,21 +80,20 @@
                                             </div>
 
                                         </div>
-                                        
+
                                         @if($errors->has('file'))
                                         <span class="text-danger">{{ $errors->first('file') }}</span>
                                         @endif
                                     </div>
+
+                                    <button type="submit" name="submit" value="2"
+                                        class="btn btn-success float-right ml-1">Simpan</button>
+                                    <button type="submit" name="submit" class="btn btn-info float-right ml-1"
+                                        value="1">Draf</button>
+                                    {{-- <a type="button" onclick="window.close();"
+                                        class="btn btn-secondary float-right">Tutup</a> --}}
                                 </div>
                                 <!-- /.card-body -->
-
-                                <div class="card-footer ">
-                                    <button type="submit" name="submit" value="2" class="btn btn-success float-right ml-1"
-                                         >Simpan</button>
-                                    <button type="submit" name="submit" class="btn btn-info float-right ml-1" value="1" >Draf</button>
-                                    <a type="button" onclick="window.close();"
-                                        class="btn btn-secondary float-right">Tutup</a>
-                                </div>
                             </form>
                         </div>
                     </div>
@@ -164,10 +163,11 @@
         // });
 
     </script>
-<script>
-    $(function () {
-      bsCustomFileInput.init();
-    });
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });
+
     </script>
 
 

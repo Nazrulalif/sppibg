@@ -8,14 +8,20 @@ use App\Http\Controllers\AdminMinitMesyuaratController;
 use App\Http\Controllers\AdminMesyuaratController;
 use App\Http\Controllers\AdminPenggunaController;
 use App\Http\Controllers\AdminProfilController;
+use App\Http\Controllers\AdminQrReaderController;
+use App\Http\Controllers\AdminRekodKehadiranController;
 use App\Http\Controllers\AdminSumbanganController;
 use App\Http\Controllers\AdminTinjauanAcaraController;
 use App\Http\Controllers\AdminUsulMesyuaratController;
 use App\Http\Controllers\AdminYuranController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PenggunaController;
+use App\Http\Controllers\QrReaderController;
+use App\Http\Controllers\YuranController;
+use App\Models\Yuran;
 use Illuminate\Support\Facades\Route;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Str;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,6 +51,8 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::get('/usul-mesyuarat', [AdminUsulMesyuaratController::class, 'index'])->name('admin.usul-mesyuarat');
     Route::get('/minit-mesyuarat', [AdminMinitMesyuaratController::class, 'index'])->name('admin.minit-mesyuarat');
     Route::get('/kehadiran', [AdminKehadiranController::class, 'index'])->name('admin.kehadiran');
+    Route::get('/rekod-kehadiran', [AdminRekodKehadiranController::class, 'index'])->name('admin.rekod-kehadiran');
+    Route::get('/qr-reader', [AdminQrReaderController::class, 'index'])->name('admin.qr-reader');
     Route::get('/aduan-cadangan', [AdminAduanCadanganController::class, 'index'])->name('admin.aduan-cadangan');
     Route::get('/yuran', [AdminYuranController::class, 'index'])->name('admin.yuran');
     Route::get('/sumbangan', [AdminSumbanganController::class, 'index'])->name('admin.sumbangan');
@@ -64,6 +72,7 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::get('/pengguna-tambah', [AdminPenggunaController::class, 'pengguna_tambah'])->name('admin.pengguna-tambah');
     Route::post('/pengguna-simpan', [AdminPenggunaController::class, 'pengguna_simpan'])->name('admin.pengguna-simpan');
     Route::get('/pengguna-padam/{id}', [AdminPenggunaController::class, 'pengguna_padam'])->name('admin.pengguna-padam');
+    Route::get('/pengguna-nyah-aktif/{id}', [AdminPenggunaController::class, 'pengguna_nyah_aktif'])->name('admin.pengguna-nyah-aktif');
     Route::get('/pengguna-edit/{id}', [AdminPenggunaController::class, 'pengguna_edit'])->name('admin.pengguna-edit');
     Route::post('/pengguna-update/{id}', [AdminPenggunaController::class, 'pengguna_update'])->name('admin.pengguna-update');
     Route::get('/pelajar-delete/{id}', [AdminPenggunaController::class, 'pelajar_delete'])->name('admin.pelajar-delete');
@@ -84,7 +93,7 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
 
     // Mesyuarat
     Route::get('/mesyuarat-butiran/{id}', [AdminMesyuaratController::class, 'mesyuarat_butiran'])->name('admin.mesyuarat-butiran');
-    Route::get('/mesyuarat-butiran/{id}', [AdminMesyuaratController::class, 'mesyuarat_butiran'])->name('admin.mesyuarat-butiran');
+    // Route::get('/mesyuarat-butiran/{id}', [AdminMesyuaratController::class, 'mesyuarat_butiran'])->name('admin.mesyuarat-butiran');
     Route::get('/mesyuarat-arkib', [AdminMesyuaratController::class, 'mesyuarat_arkib'])->name('admin.mesyuarat-arkib');
     Route::get('/mesyuarat-tambah', [AdminMesyuaratController::class, 'mesyuarat_tambah'])->name('admin.mesyuarat-tambah');
     Route::post('/mesyuarat-simpan', [AdminMesyuaratController::class, 'mesyuarat_simpan'])->name('admin.mesyuarat-simpan');
@@ -109,8 +118,47 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     // Minit Mesyuarat
     Route::post('/minit-simpan/{id}', [AdminMinitMesyuaratController::class, 'minit_simpan'])->name('admin.minit-simpan');
     Route::get('/minit-padam/{id}', [AdminMinitMesyuaratController::class, 'minit_padam'])->name('admin.minit-padam');
+
+    //kehadiran
+    Route::get('/kehadiran-tambah', [AdminKehadiranController::class, 'kehadiran_tambah'])->name('admin.kehadiran-tambah');
+    Route::post('/kehadiran-simpan', [AdminKehadiranController::class, 'kehadiran_simpan'])->name('admin.kehadiran-simpan');
+    Route::get('/kehadiran-padam/{id}', [AdminKehadiranController::class, 'kehadiran_padam'])->name('admin.kehadiran-padam');
+    Route::get('/kehadiran-qr/{id}', [AdminKehadiranController::class, 'kehadiran_qr'])->name('admin.kehadiran-qr');
+    Route::get('/kehadiran-pengguna/{id}', [AdminKehadiranController::class, 'kehadiran_pengguna'])->name('admin.kehadiran-pengguna');
+    Route::post('/kehadiran-qr-simpan/{id}', [AdminKehadiranController::class, 'kehadiran_qr_simpan'])->name('admin.kehadiran-qr-simpan');
+    Route::get('/update-counts/{id}', [AdminKehadiranController::class, 'updateCounts'])->name('admin.update-counts');
+
+    //qr Reader
+    Route::post('/qr-simpan', [AdminQrReaderController::class, 'qr_simpan'])->name('admin.qr-simpan');
+    Route::get('/qr-berjaya', [AdminQrReaderController::class, 'qr_berjaya'])->name('admin.qr-berjaya');
+
+
+
+    //Yuran
+    Route::get('/yuran-tambah', [AdminYuranController::class, 'yuran_tambah'])->name('admin.yuran-tambah');
+    Route::post('/yuran-simpan', [AdminYuranController::class, 'yuran_simpan'])->name('admin.yuran-simpan');
+    Route::post('/yuran-simpan-tambahan/{id}', [AdminYuranController::class, 'yuran_simpan_tambahan'])->name('admin.yuran-simpan-tambahan');
+    Route::get('/yuran-padam/{id}', [AdminYuranController::class, 'yuran_padam'])->name('admin.yuran-padam');
+
+    Route::get('/yuran-edit/{year}', [AdminYuranController::class, 'yuran_edit'])->name('admin.yuran-edit');
+
+    Route::post('/yuran-update/{year}', [AdminYuranController::class, 'yuran_update'])->name('admin.yuran-update');
+    Route::get('/yuran-butiran/{year}', [AdminYuranController::class, 'yuran_butiran'])->name('admin.yuran-butiran');
+    Route::get('/senarai-bayar/{year}', [AdminYuranController::class, 'senarai_bayar'])->name('admin.senarai-bayar');
+    Route::get('/yuran-tambahan-padam', [AdminYuranController::class, 'yuran_tambahan_padam'])->name('admin.yuran-tambahan-padam');
 });
+//qrTest
+Route::get('/qr-code', [AdminKehadiranController::class, 'generate'])->name('admin.qr-code');
 
 Route::middleware('auth', 'web', 'isuser')->group(function () {
     Route::get('/laman-utama', [PenggunaController::class, 'index'])->name('laman-utama');
+    Route::get('/qr-reader', [QrReaderController::class, 'index'])->name('qr-reader');
+    Route::get('/yuran', [YuranController::class, 'index'])->name('yuran');
+
+    //QR reader
+    Route::post('/qr-simpan', [QrReaderController::class, 'qr_simpan'])->name('qr-simpan');
+    Route::get('/qr-berjaya', [QrReaderController::class, 'qr_berjaya'])->name('qr-berjaya');
+
+    //yuran
+    Route::post('/pembayaran-yuran', [YuranController::class, 'pembayaran_yuran'])->name('pembayaran-yuran');
 });

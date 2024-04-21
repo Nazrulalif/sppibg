@@ -20,6 +20,7 @@ class AdminPenggunaController extends Controller
                 ->join('akses_pengguna', 'users.access_code', '=', 'akses_pengguna.id')
                 ->where('users.id', '!=', auth()->user()->id)
                 ->where('users.verified', '!=', '2')
+                ->where('users.verified', '!=', '3')
                 ->get(); // Include the 'id' column here
 
             return DataTables::of($data)
@@ -52,6 +53,44 @@ class AdminPenggunaController extends Controller
         ]);
     }
 
+    public function pengguna_edit($id)
+    {
+        $user = User::select('*', 'users.name as name', 'users.id as id',)
+            // ->join('pelajar', 'users.id', '=', 'pelajar.id_pengguna')
+            ->join('akses_pengguna', 'users.access_code', '=', 'akses_pengguna.id')
+            ->where('users.id', $id)
+            ->first();
+        $pelajar = Pelajar::select('*', 'pelajar.id as pelajarId', 'pelajar.id_pengguna as id_pengguna')
+            ->join('users', 'users.id', '=', 'pelajar.id_pengguna')
+            ->where('users.id', $id)
+            ->get();
+
+        // dd($pelajar);
+
+        return view('admin.admin-edit-pengguna', [
+            'user' => $user,
+            'pelajar' => $pelajar,
+        ]);
+    }
+
+    public function pengguna_nyah_aktif(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'Pengguna tidak dijumpai');
+        }
+
+        // Delete child records related to the user ID
+        Pelajar::where('id_pengguna', $id)->delete();
+
+        // Update user verification status
+        $user->verified = 3;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Pengguna berjaya dinyah aktif');
+    }
+
+
     public function belum_sah_pengguna(Request $request)
     {
         if ($request->ajax()) {
@@ -70,9 +109,6 @@ class AdminPenggunaController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-
-
-
 
         return view('admin.admin-pengguna');
     }
@@ -101,40 +137,84 @@ class AdminPenggunaController extends Controller
         $data = $request->validate([
             'name' => 'required',
             'ic' => 'required',
-            'email' => 'required|unique:users,email',
+            'email' => 'required|email',
             'phone' => 'required',
             'address' => 'required',
             'akses' => 'required',
             'password' => 'required',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'no_ic' => $request->ic,
-            'email' => $request->email,
-            'no_phone' => $request->phone,
-            'address' => $request->address,
-            'access_code' => $request->akses,
-            'hubungan' => $request->hubungan,
-            'verified' => 1,
-            'password' => Hash::make($request->password),
-        ]);
+        $existingUser = User::where('email', $request->email)->first();
 
-        // Store child details associated with the user
-        if ($user) {
-            foreach ($request->child as $index => $childName) {
-                // Create Pelajar (student) associated with the User
-                Pelajar::create([
-                    'id_pengguna' => $user->id,
-                    // 'hubungan' => $request->hubungan,
-
-                    'nama_pelajar' => $childName, // Access each child's name by index
-                    'kelas' => $request->class[$index], // Access each class by index
-
+        if ($existingUser) {
+            // Email exists
+            if ($existingUser->verified == 3) {
+                // Update user details
+                $existingUser->update([
+                    'name' => $request->name,
+                    'no_ic' => $request->ic,
+                    'no_phone' => $request->phone,
+                    'address' => $request->address,
+                    'access_code' => $request->akses,
+                    'hubungan' => $request->hubungan,
+                    'verified' => 1, // Set verified to 1 for new user
+                    'password' => Hash::make($request->password),
                 ]);
+
+                // Delete existing child records
+                Pelajar::where('id_pengguna', $existingUser->id)->delete();
+
+                // Create new child records
+                foreach ($request->child as $index => $childName) {
+                    if (!empty($childName) && !empty($request->class[$index])) {
+                        // Create Pelajar (student) associated with the User
+                        Pelajar::create([
+                            'id_pengguna' => $existingUser->id,
+                            'nama_pelajar' => $childName, // Access each child's name by index
+                            'kelas' => $request->class[$index], // Access each class by index
+                            'tahun' => $request->year[$index], // Access each class by index
+                        ]);
+                    }
+                }
+
+                session()->flash('success', 'Pengguna baharu berjaya ditambah');
+            } else {
+                // Email already exists but user is not verified
+                session()->flash('success', 'Pengguna telah pun mendaftar');
             }
+        } else {
+            // Create new user
+            $user = User::create([
+                'name' => $request->name,
+                'no_ic' => $request->ic,
+                'email' => $request->email,
+                'no_phone' => $request->phone,
+                'address' => $request->address,
+                'access_code' => $request->akses,
+                'hubungan' => $request->hubungan,
+                'verified' => 1, // Set verified to 1 for new user
+                'password' => Hash::make($request->password),
+            ]);
+
+            // Store child details associated with the user
+            if ($user) {
+                foreach ($request->child as $index => $childName) {
+                    if (!empty($childName) && !empty($request->class[$index])) {
+                        // Create Pelajar (student) associated with the User
+                        Pelajar::create([
+                            'id_pengguna' => $user->id,
+                            'nama_pelajar' => $childName, // Access each child's name by index
+                            'kelas' => $request->class[$index], // Access each class by index
+                            'tahun' => $request->year[$index], // Access each class by index
+                        ]);
+                    }
+                }
+            }
+
+            session()->flash('success', 'Pengguna baharu berjaya ditambah');
         }
-        session()->flash('success', 'Pengguna baharu berjaya ditambah');
+
+        // session()->flash('success', 'Pengguna baharu berjaya ditambah');
         echo '<script>window.opener.location.reload(); window.close();</script>';
     }
 
@@ -159,22 +239,7 @@ class AdminPenggunaController extends Controller
         return redirect()->back()->with('success', 'Pengguna berjaya di padam');
     }
 
-    public function pengguna_edit()
-    {
-        $user = User::select('*', 'users.name as name', 'users.id as id',)
-            ->join('pelajar', 'users.id', '=', 'pelajar.id_pengguna')
-            ->join('akses_pengguna', 'users.access_code', '=', 'akses_pengguna.id')
-            // ->where('users.id', '!=', Auth()->user()->id)
-            ->first();
-        $pelajar = Pelajar::select('*', 'pelajar.id as pelajarId', 'pelajar.id_pengguna as id_pengguna')
-            ->join('users', 'users.id', '=', 'pelajar.id_pengguna')
-            ->get();
 
-        return view('admin.admin-edit-pengguna', [
-            'user' => $user,
-            'pelajar' => $pelajar,
-        ]);
-    }
 
     public function pelajar_delete($id)
     {
@@ -210,6 +275,7 @@ class AdminPenggunaController extends Controller
                     'id_pengguna' => $id->id,
                     // 'hubungan' => $request->hubungan,
                     'nama_pelajar' => $childName, // Access each child's name by index
+                    'tahun' => $request->year[$index], // Access each class by index
                     'kelas' => $request->class[$index], // Access each class by index
                 ]);
             }
