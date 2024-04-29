@@ -28,14 +28,38 @@
     <link rel="stylesheet" href=" {{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}} ">
     <!-- Daterange picker -->
     <link rel="stylesheet" href=" {{asset('plugins/daterangepicker/daterangepicker.css')}} ">
-    <!-- summernote -->
-    <link rel="stylesheet" href=" {{asset('plugins/summernote/summernote-bs4.min.css')}} ">
-    <!-- dropzonejs -->
-    <link rel="stylesheet" href="{{asset('plugins/dropzone/min/dropzone.min.css')}}">
-
     {{-- sweet alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 </head>
+<style>
+    /* Hide the radio buttons */
+    input[type="radio"] {
+        display: none;
+    }
+
+    /* Style the color squares */
+    .fc-color-picker li {
+        display: inline-block;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .fc-color-picker li i {
+        width: 32.5px;
+        height: 33px;
+        display: inline-block;
+        border-radius: 3px;
+    }
+
+    /* Highlight the selected color */
+    input[type="radio"]:checked+label i {
+        border: 3px solid #5c6667;
+    }
+
+</style>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
@@ -47,58 +71,34 @@
                 <div class="row" style="justify-content: center; padding-top:20px">
                     <!-- /.col -->
                     <div class="col-md-9">
-                        <div class="card">
+                        <div class="card" id="mesyuarat-card">
                             <div class="card-header">
-                                <h3 class="card-title">Tambah Buletin</h3>
+                                <h3 class="card-title">Tambah Sumbangan</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="{{route("admin.buletin-simpan")}}" id="buletin-form" method="POST"
+                            <form action="{{route('admin.sumbangan-simpan')}}" id="form-mesyuarat" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
-
                                     <div class="form-group">
-                                        <label for="name">Tajuk</label>
-                                        <input type="text" name="buletin_name" class="form-control" id="">
-                                        @if($errors->has('file'))
-                                        <span class="text-danger">{{ $errors->first('buletin_name') }}</span>
-                                        @endif
+                                        <label for="name">Nama Sumbangan</label>
+                                        <input type="text" name="nama" class="form-control" id="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">Penerangan</label>
-                                        <input type="text" name="penerangan" class="form-control" id="">
-                                        @if($errors->has('penerangan'))
-                                        <span class="text-danger">{{ $errors->first('penerangan') }}</span>
-                                        @endif
+                                        <label for="name">Jumlah Sasaran (RM)</label>
+                                        <input type="number" name="sasaran" class="form-control" id="">
                                     </div>
+
                                     <div class="form-group">
-                                        <label for="exampleInputFile">Fail</label>
-                                        <div class="input-group">
-
-                                            <div class="custom-file">
-                                                <input type="file" name="file" class="custom-file-input"
-                                                    id="exampleInputFile">
-                                                <label class="custom-file-label" for="exampleInputFile">Pilih
-                                                    Fail</label>
-                                            </div>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">Muat Naik</span>
-                                            </div>
-
-                                        </div>
-
-                                        @if($errors->has('file'))
-                                        <span class="text-danger">{{ $errors->first('file') }}</span>
-                                        @endif
+                                        <label for="">Penerangan</label>
+                                        <textarea name="penerangan" class="form-control" id="" cols="30"
+                                            rows="5"></textarea>
                                     </div>
-
-                                    <button type="submit" name="submit" value="2"
+                                    <button type="submit" name="submit"
                                         class="btn btn-success float-right ml-1">Simpan</button>
-                                    <button type="submit" name="submit" class="btn btn-info float-right ml-1"
-                                        value="1">Draf</button>
-                                    {{-- <a type="button" onclick="window.close();"
-                                        class="btn btn-secondary float-right">Tutup</a> --}}
+                                    <a type="button" onclick="window.close();"
+                                        class="btn btn-secondary float-right">Tutup</a>
                                 </div>
                                 <!-- /.card-body -->
                             </form>
@@ -106,18 +106,13 @@
                     </div>
                     <!-- /.col -->
                 </div>
-
+            </div>
         </section>
     </div>
 
     <script src="{{asset('plugins/jquery/jquery.min.js')}} "></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}} "></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    {{-- <script>
-        $.widget.bridge('uibutton', $.ui.button)
-
-    </script> --}}
     <!-- Bootstrap 4 -->
     <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}} "></script>
     <!-- ChartJS -->
@@ -144,39 +139,8 @@
     <script src="{{asset('dist/js/demo.js')}} "></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{asset('dist/js/pages/dashboard.js')}} "></script>
-    <!-- bs-custom-file-input -->
-    <script src="{{asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js')}} "></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-    <script>
-        // document.getElementById('buletin-form').addEventListener('submit', function (e) {
-        //     e.preventDefault(); // Prevent the form from submitting
-
-        //     Swal.fire({
-        //         title: 'Adakah anda pasti?',
-        //         text: 'Anda akan mengemas kini profil',
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#28a745',
-        //         cancelButtonColor: '#dc3545',
-        //         confirmButtonText: 'Ya, pasti',
-        //         cancelButtonText: 'Batal',
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             // If the user confirms, submit the form
-        //             this.submit();
-        //         }
-        //     });
-        // });
-
-    </script>
-    <script>
-        $(function () {
-            bsCustomFileInput.init();
-        });
-
-    </script>
-
+    <!-- Select2 -->
+    <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
 
 </body>
 

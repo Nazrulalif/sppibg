@@ -9,7 +9,7 @@
 
 @include('layouts.footers.guest.footer') --}}
 
-@if(Auth::user()->access_code ==1 || Auth::user()->access_code == 2|| Auth::user()->access_code ==3)
+@if(Auth::user()->access_code ==1 || Auth::user()->access_code == 2|| Auth::user()->access_code ==3 || Auth::user()->access_code ==6)
         @include('layouts.navbars.auth.sidebar-admin')
     @else
         @include('layouts.navbars.auth.sidebar-user')

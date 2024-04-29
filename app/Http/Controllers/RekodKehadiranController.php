@@ -6,7 +6,7 @@ use App\Models\Kehadiran_pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminRekodKehadiranController extends Controller
+class RekodKehadiranController extends Controller
 {
     public function index()
     {
@@ -31,7 +31,7 @@ class AdminRekodKehadiranController extends Controller
             ->count();
 
 
-        return view('admin.admin-rekod-kehadiran', [
+        return view('user.rekod-kehadiran', [
             'rekod' => $rekod,
             'hadir' => $hadir,
             'tidak_hadir' => $tidak_hadir,

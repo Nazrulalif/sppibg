@@ -9,6 +9,7 @@ use App\Models\Yuran_bayar;
 use App\Models\Yuran_tambahan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class YuranController extends Controller
 {
@@ -52,21 +53,114 @@ class YuranController extends Controller
 
     public function pembayaran_yuran(Request $request)
     {
+        $provider = new PayPalClient;
+        $provider->setApiCredentials(config('paypal'));
+
+        $provider->getAccessToken();
         // Validate the request data
         $request->validate([
             'student_id' => 'required|integer',
             'fee' => 'required|numeric',
         ]);
 
-        // Create a new Payment instance
-        $payment = Yuran_bayar::create([
-            'id_yuran' => $request->id_yuran,
-            'id_pelajar' => $request->student_id,
-            'jumlah_yuran' => $request->fee,
-            'status' => 'Selesai',
+
+        $respond = $provider->createOrder([
+            "intent" => "CAPTURE",
+            "application_context" => [
+                "brand_name" => "SPPIBG",
+                "return_url" => route('pembayaran-yuran-berjaya'),
+                "cancel_url" => route('pembayaran-yuran-gagal'),
+                "shipping_preference" => "NO_SHIPPING"
+            ],
+            "purchase_units" => [
+                [
+                    "amount" => [
+                        "currency_code" => "MYR",
+                        "value" => $request->fee
+                    ]
+                ]
+            ]
+
         ]);
 
+        // dd($respond);
 
-        return redirect()->back();
+        if (isset($respond['id']) && $respond['id'] != null) {
+            foreach ($respond['links'] as $link) {
+                if ($link['rel'] === 'approve') {
+                    // Store the id_pelajar and id_yuran in the session
+                    session(['id_pelajar' => $request->student_id]);
+                    session(['id_yuran' => $request->id_yuran]);
+
+                    $payment = Yuran_bayar::create([
+                        'id_yuran' => $request->id_yuran,
+                        'id_pelajar' => $request->student_id,
+                        'jumlah_yuran' => $request->fee,
+                        'status' => 'Menunggu Pembayaran',
+                        'jenis_pembayaran' => 'Paypal',
+                        'id_pembayaran' => $respond['id'], // Store the PayPal order ID for reference
+                    ]);
+
+                    session(['id_payment' => $payment->id]);
+
+                    return redirect()->away($link['href']);
+                }
+            }
+        } else {
+            return redirect()->route('pembayaran-yuran-gagal');
+        }
+    }
+
+    public function pembayaran_yuran_berjaya(Request $request)
+    {
+
+        $provider = new PayPalClient;
+        $provider->setApiCredentials(config('paypal'));
+        $provider->getAccessToken();
+
+        $respond = $provider->capturePaymentOrder($request->token);
+
+        // Retrieve the id_pelajar and id_yuran from the session
+        $id_pelajar = session('id_pelajar');
+        $id_yuran = session('id_yuran');
+        $id_payment = session('id_payment');
+
+        if (!$id_pelajar || !$id_yuran) {
+            // Session values not found, handle the error
+            return redirect()->route('pembayaran-yuran-gagal')->with('error', 'Session data not found');
+        }
+
+        if (isset($respond['status']) && $respond['status'] == 'COMPLETED') {
+            $payment = Yuran_bayar::where('id_pelajar', $id_pelajar)
+                ->where('id_yuran', $id_yuran)
+                ->where('id', $id_payment)
+                ->update(['status' => 'Selesai']);
+
+            return redirect()->route('yuran')->with('success', 'Pembayaran berjaya');
+        } else {
+            $payment = Yuran_bayar::where('id_pelajar', $id_pelajar)
+                ->where('id_yuran', $id_yuran)
+                ->where('id', $id_payment)
+                ->update(['status' => 'Pembayaran Gagal']);
+            return redirect()->route('pembayaran-yuran-gagal');
+        }
+    }
+
+    public function pembayaran_yuran_gagal(Request $request)
+    {
+        $id_pelajar = session('id_pelajar');
+        $id_yuran = session('id_yuran');
+        $id_payment = session('id_payment');
+
+        if (!$id_pelajar || !$id_yuran) {
+            // Session values not found, handle the error
+            return redirect()->route('pembayaran-yuran-gagal')->with('error', 'Session data not found');
+        }
+
+        $payment = Yuran_bayar::where('id_pelajar', $id_pelajar)
+            ->where('id_yuran', $id_yuran)
+            ->where('id', $id_payment)
+            ->update(['status' => 'Pembayaran Gagal']);
+        return redirect()->route('yuran')->with('error', 'Pembayaran Gagal');
     }
 }

@@ -11,6 +11,7 @@ class Yuran_bayar extends Model
 
     protected $table = 'yuran_bayar';
     protected $fillable = [
+        'id_pembayaran',
         'id_yuran',
         // 'id_pengguna',
         'id_pelajar',
@@ -19,6 +20,7 @@ class Yuran_bayar extends Model
         // 'cara_bayar',
         // 'penerangan',
         'jumlah_yuran',
+        'jenis_pembayaran',
         'status',
 
     ];

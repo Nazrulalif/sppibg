@@ -164,10 +164,6 @@
                                 <!-- /.card-tools -->
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body">
-
-                            </div>
-                            <!-- /.card-body -->
                         </div>
                         <div class="card card-primary card-outline tab-pane" id="usul">
                             <div class="card-header">

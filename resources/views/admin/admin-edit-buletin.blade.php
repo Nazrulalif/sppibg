@@ -67,6 +67,14 @@
                                         @endif
                                     </div>
                                     <div class="form-group">
+                                        <label for="penerangan">Penerangan</label>
+                                        <input type="text" value="{{$data->penerangan}}" name="penerangan"
+                                            class="form-control" id="">
+                                        @if($errors->has('file'))
+                                        <span class="text-danger">{{ $errors->first('penerangan') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
                                         <a class="btn btn-primary btn-sm"
                                             href="{{asset('uploads/buletin/'. $data->fail)}}"
                                             style="float: right">Papar</a>

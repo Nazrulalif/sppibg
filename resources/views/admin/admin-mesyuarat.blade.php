@@ -289,18 +289,18 @@
                   render: function (data, type, row) {
                   if (data == 2) {
                       return `
-                          <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
-                              <i class="fas fa-envelope"></i>
-                          </a>
+                      <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                            <i class="fas fa-folder"></i>
+                        </a>
                           <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
                               <i class="fas fa-trash"></i>
                           </button>`;
                       } else {
                           return `
                               <div class="">
-                                  <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.panggilan-mesyuarat-butiran', '') }}/${row.id}">
-                                      <i class="fas fa-folder"></i>
-                                  </a>
+                                <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                                    <i class="fas fa-folder"></i>
+                                </a>
                                   <a type="button" title="kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.mesyuarat-edit', '') }}/${row.id}')">
                                       <i class="fas fa-pencil-alt"></i>
                                   </a>

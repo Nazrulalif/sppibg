@@ -148,17 +148,17 @@
                                 <td>{{ $fee }}</td>
                                 <td>
                                     @if (!$student->status)
-                                        @if ($student->paymentStatus == 'Selesai')
-                                            Selesai
-                                        @else
-                                            <button type="button" class="btn btn-block btn-default pay-btn" data-toggle="modal"
-                                                data-target="#paymentModal-{{ $fee }}" data-fee="{{ $fee }}"
-                                                data-student-id="{{ $student->id }}" data-yuran-id='{{ $student->id_yuran}}'>
-                                                <i class="fa fa-credit-card"></i> Bayar
-                                            </button>
-                                        @endif
+                                    @if ($student->paymentStatus == 'Selesai')
+                                    Selesai
                                     @else
-                                        Selesai
+                                    <button type="button" class="btn btn-block btn-default pay-btn" data-toggle="modal"
+                                        data-target="#paymentModal-{{ $fee }}" data-fee="{{ $fee }}"
+                                        data-student-id="{{ $student->id }}" data-yuran-id='{{ $student->id_yuran}}'>
+                                        <i class="fa fa-credit-card"></i> Bayar
+                                    </button>
+                                    @endif
+                                    @else
+                                    Selesai
                                     @endif
                                 </td>
                             </tr>
@@ -173,22 +173,28 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body">
-                                            Tahun : {{ $student->tahun_yuran }} <br>
-                                            Nama : {{ $student->nama_pelajar }} <br>
-                                            Kelas : {{ $student->tahun_pelajar_id }} {{$student->kelas}} <br>
-                                            Jumlah Yuran: RM {{ $fee }} <br>
+                                        <form id="paymentForm-{{ $fee }}" action="{{ route('pembayaran-yuran') }}"
+                                            method="POST" style="display: none;" enctype="multipart/form-data">
 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Tutup</button>
-                                            <button type="button" class="btn btn-primary confirmPayment"
-                                                data-toggle="modal" data-target="#paymentModal-{{ $fee }}"
-                                                data-fee="{{ $fee }}" data-student-id="{{ $student->id }}" data-yuran-id='{{ $student->id_yuran}}'>
-                                                Mengesahkan pembayaran
-                                            </button>
-                                        </div>
+                                            <div class="modal-body">
+                                                Tahun : {{ $student->tahun_yuran }} <br>
+                                                Nama : {{ $student->nama_pelajar }} <br>
+                                                Kelas : {{ $student->tahun_pelajar_id }} {{$student->kelas}} <br>
+                                                Jumlah Yuran: RM {{ $fee }} <br>
+
+                                                @csrf
+                                                <input type="hidden" name="student_id" value="{{ $student->id }}">
+                                                <input type="hidden" name="fee" value="{{ $fee }}">
+                                                <input type="hidden" name="id_yuran" value="{{ $student->id_yuran }}">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Tutup</button>
+                                                <button type="submit" class="btn btn-primary confirmPayment"
+                                                    data-fee="{{ $fee }}">Mengesahkan pembayaran</button>
+                                            </div>
+                                        </form>
+
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +217,52 @@
 
 <script src="{{asset('plugins/jquery/jquery.min.js')}} "></script>
 
+{{-- sweet alert --}}
+@if (Session::get('success'))
 <script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    Toast.fire({
+        icon: "success",
+        title: "{{Session::get('success')}}"
+    });
+
+</script>
+@endif
+
+@if (Session::get('error'))
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    Toast.fire({
+        icon: "error",
+        title: "{{Session::get('error')}}"
+    });
+
+</script>
+@endif
+
+{{-- <script>
 $(document).ready(function() {
     $('.confirmPayment').click(function() {
         var studentId = $(this).data('student-id');
@@ -221,29 +272,30 @@ $(document).ready(function() {
         // Send an AJAX request to store the payment information
         $.ajax({
             url: '{{ route("pembayaran-yuran") }}',
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                student_id: studentId,
-                fee: fee,
-                id_yuran: id_yuran,
-            },
-            success: function(response) {
-                // Handle success response
-                console.log('Payment stored successfully');
-                window.location.reload(); 
-            },
-            error: function(xhr, status, error) {
-                // Handle error
-                console.error('Error storing payment: ' + error);
-            }
-        });
-    });
+method: 'POST',
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+},
+data: {
+student_id: studentId,
+fee: fee,
+id_yuran: id_yuran,
+},
+success: function(response) {
+// Handle success response
+console.log('Payment stored successfully');
+console.log(response);
+window.location.reload();
+},
+error: function(xhr, status, error) {
+// Handle error
+console.error('Error storing payment: ' + error);
+}
+});
+});
 });
 
-</script>
+</script> --}}
 
 
 @endsection

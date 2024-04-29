@@ -57,6 +57,7 @@
                                     </h3>
                                 @endif
 
+                                @if (Auth::user()->access_code == 1 || Auth::user()->access_code == 2 || Auth::user()->access_code == 3 )
                                 <div class="more float-right">
                                     <a class="dropdown" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>
@@ -67,6 +68,10 @@
                                     </div>
 
                                 </div>
+                                @else
+
+                                @endif
+                                
                                 
                             </div>
                             <div class="card-body p-0">

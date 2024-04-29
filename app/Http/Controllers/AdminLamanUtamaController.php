@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buletin;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -14,12 +15,13 @@ class AdminLamanUtamaController extends Controller
     {
         $user = User::select('*', 'users.id as id')
             ->join('akses_pengguna', 'users.access_code', '=', 'akses_pengguna.id',)
+            ->where('users.access_code', Auth::user()->access_code)
             ->first();
 
         if ($request->ajax()) {
             $currentYear = now()->year;
 
-            $data = Buletin::select('id', 'nama_buletin', 'id_draf', 'fail')
+            $data = Buletin::select('id', 'nama_buletin', 'penerangan', 'id_draf', 'fail')
                 ->whereYear('created_at', $currentYear)
                 ->get();
 
@@ -43,7 +45,7 @@ class AdminLamanUtamaController extends Controller
         if ($request->ajax()) {
             $currentYear = now()->year;
 
-            $data = Buletin::select('id', 'nama_buletin', 'id_draf', 'fail')
+            $data = Buletin::select('id', 'nama_buletin', 'penerangan', 'id_draf', 'fail')
                 ->whereYear('created_at', '!=', $currentYear)
                 ->get();
 
@@ -98,10 +100,12 @@ class AdminLamanUtamaController extends Controller
     {
         $request->validate([
             'buletin_name' => 'required',
+            'penerangan' => 'required',
             'file' => 'required',
 
         ], [
             'buletin_name.required' => 'Tajuk diperlukan.',
+            'penerangan.required' => 'Penerangan diperlukan.',
             'file.required' => 'Sila pilih fail',
         ]);
 
@@ -123,6 +127,7 @@ class AdminLamanUtamaController extends Controller
 
         Buletin::create([
             'nama_buletin' => $request->buletin_name,
+            'penerangan' => $request->penerangan,
             'fail' => $filePath,
             'id_draf' => $id_draf,
         ]);
@@ -154,6 +159,7 @@ class AdminLamanUtamaController extends Controller
 
         $data->fill([
             'nama_buletin' => $request->buletin_name,
+            'penerangan' => $request->penerangan,
             'id_draf' => $request->submit === '1' ? '1' : '2',
         ]);
 

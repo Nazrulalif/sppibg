@@ -17,7 +17,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if (Auth::user()->access_code == 1 || Auth::user()->access_code == 2 || Auth::user()->access_code == 3) {
+            if (Auth::user()->access_code == 1 || Auth::user()->access_code == 2 || Auth::user()->access_code == 3 || Auth::user()->access_code == 6) {
                 return $next($request);
             } else {
                 return redirect('/laman-utama')->with('message', 'error');

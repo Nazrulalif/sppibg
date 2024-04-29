@@ -70,7 +70,7 @@
 
 
                                 <a href="{{route('admin.borang-profil', $user->id)}}"
-                                    class="btn btn-info btn-block"><b>Kemaskini</b></a>
+                                    class="btn btn-primary btn-block"><b>Kemaskini</b></a>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -105,6 +105,7 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Tajuk</th>
+                                                <th>Penerangan</th>
                                                 <th>Status</th>
                                                 <th>Tindakan</th>
                                             </tr>
@@ -120,6 +121,7 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Tajuk</th>
+                                                <th>Penerangan</th>
                                                 <th>Status</th>
                                                 <th>Tindakan</th>
                                             </tr>
@@ -205,13 +207,9 @@
                     targets: 0
                 }, // Set 20% width for the first column
                 {
-                    width: '65%',
+                    width: '30%',
                     targets: 1
                 }, // Set 30% width for the second column
-                {
-                    width: '10%',
-                    targets: 2
-                } // Set 50% width for the third column
             ],
             columns: [{
                     data: null,
@@ -224,6 +222,11 @@
                 {
                     data: 'nama_buletin',
                     name: 'nama_buletin',
+                    orderable: true, // Allow ordering for this column
+                },
+                {
+                    data: 'penerangan',
+                    name: 'penerangan',
                     orderable: true, // Allow ordering for this column
                 },
                 {
@@ -325,13 +328,9 @@
                     targets: 0
                 }, // Set 20% width for the first column
                 {
-                    width: '65%',
+                    width: '35%',
                     targets: 1
                 }, // Set 30% width for the second column
-                {
-                    width: '10%',
-                    targets: 2
-                } // Set 50% width for the third column
             ],
             columns: [{
                     data: null,

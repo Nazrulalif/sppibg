@@ -4,7 +4,7 @@
 <!-- Add this to your HTML file -->
 <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
 <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
-<link rel="stylesheet" href="path_to_adminlte3_css_file">
+{{-- <link rel="stylesheet" href="path_to_adminlte3_css_file"> --}}
 <style>
     @media print {
     .print-button-container {
@@ -65,8 +65,11 @@
             <div class="card p-3 mb-3" id="printable-content">
                 <div class="row">
                     <div class="col-12">
+                        
                         <div class="print-button-container">
-                            <button class="btn btn-default float-right" onclick="printCard()"><i class="fas fa-print"></i> Print</button>
+                            <a onclick="printCard()" class="btn btn-app bg-default">
+                                <i class="fas fa-print"></i> Cetak
+                            </a>
                         </div>
                     </div>
                 </div>

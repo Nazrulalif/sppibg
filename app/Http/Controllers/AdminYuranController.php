@@ -293,10 +293,12 @@ class AdminYuranController extends Controller
         if ($request->ajax()) {
 
 
-            $data = Yuran_bayar::join('yuran', 'yuran_bayar.id_yuran', '=', 'yuran.id')
+            $data = Yuran_bayar::select('*', 'yuran_bayar.id as id')
+                ->join('yuran', 'yuran_bayar.id_yuran', '=', 'yuran.id')
                 ->join('pelajar', 'yuran_bayar.id_pelajar', '=', 'pelajar.id')
                 ->join('users', 'pelajar.id_pengguna', '=', 'users.id')
-                ->where('yuran.tahun', $year)->get();
+                ->where('yuran.tahun', $year)
+                ->where('yuran_bayar.status', 'Selesai')->get();
 
             $formatted_data = $data->map(function ($item) {
                 $item->formatted_date = Carbon::parse($item->created_at)->format('j F Y');
@@ -309,5 +311,19 @@ class AdminYuranController extends Controller
         }
 
         return view('admin.admin-butiran-yuran');
+    }
+
+    public function resit_yuran($id)
+    {
+        $resit = Yuran_bayar::select('*', 'users.name as nama_pengguna')
+            ->join('pelajar', 'yuran_bayar.id_pelajar', '=', 'pelajar.id')
+            ->join('users', 'pelajar.id_pengguna', '=', 'users.id')
+            ->join('yuran', 'yuran_bayar.id_yuran', '=', 'yuran.id')
+            ->where('yuran_bayar.id', $id)
+            ->first();
+
+        return view('admin.admin-resit-yuran', [
+            'resit' => $resit,
+        ]);
     }
 }

@@ -1,10 +1,15 @@
 @extends('layouts.user_type.guest')
 
 @section('content')
+<style>
+  .wrapper{
+    min-height: 0%;
+  }
+</style>
 <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <img src="\assets\img\pibg-logo2.png" width="70%" class="navbar-brand-img h-100" alt="...">
+        <img src="\assets\img\logo_sekolah.png" width="50%" class="navbar-brand-img h-100" alt="...">
 
       </div>
       <!-- /.login-logo -->
@@ -19,7 +24,7 @@
           <form accept="{{route('login.post')}}" method="post" enctype="multipart/form-data" >
             @csrf
             <div class="input-group mb-3">
-              <input type="email" class="form-control" name="email" placeholder="Email">
+              <input type="email" class="form-control" name="email" placeholder="Emel">
               @error('email')
               <p class="text-danger text-xs mt-2">{{ $message }}</p>
               @enderror
@@ -63,7 +68,7 @@
             <a href="forgot-password.html">I forgot my password</a>
           </p> --}}
           <p class="mb-0">
-            <a href="register.html" class="text-center">Daftar Akaun Baharu</a>
+            <a href="{{route('register')}}" class="text-center">Daftar Akaun Baharu</a>
           </p>
         </div>
         <!-- /.login-card-body -->
@@ -77,6 +82,31 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    {{-- sweet alert --}}
+    @if (Session::get('success'))
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        Toast.fire({
+            icon: "success",
+            title: "{{Session::get('success')}}"
+        });
+
+    </script>
+      @endif
+
   </body>
 
 
