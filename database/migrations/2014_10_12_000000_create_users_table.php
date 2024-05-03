@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('no_ic');
             $table->string('no_phone');
             $table->string('address');
+            $table->string('hubungan');
             $table->integer('access_code');
             $table->string('password');
             $table->integer('verified');

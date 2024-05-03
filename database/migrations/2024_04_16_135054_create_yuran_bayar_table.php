@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('yuran_bayar', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_pembayaran');
             $table->integer('id_yuran');
-            $table->integer('id_pengguna');
-            $table->integer('jumlah_bayar');
-            $table->integer('jumlah_yang_tinggal');
-            $table->string('cara_bayar');
-            $table->string('penerangan');
+            $table->integer('id_pelajar');
+            $table->integer('jumlah_yuran');
+            $table->string('jenis_pembayaran');
             $table->string('status');
             $table->timestamps();
         });

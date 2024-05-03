@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('tempat');
             $table->string('agenda');
             $table->string('warna');
+            $table->integer('panggilan_status');
             $table->timestamps();
         });
     }

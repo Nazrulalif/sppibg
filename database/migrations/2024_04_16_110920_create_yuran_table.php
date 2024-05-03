@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('yuran', function (Blueprint $table) {
             $table->id();
             $table->integer('tahun');
-            $table->integer('harga');
+            $table->integer('yuran');
+            $table->integer('tahun_pelajar_id');
+            $table->integer('yuran_tambahan');
             $table->timestamps();
         });
     }

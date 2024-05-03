@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('buletin', function (Blueprint $table) {
             $table->id();
             $table->string('nama_buletin');
+            $table->string('penerangan');
             $table->string('fail');
             $table->string('id_draf');
             $table->timestamps();

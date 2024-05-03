@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('id_pengguna');
             $table->integer('id_transaksi');
             $table->integer('jumlah_sumbangan');
+            $table->string('jenis_pembayaran');
+            $table->string('status');
             $table->timestamps();
         });
     }

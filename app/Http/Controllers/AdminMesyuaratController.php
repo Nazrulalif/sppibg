@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SuratPanggilanMail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Akses_pengguna;
 use App\Models\Mesyuarat;
 use App\Models\Minit_mesyuarat;
@@ -140,9 +142,6 @@ class AdminMesyuaratController extends Controller
                 }
             }
         }
-
-
-
 
         // Continue with your existing code to fetch the agenda and display the view
         $listItems = explode("\n", $mesyuarat->agenda);
@@ -296,6 +295,7 @@ class AdminMesyuaratController extends Controller
                     'id_pengguna' => $user->id,
                     'id_panggilan' => $invitation->id
                 ]);
+                // Mail::to($user->email)->send(new SuratPanggilanMail($invitation));
             }
         }
 

@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('pelajar', function (Blueprint $table) {
             $table->id();
             $table->string('nama_pelajar');
-            $table->integer('tahun');
+            $table->integer('tahun_pelajar_id');
             $table->string('kelas');
             $table->string('id_pengguna');
-            $table->string('hubungan');
+            // $table->string('hubungan');
             $table->timestamps();
         });
     }
