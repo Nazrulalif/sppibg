@@ -55,6 +55,11 @@
                                     @csrf
                                     <div class="form-group">
                                         <label>Pilih Mesyuarat</label>
+                                        @if($errors->has('mesyuarat'))
+                                                <div class="alert alert-danger alert-dismissible">
+                                                    {{ $errors->first('mesyuarat') }}
+                                                </div>
+                                        @endif
                                         <select class="form-control" name="mesyuarat">
                                             <option>--Pilih--</option>
                                             @foreach ($mesyuarat as $item)
@@ -70,6 +75,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Terlibat</label>
+                                        @if($errors->has('kepada'))
+                                                <div class="alert alert-danger alert-dismissible">
+                                                    {{ $errors->first('kepada') }}
+                                                </div>
+                                        @endif
                                         <select class="select2" multiple="multiple" name="kepada[]"
                                             data-placeholder="Pilih" style="width: 100%;">
                                             @foreach ($role as $item)
@@ -78,9 +88,8 @@
                                         </select>
                                     </div>
                                     <button type="submit" name="submit"
-                                        class="btn btn-success float-right ml-1">Simpan</button>
-                                    <a type="button" onclick="window.close();"
-                                        class="btn btn-secondary float-right">Tutup</a>
+                                        class="btn btn-primary float-right ml-1">Simpan</button>
+                                    
                                 </form>
 
                             </div>

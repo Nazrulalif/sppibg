@@ -45,6 +45,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Tarikh Mula</label>
+                                    @if($errors->has('tarikh_mula'))
+                                    <div class="alert alert-danger alert-dismissible">
+                                        {{ $errors->first('tarikh_mula') }}
+                                    </div>
+                                    @endif
                                     <input type="date" class="form-control" name="tarikh_mula" id="">
                                 </div>
 
@@ -52,6 +57,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Tarikh Akhir</label>
+                                    @if($errors->has('tarikh_akhir'))
+                                    <div class="alert alert-danger alert-dismissible">
+                                        {{ $errors->first('tarikh_akhir') }}
+                                    </div>
+                                    @endif
                                     <input type="date" class="form-control" name="tarikh_akhir" id="">
                                 </div>
                                 <button type="submit" class="btn btn-primary float-right">Hantar</button>
@@ -62,23 +72,37 @@
                 <!-- /.card-body -->
             </div>
             @if(!empty($activities) && count($activities) > 0)
+            <div class="print-button-container">
+                <a onclick="printCard()" class="btn btn-app bg-secondary">
+                    <i class="fas fa-print"></i> Cetak
+                </a>
+            </div>
             <div class="card p-3 mb-3" id="printable-content">
-                <div class="row">
-                    <div class="col-12">
-                        
-                        <div class="print-button-container">
-                            <a onclick="printCard()" class="btn btn-app bg-default">
-                                <i class="fas fa-print"></i> Cetak
-                            </a>
+                <div class="card-body">
+                    <div class="header">
+                        <div class="row align-items-center">
+                            <div class="col-4 col-sm-auto mb-3 mb-sm-0 text-center">
+                                <img src="{{asset('assets/img/logo_sekolah.png')}}" class="img-fluid"
+                                    style="max-width: 80px;" alt="">
+                            </div>
+                            <div class="col-sm">
+                                <h4 class="mb-1">SEKOLAH KEBANGSAAN JALAN MATANG BULUH</h4>
+                                <p class="mb-0">No 1, Jalan Matang Buluh, Kampung Alor Senggut,</p>
+                                <p class="mb-0">34300 Bagan Serai, Perak</p>
+                            </div>
+                            <div class="col-sm-auto text-center text-sm-right">
+                                <h4><strong>Laporan Aktiviti</strong></h4>
+                                <small class="float-right">{{date('l, j F Y')}}</small>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 bg-secondary p-4">
-                            <small class="float-right">{{date('l, j F Y')}}</small>
-                            <h3>Laporan Aktiviti</h3>
-                            <span>{{$tarikh_mula}} sehingga {{$tarikh_akhir}}</span>
+                    <hr>
+                    <div class="row" >
+                        <div class="col-12 p-4" style="align-items: center; display: flex; justify-content: center; flex-direction: column;">
+                            <h4 class="title">Laporan Aktiviti</h4>
+                            <p>{{$tarikh_mula}} sehingga {{$tarikh_akhir}}</p>
+
                         </div>
                     </div>
                     <div class="row">

@@ -59,21 +59,32 @@
                                 <div class="card-body">
 
                                     <div class="form-group">
+
                                         <label for="name">Tajuk</label>
-                                        <input type="text" name="buletin_name" class="form-control" id="">
                                         @if($errors->has('file'))
-                                        <span class="text-danger">{{ $errors->first('buletin_name') }}</span>
+                                        <div class="alert alert-danger alert-dismissible">
+                                            {{ $errors->first('buletin_name') }}
+                                        </div>
                                         @endif
+                                        <input type="text" name="buletin_name" class="form-control" id="">
+
                                     </div>
                                     <div class="form-group">
                                         <label for="name">Penerangan</label>
-                                        <input type="text" name="penerangan" class="form-control" id="">
-                                        @if($errors->has('penerangan'))
-                                        <span class="text-danger">{{ $errors->first('penerangan') }}</span>
+                                        @if($errors->has('file'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            {{ $errors->first('penerangan') }}
+                                        </div>
                                         @endif
+                                        <input type="text" name="penerangan" class="form-control" id="">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputFile">Fail</label>
+                                        @if($errors->has('file'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            {{ $errors->first('file') }}
+                                        </div>
+                                        @endif
                                         <div class="input-group">
 
                                             <div class="custom-file">
@@ -87,15 +98,11 @@
                                             </div>
 
                                         </div>
-
-                                        @if($errors->has('file'))
-                                        <span class="text-danger">{{ $errors->first('file') }}</span>
-                                        @endif
                                     </div>
 
                                     <button type="submit" name="submit" value="2"
-                                        class="btn btn-success float-right ml-1">Simpan</button>
-                                    <button type="submit" name="submit" class="btn btn-info float-right ml-1"
+                                        class="btn btn-primary float-right ml-1">Simpan</button>
+                                    <button type="submit" name="submit" class="btn btn-light float-right ml-1"
                                         value="1">Draf</button>
                                     {{-- <a type="button" onclick="window.close();"
                                         class="btn btn-secondary float-right">Tutup</a> --}}

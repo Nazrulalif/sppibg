@@ -132,10 +132,13 @@ class AdminUsulMesyuaratController extends Controller
 
     public function ulasan_simpan($id, Request $request)
     {
+
         // dd($id);
 
         $data = $request->validate([
             'ulasan' => 'required',
+        ], [
+            'ulasan.required' => 'Ulasan perlu diisi',
         ]);
 
         // dd($date);
@@ -161,6 +164,7 @@ class AdminUsulMesyuaratController extends Controller
 
         $data->update([
             'pengesahan' => 'Ditolak',
+            'status' => 'Ditolak',
         ]);
 
         return redirect()->back();

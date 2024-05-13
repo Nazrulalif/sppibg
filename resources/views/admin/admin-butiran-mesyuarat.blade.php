@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-md-3">
                     {{-- <a href="compose.html" class="btn btn-primary btn-block mb-3">Compose</a> --}}
-
+                    
                     <div class="card">
                         {{-- <div class="card-header">
                       <h3 class="card-title">Folders</h3>
@@ -48,6 +48,7 @@
                         </button>
                       </div>
                     </div> --}}
+                    
                         <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
                                 <li class="nav-item">
@@ -119,7 +120,15 @@
                                         </tr>
                                         <tr>
                                             <td><strong>Agenda</strong> </td>
-                                            <td>{{$data->agenda}}</td>
+                                            <td>
+                                                <ol style="padding-left: 1rem;">
+                                                    @foreach (explode("\n", $data->agenda) as $line)
+                                                        <li>{{ $line }}</li>
+                                                    @endforeach
+                                                </ol>
+                                            </td>
+                                            
+                                            
                                         </tr>
 
                                     </tbody>
@@ -159,7 +168,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-success float-right ml-1">Hantar</button>
+                                    <button type="submit" class="btn btn-primary float-right ml-1">Hantar</button>
                                 </form>
                                 <!-- /.card-tools -->
                             </div>
@@ -169,7 +178,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Usul Mesyuarat</h3>
                                 @if (!empty($usul) && count($usul) > 0)
-                                <a href="{{ route('admin.usul-laporan', ['id' => $data]) }}" target="_blank" class="btn btn-info btn-sm float-right">
+                                <a href="{{ route('admin.usul-laporan', ['id' => $data]) }}" target="_blank" class="btn btn-primary btn-sm float-right">
                                     Laporan
                                 </a>
                                 @else
@@ -251,7 +260,7 @@
                         
                         <div class="tab-pane" id="minit">
                             <a class="btn btn-danger btn-sm float-right mb-3" href="{{ route('admin.minit-padam', ['id' => $data]) }}">
-                                <i class="fas fa-trash"></i> Delete
+                                <i class="fas fa-trash"></i> Padam
                             </a>
                             <div class="embed-responsive embed-responsive-16by9">
                             <iframe class="embed-responsive-item pb-5" src="{{ asset('uploads/minit-mesyuarat/' . $minit_fail->fail) }}" frameborder="0" allowfullscreen></iframe>
@@ -406,6 +415,9 @@ Dropzone.options.myDropzone = {
                 method: 'GET',
                 dataSrc: 'data'
             },
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            }, // Load Bahasa Melayu language file
             columnDefs: [{
                     width: '1%',
                     targets: 0
@@ -488,6 +500,9 @@ Dropzone.options.myDropzone = {
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            }, // Load Bahasa Melayu language file
             ajax: {
              url: "{{ route('admin.usul-mesyuarat-pengesahan', ['id' => $data]) }}",
                 method: 'GET',
@@ -500,11 +515,12 @@ Dropzone.options.myDropzone = {
                 {
                     width: '50%',
                     targets: 1
-                }, // Set 30% width for the second column
-                // {
-                //     width: '10%',
-                //     targets: 2
-                // } // Set 50% width for the third column
+                }, 
+                {
+                    width: '10%',
+                    targets: 5
+                },// Set 30% width for the second column
+
             ],
             columns: [{
                     data: null,

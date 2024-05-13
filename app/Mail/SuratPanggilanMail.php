@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Panggilan_mesyuarat;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,38 +17,23 @@ class SuratPanggilanMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    use Queueable, SerializesModels;
+
+    public $invitation;
+    public $mesyuarat;
+    public $listItems;
+
+    public function __construct($invitation, $mesyuarat, $listItems)
     {
-        //
+        $this->invitation = $invitation;
+        $this->mesyuarat = $mesyuarat;
+        $this->listItems = $listItems;
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(
-            subject: 'Surat Panggilan Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'admin.admin-surat-panggilan-mesyuarat',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->view('admin.admin-email-surat-panggilan')
+            ->with(['message' => $this])
+            ->subject('Surat Panggilan Mesyuarat');
     }
 }

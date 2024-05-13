@@ -106,7 +106,13 @@
                                       </tr>
                                       <tr>
                                         <td><strong>Agenda</strong> </td>
-                                        <td>{{$data->agenda}}</td>
+                                        <td>
+                                            <ol style="padding-left: 1rem;">
+                                                @foreach (explode("\n", $data->agenda) as $line)
+                                                    <li>{{ $line }}</li>
+                                                @endforeach
+                                            </ol>
+                                        </td>
                                       </tr>
 
                                     </tbody>

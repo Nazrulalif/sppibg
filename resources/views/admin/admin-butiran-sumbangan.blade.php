@@ -65,10 +65,9 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Senarai Penyumbang</h3>
-                    {{-- <button type="button" onclick="openNewWindow()"
-                            class="btn btn-primary btn-sm float-right">
-                            Laporan
-                    </button> --}}
+                    <div class="pb-3">
+                        <a href="{{route('admin.sumbangan-laporan', $data)}}" target="_blank" class="btn btn-sm btn-primary float-right">Laporan</a>
+                    </div>
 
                 </div>
                 <!-- /.card-header -->
@@ -143,6 +142,9 @@
             autoWidth: false,
             responsive: true,
             ajax: "{{ route('admin.sumbangan-butiran', $data) }}",
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             columnDefs: [{
                     width: '1%',
                     targets: 0
@@ -187,8 +189,8 @@
                     render: function (data, type, row) {
                         return `
                     <div class="">
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" target="_blank" href="{{ route('admin.sumbangan-resit', '') }}/${data.id}">
-                            <i class="fas fa-folder"></i>
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" target="_blank" href="{{ route('admin.sumbangan-resit', '') }}/${data.id}">
+                            <i class="fas fa-file-invoice"></i>
                         </a>`;
                     },
                     orderable: false,

@@ -60,9 +60,6 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <!-- Default box -->
-
-                    
-
                     <div class="row">
                         <div class="col-md-4 col-sm-6 col-12">
                             <div class="info-box bg-info">
@@ -103,10 +100,17 @@
                             <p class="text-secondary" style="line-height: 1px;"><strong>Masa</strong> :  {{ \Carbon\Carbon::parse($mesyuarat->masa_mula)->format('h:i A') }} - {{ \Carbon\Carbon::parse($mesyuarat->masa_tamat)->format('h:i A') }}</p>
                         </div>
                     </div>
-                    
 
                     <!-- Default box -->
                     <div class="card">
+
+                        <div class="card-header">
+                        @if(Auth::user()->access_code !=6)
+                            <div class="pb-3">
+                                <a href="{{route('admin.kehadiran-laporan', $data)}}" target="_blank" class="btn btn-sm btn-primary float-right">Laporan</a>
+                            </div>
+                        @endif
+                        </div>
                         <div class="card-body ">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
@@ -181,6 +185,9 @@
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             ajax: "{{ route('admin.kehadiran-pengguna', $data) }}",
             columnDefs: [{
                 width: '1%',
@@ -221,7 +228,7 @@
                     return `
                     <div class="">
                          
-                        <input type="checkbox" name="kehadiran" data-id="${data.id}" class="checkboxPrimary1" title="check" ${checked}>
+                        <input type="checkbox" name="kehadiran" data-id="${data.id}" class="checkboxPrimary1" title="Hadir" ${checked}>
 
                     </div>
                     `;

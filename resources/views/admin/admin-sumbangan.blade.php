@@ -132,6 +132,9 @@
             autoWidth: false,
             responsive: true,
             ajax: "{{ route('admin.sumbangan') }}",
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             columnDefs: [{
                     width: '1%',
                     targets: 0
@@ -139,6 +142,10 @@
                 {
                     width: '40%',
                     targets: 2
+                }, // Set 30% width for the second column
+                {
+                    width: '11%',
+                    targets: 5
                 }, // Set 30% width for the second column
                 // {
                 //     width: '10%',
@@ -188,20 +195,18 @@
                     render: function (data, type, row) {
                         return `
                     <div class="">
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.sumbangan-butiran', '') }}/${data.id}">
-                            <i class="fas fa-folder"></i>
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.sumbangan-butiran', '') }}/${data.id}">
+                            <i class="fas fa-eye"></i>
                         </a>
 
                     @if (Auth::user()->access_code == 1 || Auth::user()->access_code == 6)
-                        <a type="button" title="kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.sumbangan-edit', '') }}/${row.id}')">
+                        <a type="button" title="Kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.sumbangan-edit', '') }}/${row.id}')">
                                       <i class="fas fa-pencil-alt"></i>
                         </a>
-                        <button title="nyah aktif" class="btn btn-warning btn-sm deactiveEvent" data-id="${data.id}">
+                        <button title="Nyah aktif" class="btn btn-danger btn-sm deactiveEvent" data-id="${data.id}">
                             <i class="fas fa-times"></i>
                         </button>
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
+
                       </div>
                     @endif`;
                     },
@@ -263,6 +268,9 @@
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             ajax: "{{ route('admin.sumbangan-arkib') }}",
             columnDefs: [{
                     width: '1%',
@@ -320,12 +328,12 @@
                     render: function (data, type, row) {
                         return `
                     <div class="">
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.sumbangan-butiran', '') }}/${data.id}">
-                            <i class="fas fa-folder"></i>
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.sumbangan-butiran', '') }}/${data.id}">
+                            <i class="fas fa-eye"></i>
                         </a>
 
                         @if (Auth::user()->access_code == 1 || Auth::user()->access_code == 6)
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
+                        <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
                             <i class="fas fa-trash"></i>
                         </button>
                       </div>

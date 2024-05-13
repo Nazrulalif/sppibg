@@ -1,7 +1,8 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
-
+    {{-- sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- fullCalendar -->
 <link rel="stylesheet" href="{{asset('plugins/fullcalendar/main.css')}}">
@@ -37,7 +38,7 @@
                               <h3 class="card-title">Cipta Acara</h3>
                           </div> --}}
 
-                          @if(Auth::user()->access_code !=6)
+                        @if(Auth::user()->access_code !=6)
                             <div class="pb-3">
                                 <a href="{{route('admin.kalendar-laporan')}}" class="btn btn-block btn-primary">Laporan</a>
                             </div>
@@ -65,17 +66,23 @@
                                         <i class="fas fa-handshake bg-warning"></i>
                                         @endif
 
-                                        <div class="timeline-item">
+                                        <div class="timeline-item" style="display: flex; flex-direction:row; align-items:center; justify-content:space-between">
 
-                                            <h3 class="timeline-header"><a href="#" onclick="openPopup('{{ route('admin.kalendar-butiran', [$event->id]) }}')">{{$event->nama_acara ? $event->nama_acara : $event->nama_mesyuarat }}</a></h3>
-                                            @if(Auth::user()->access_code !=6)
-                                            <div class="timeline-footer">
-                                                {{-- <a href="#" class="btn btn-primary btn-sm">Emel</a> --}}
-                                                <a href="{{route('admin.kalendar-delete-upcomming', [$event->id])}}" id="deleteEvent" class="btn btn-danger btn-sm">Padam</a>
-                                            </div>
-                                            @endif
-
+                                            <h3 class="timeline-header" style="border-bottom: none">
+                                                <a href="#" onclick="openPopup('{{ route('admin.kalendar-butiran', [$event->id]) }}')">
+                                                {{$event->nama_acara ? $event->nama_acara : $event->nama_mesyuarat }}</a>
+                                                
+                                            </h3>
+                                            <h3 class="timeline-header" style="border-bottom: none">
+                                                @if(Auth::user()->access_code !=6)
+                                                <a href="{{route('admin.kalendar-delete-upcomming', [$event->id])}}" id="deleteEvent" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                                @endif
+                                            </h3>
+                                            
                                         </div>
+                                        
                                     </div>
                                     @endforeach
                                     
@@ -117,8 +124,8 @@
 <script src="{{asset('plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('plugins/fullcalendar/main.js')}}"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     document.getElementById('deleteEvent').addEventListener('click', function (e) {
         e.preventDefault(); // Prevent the default anchor behavior
@@ -140,6 +147,7 @@
         });
     });
 </script>
+
 <script>
     function openPopup(url) {
         window.open(url, 'popupWindow', 'width=600, height=400, resizable=yes, scrollbars=yes');
@@ -177,6 +185,7 @@
           },
           editable: true,
           droppable: true,
+          locale: 'ms',
           drop: function (info) {
               if (checkbox.checked) {
                   info.draggedEl.parentNode.removeChild(info.draggedEl);
@@ -218,6 +227,7 @@
             },
             editable: true,
             droppable: true,
+            locale: 'ms',
             drop: function (info) {
                 if (checkbox.checked) {
                     info.draggedEl.parentNode.removeChild(info.draggedEl);
@@ -233,7 +243,7 @@
   
         calendar.render();
     });
-  </script>
+</script>
 @endif
 
 {{-- sweet alert --}}

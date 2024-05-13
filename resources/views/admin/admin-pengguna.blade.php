@@ -132,6 +132,9 @@
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             ajax: "{{ route('admin.pengguna') }}",
             columnDefs: [{
                     width: '1%',
@@ -141,10 +144,10 @@
                     width: '50%',
                     targets: 1
                 }, // Set 30% width for the second column
-                // {
-                //     width: '10%',
-                //     targets: 2
-                // } // Set 50% width for the third column
+                {
+                    width: '11%',
+                    targets: 4
+                } // Set 50% width for the third column
             ],
             columns: [{
                     data: null,
@@ -175,14 +178,14 @@
                     render: function (data, type, row) {
                         return `
                     <div class="">
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.pengguna-butiran', '') }}/${data.id}">
-                            <i class="fas fa-folder"></i>
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.pengguna-butiran', '') }}/${data.id}">
+                            <i class="fas fa-eye"></i>
                         </a>
-                        <a type="button" title="kemaskini" class="btn btn-info btn-sm" href="{{ route('admin.pengguna-edit', '') }}/${data.id}">
+                        <a type="button" title="Kemaskini" class="btn btn-info btn-sm" href="{{ route('admin.pengguna-edit', '') }}/${data.id}">
                             <i class="fas fa-pencil-alt"></i>
                         </a>
-                        <button title="nyah aktif" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
-                            <i class="fas fa-trash"></i>
+                        <button title="Nyah Aktif" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
+                            <i class="fas fa-times"></i>
                         </button>
                       </div>`;
                     },
@@ -232,14 +235,17 @@
                     targets: 0
                 }, // Set 20% width for the first column
                 {
-                    width: '50%',
+                    width: '30%',
                     targets: 1
                 }, // Set 30% width for the second column
-                // {
-                //     width: '10%',
-                //     targets: 2
-                // } // Set 50% width for the third column
+                {
+                    width: '11%',
+                    targets: 5
+                } // Set 50% width for the third column
             ],
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             columns: [{
                     data: null,
                     render: function (data, type, row, meta) {
@@ -275,13 +281,13 @@
                     render: function (data, type, row) {
                         return `
                     <div class="">
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.pengguna-butiran', '') }}/${data.id}">
-                            <i class="fas fa-folder"></i>
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.pengguna-butiran', '') }}/${data.id}">
+                            <i class="fas fa-eye"></i>
                         </a>
-                        <a type="button" title="Sah" class="btn btn-success btn-sm" id="padam" href="{{ route('admin.pengguna-sah', '') }}/${data.id} ">
+                        <a type="button" title="Mengesahkan" class="btn btn-success btn-sm" id="padam" href="{{ route('admin.pengguna-sah', '') }}/${data.id} ">
                             <i class="fas fa-check"></i>
                         </a>
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
+                        <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
                             <i class="fas fa-trash"></i>
                         </button>
                       </div>`;

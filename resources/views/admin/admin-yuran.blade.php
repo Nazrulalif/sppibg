@@ -103,6 +103,9 @@
             autoWidth: false,
             responsive: true,
             ajax: "{{ route('admin.yuran') }}",
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             columnDefs: [{
                     width: '1%',
                     targets: 0
@@ -110,6 +113,10 @@
                 {
                     width: '50%',
                     targets: 1
+                },
+                {
+                    width: '12%',
+                    targets: 4
                 }, // Set 30% width for the second column
                 // {
                 //     width: '10%',
@@ -148,12 +155,15 @@
                     render: function (data, type, row) {
                         return `
                     <div class="">
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.yuran-butiran', '') }}/${data.tahun}">
-                            <i class="fas fa-folder"></i>
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.yuran-butiran', '') }}/${data.tahun}">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a title="Notis Yuran" class="btn btn-secondary btn-sm" href="{{ route('admin.yuran-notis', '') }}/${data.tahun}" target="_blank" >
+                            <i class="fas fa-envelope"></i>
                         </a>
 
                         @if (Auth::user()->access_code == 1 || Auth::user()->access_code == 6)
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.tahun}">
+                        <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.tahun}">
                             <i class="fas fa-trash"></i>
                         </button>
                       </div>
@@ -194,7 +204,7 @@
 
         // Define the size and position of the new window
         var width = 800;
-        var height = 300;
+        var height = 800;
         var left = (window.innerWidth - width) / 2;
         var top = (window.innerHeight - height) / 2;
 

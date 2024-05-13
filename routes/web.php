@@ -22,6 +22,7 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\QrReaderController;
 use App\Http\Controllers\RekodKehadiranController;
 use App\Http\Controllers\SumbanganController;
+use App\Http\Controllers\UsulMesyuaratController;
 use App\Http\Controllers\YuranController;
 use App\Models\Minit_mesyuarat;
 use App\Models\Yuran;
@@ -87,6 +88,10 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::get('/pelajar-delete/{id}', [AdminPenggunaController::class, 'pelajar_delete'])->name('admin.pelajar-delete');
     Route::get('/pengguna-sah/{id}', [AdminPenggunaController::class, 'pengguna_sah'])->name('admin.pengguna-sah');
     Route::get('/pengguna-butiran/{id}', [AdminPenggunaController::class, 'pengguna_butiran'])->name('admin.pengguna-butiran');
+    Route::get('/pengguna-mail', function () {
+        return view('admin.admin-email-pengesahan-pengguna');
+    })->name('pengguna-email');
+
 
     // Kalendar acara
     Route::get('/kalendar-tambah/{date}', [AdminKalendarAcaraController::class, 'kalendar_tambah'])->name('admin.kalendar-tambah');
@@ -109,6 +114,7 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::get('/mesyuarat-padam/{id}', [AdminMesyuaratController::class, 'mesyuarat_padam'])->name('admin.mesyuarat-padam');
     Route::get('/mesyuarat-edit/{id}', [AdminMesyuaratController::class, 'mesyuarat_edit'])->name('admin.mesyuarat-edit');
     Route::post('/mesyuarat-update/{id}', [AdminMesyuaratController::class, 'mesyuarat_update'])->name('admin.mesyuarat-update');
+
 
     // Panggilan Mesyuarat
     Route::get('/panggilan-mesyuarat-butiran/{id}', [AdminMesyuaratController::class, 'panggilan_mesyuarat_butiran'])->name('admin.panggilan-mesyuarat-butiran');
@@ -141,6 +147,8 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::get('/kehadiran-pengguna/{id}', [AdminKehadiranController::class, 'kehadiran_pengguna'])->name('admin.kehadiran-pengguna');
     Route::post('/kehadiran-qr-simpan/{id}', [AdminKehadiranController::class, 'kehadiran_qr_simpan'])->name('admin.kehadiran-qr-simpan');
     Route::get('/update-counts/{id}', [AdminKehadiranController::class, 'updateCounts'])->name('admin.update-counts');
+    Route::get('/kehadiran-qr-laporan/{id}', [AdminKehadiranController::class, 'kehadiran_qr_laporan'])->name('admin.kehadiran-laporan');
+
 
     //qr Reader
     Route::post('/qr-simpan', [AdminQrReaderController::class, 'qr_simpan'])->name('admin.qr-simpan');
@@ -151,6 +159,8 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::post('/yuran-simpan', [AdminYuranController::class, 'yuran_simpan'])->name('admin.yuran-simpan');
     Route::post('/yuran-simpan-tambahan/{id}', [AdminYuranController::class, 'yuran_simpan_tambahan'])->name('admin.yuran-simpan-tambahan');
     Route::get('/yuran-padam/{id}', [AdminYuranController::class, 'yuran_padam'])->name('admin.yuran-padam');
+    Route::get('/yuran-laporan/{id}', [AdminYuranController::class, 'yuran_laporan'])->name('admin.yuran-laporan');
+    Route::get('/yuran-notis/{id}', [AdminYuranController::class, 'yuran_notis'])->name('admin.yuran-notis');
 
     Route::get('/yuran-edit/{year}', [AdminYuranController::class, 'yuran_edit'])->name('admin.yuran-edit');
 
@@ -170,6 +180,7 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::post('/sumbangan-update/{id}', [AdminSumbanganController::class, 'sumbangan_update'])->name('admin.sumbangan-update');
     Route::get('/sumbangan-butiran/{id}', [AdminSumbanganController::class, 'sumbangan_butiran'])->name('admin.sumbangan-butiran');
     Route::get('/sumbangan-resit/{id}', [AdminSumbanganController::class, 'sumbangan_resit'])->name('admin.sumbangan-resit');
+    Route::get('/sumbangan-laporan/{id}', [AdminSumbanganController::class, 'sumbangan_laporan'])->name('admin.sumbangan-laporan');
 });
 //qrTest
 Route::get('/qr-code', [AdminKehadiranController::class, 'generate'])->name('admin.qr-code');
@@ -191,6 +202,13 @@ Route::middleware('auth', 'web', 'isuser')->group(function () {
 
     //panggilan mesyuarat
     Route::get('/panggilan-mesyuarat-surat/{id}', [AdminMesyuaratController::class, 'panggilan_mesyuarat_surat'])->name('panggilan-mesyuarat-surat');
+
+    //usul mesyuarat
+    Route::get('/usul-mesyuarat/{id}', [UsulMesyuaratController::class, 'index'])->name('usul-mesyuarat');
+    Route::get('/usul-butiran/{id}', [UsulMesyuaratController::class, 'usul_butiran'])->name('usul-butiran');
+    Route::get('/usul-mesyuarat-padam/{id}', [UsulMesyuaratController::class, 'usul_padam'])->name('usul-padam');
+    Route::get('/usul-tambah/{id}', [UsulMesyuaratController::class, 'usul_tambah'])->name('usul-tambah');
+    Route::post('/usul-simpan/{id}', [UsulMesyuaratController::class, 'usul_simpan'])->name('usul-simpan');
 
     //minit mesyuarat
     Route::get('/minit-mesyuarat', [MinitMesyuaratController::class, 'index'])->name('minit-mesyuarat');

@@ -111,24 +111,44 @@
                                                 aria-labelledby="logins-part-trigger">
                                                 <div class="form-group">
                                                     <label for="name">Nama Penuh</label>
+                                                    @if($errors->has('name'))
+                                                    <div class="alert alert-danger alert-dismissible">
+                                                        {{ $errors->first('name') }}
+                                                    </div>
+                                                    @endif
                                                     <input type="text" name="name" class="form-control" value="{{$user->name}}">
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Nombor Kad Pengenalan</label>
+                                                            @if($errors->has('ic'))
+                                                            <div class="alert alert-danger alert-dismissible">
+                                                                {{ $errors->first('ic') }}
+                                                            </div>
+                                                            @endif
                                                             <input type="text" name="ic" class="form-control" value="{{$user->no_ic}}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Nombor Telefon</label>
+                                                            @if($errors->has('phone'))
+                                                            <div class="alert alert-danger alert-dismissible">
+                                                                {{ $errors->first('phone') }}
+                                                            </div>
+                                                            @endif
                                                             <input type="text" name="phone" class="form-control" value="{{$user->no_phone}}">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="address">Alamat</label>
+                                                    @if($errors->has('address'))
+                                                    <div class="alert alert-danger alert-dismissible">
+                                                        {{ $errors->first('address') }}
+                                                    </div>
+                                                    @endif
                                                     <input type="text" name="address" class="form-control" value="{{$user->address}}">
                                                 </div>
                                                 <a class="btn btn-primary" onclick="stepper.next()">Seterusnya</a>
@@ -268,6 +288,11 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Email</label>
+                                                            @if($errors->has('email'))
+                                                            <div class="alert alert-danger alert-dismissible">
+                                                                {{ $errors->first('email') }}
+                                                            </div>
+                                                            @endif
                                                             <input type="email" name="email" class="form-control" value="{{$user->email}}">
                                                         </div>
 
@@ -275,6 +300,11 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label>Akses Pengguna</label>
+                                                            @if($errors->has('akses'))
+                                                            <div class="alert alert-danger alert-dismissible">
+                                                                {{ $errors->first('akses') }}
+                                                            </div>
+                                                            @endif
                                                             <select class="form-control select2" name="akses"
                                                                 style="width: 100%;">
                                                                 <option selected="selected" value="{{$user->access_code}}">{{$user->nama_akses}}</option>

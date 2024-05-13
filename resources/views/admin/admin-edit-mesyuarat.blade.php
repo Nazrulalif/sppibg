@@ -82,6 +82,11 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="name">Tarikh</label>
+                                                @if($errors->has('tarikh'))
+                                                <div class="alert alert-danger alert-dismissible">
+                                                    {{ $errors->first('tarikh') }}
+                                                </div>
+                                                @endif
                                                 {{-- {{$formatted_date}} --}}
                                                 <input type="date" name="tarikh" class="form-control" id="" value="{{$data->tarikh}}">
         
@@ -115,6 +120,11 @@
                                     
                                     <div class="form-group">
                                         <label for="name">Nama Mesyuarat</label>
+                                        @if($errors->has('nama_mesyuarat'))
+                                                <div class="alert alert-danger alert-dismissible">
+                                                    {{ $errors->first('nama_mesyuarat') }}
+                                                </div>
+                                                @endif
                                         <input type="text" name="nama_mesyuarat" class="form-control" value="{{$data->nama_mesyuarat}}">
                                     </div>
                                     
@@ -122,12 +132,22 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             <label for="">Masa Mula</label>
+                                            @if($errors->has('masa_mula'))
+                                                <div class="alert alert-danger alert-dismissible">
+                                                    {{ $errors->first('masa_mula') }}
+                                                </div>
+                                                @endif
                                                 <input type="time" name="masa_mula" class="form-control" value="{{$data->masa_mula}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="">Masa Tamat</label>
+                                                @if($errors->has('masa_tamat'))
+                                                <div class="alert alert-danger alert-dismissible">
+                                                    {{ $errors->first('masa_tamat') }}
+                                                </div>
+                                                @endif
                                                 <input type="time" name="masa_tamat" class="form-control" value="{{$data->masa_tamat}}">
                                             </div>
                                         </div>
@@ -136,12 +156,22 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             <label for="">Kepada</label>
+                                            @if($errors->has('kepada'))
+                                                <div class="alert alert-danger alert-dismissible">
+                                                    {{ $errors->first('kepada') }}
+                                                </div>
+                                                @endif
                                                 <input type="text" name="kepada" class="form-control" value="{{$data->kepada}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="">Tempat</label>
+                                                @if($errors->has('tempat'))
+                                                <div class="alert alert-danger alert-dismissible">
+                                                    {{ $errors->first('tempat') }}
+                                                </div>
+                                                @endif
                                                 <input type="text" name="tempat" class="form-control" value="{{$data->tempat}}">
 
                                             </div>
@@ -150,13 +180,17 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="">Agenda</label>
+                                        @if($errors->has('agenda'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            {{ $errors->first('agenda') }}
+                                        </div>
+                                        @endif
                                         <textarea name="agenda" name="agenda" class="form-control" id="" cols="30" rows="5">{{$data->agenda}}</textarea>
 
                                     </div>
                                     <button type="submit" name="submit"
-                                        class="btn btn-success float-right ml-1">Simpan</button>
-                                    <a type="button" onclick="window.close();"
-                                        class="btn btn-secondary float-right">Tutup</a>
+                                        class="btn btn-primary float-right ml-1">Simpan</button>
+                                    
                                 </div>
                                 <!-- /.card-body -->
                             </form>

@@ -143,7 +143,10 @@
                     data: null,
                     render: function (data, type, row) {
                         return `
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
+                        <a type="button" title="Usul Mesyuarat" class="btn btn-info btn-sm" href="{{ route('panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
+                              <i class="fas fa-pen"></i>
+                          </a>
+                        <a type="button" title="Surat Panggilan" class="btn btn-primary btn-sm" href="{{ route('admin.panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
                             <i class="fas fa-envelope"></i>
                         </a>`;
                     },
@@ -215,9 +218,12 @@
                     data: null,
                     render: function (data, type, row) {
                         return `
-                          <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
-                              <i class="fas fa-envelope"></i>
-                          </a>`;
+                          <a type="button" title="Usul Mesyuarat" class="btn btn-info btn-sm" href="{{ route('usul-mesyuarat', '') }}/${row.id}">
+                              <i class="fas fa-pen"></i>
+                          </a>
+                          <a type="button" title="Surat Panggilan" class="btn btn-primary btn-sm" href="{{ route('panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
+                            <i class="fas fa-envelope"></i>
+                        </a>`;
                     },
                     orderable: false,
                     searchable: false

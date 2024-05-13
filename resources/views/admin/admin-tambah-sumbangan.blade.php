@@ -83,22 +83,36 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">Nama Sumbangan</label>
+                                        @if($errors->has('nama'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            {{ $errors->first('nama') }}
+                                        </div>
+                                        @endif
                                         <input type="text" name="nama" class="form-control" id="">
                                     </div>
                                     <div class="form-group">
                                         <label for="name">Jumlah Sasaran (RM)</label>
+                                        @if($errors->has('sasaran'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            {{ $errors->first('sasaran') }}
+                                        </div>
+                                        @endif
                                         <input type="number" name="sasaran" class="form-control" id="">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="">Penerangan</label>
+                                        @if($errors->has('penerangan'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            {{ $errors->first('penerangan') }}
+                                        </div>
+                                        @endif
                                         <textarea name="penerangan" class="form-control" id="" cols="30"
                                             rows="5"></textarea>
                                     </div>
                                     <button type="submit" name="submit"
-                                        class="btn btn-success float-right ml-1">Simpan</button>
-                                    <a type="button" onclick="window.close();"
-                                        class="btn btn-secondary float-right">Tutup</a>
+                                        class="btn btn-primary float-right ml-1">Simpan</button>
+
                                 </div>
                                 <!-- /.card-body -->
                             </form>

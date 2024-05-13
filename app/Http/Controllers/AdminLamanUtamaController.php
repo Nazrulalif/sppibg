@@ -71,6 +71,20 @@ class AdminLamanUtamaController extends Controller
 
     public function profil_update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'ic' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'email' => 'required|email',
+
+        ], [
+            'name.required' => 'Nama diperlukan.',
+            'ic.required' => 'Nombor kad Pengenalan diperlukan.',
+            'phone.required' => 'Nombor telefon diperlukan',
+            'address.required' => 'Alamat diperlukan',
+            'email.required' => 'Emel diperlukan',
+        ]);
 
         $user = User::findOrFail($id);
 
@@ -155,6 +169,15 @@ class AdminLamanUtamaController extends Controller
 
     public function buletin_update($id, Request $request)
     {
+        $request->validate([
+            'buletin_name' => 'required',
+            'penerangan' => 'required',
+
+        ], [
+            'buletin_name.required' => 'Tajuk diperlukan.',
+            'penerangan.required' => 'Penerangan diperlukan.',
+        ]);
+
         $data = Buletin::findOrFail($id);
 
         $data->fill([

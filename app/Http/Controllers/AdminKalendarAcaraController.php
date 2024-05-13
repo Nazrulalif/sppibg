@@ -43,6 +43,10 @@ class AdminKalendarAcaraController extends Controller
             'tarikh_mula' => 'required',
             'tarikh_akhir' => 'required',
 
+        ], [
+            'tarikh_mula.required' => 'Tarikh Mula perlu diisi',
+            'tarikh_akhir.required' => 'Tarikh Akhir perlu diisi',
+
         ]);
 
 
@@ -119,8 +123,27 @@ class AdminKalendarAcaraController extends Controller
         ]);
     }
 
-    public function kalendar_update($id)
+    public function kalendar_update(Request $request, $id)
     {
+
+        $data = $request->validate([
+            'nama_acara' => 'required',
+            'masa_mula' => 'required',
+            'masa_tamat' => 'required',
+            'kepada' => 'required',
+            'tempat' => 'required',
+            'agenda' => 'required',
+
+        ], [
+            'nama_acara.required' => 'Nama Acara perlu diisi',
+            'masa_mula.required' => 'Masa Mula perlu diisi',
+            'masa_tamat.required' => 'Masa Tamat perlu diisi',
+            'kepada.required' => 'Kepada perlu diisi',
+            'tempat.required' => 'Tempat perlu diisi',
+            'agenda.required' => 'Agenda perlu diisi',
+
+        ]);
+
         $acara = Acara::find($id);
         $mesyuarat = Mesyuarat::find($id);
 
@@ -176,8 +199,17 @@ class AdminKalendarAcaraController extends Controller
             'nama_acara' => 'required',
             'masa_mula' => 'required',
             'masa_tamat' => 'required',
+            'kepada' => 'required',
             'tempat' => 'required',
             'agenda' => 'required',
+        ], [
+            'nama_acara.required' => 'Nama Acara perlu diisi',
+            'masa_mula.required' => 'Masa Mula perlu diisi',
+            'masa_tamat.required' => 'Masa Tamat perlu diisi',
+            'kepada.required' => 'Kepada perlu diisi',
+            'tempat.required' => 'Tempat perlu diisi',
+            'agenda.required' => 'Agenda perlu diisi',
+
         ]);
 
         // dd($date);
@@ -209,7 +241,16 @@ class AdminKalendarAcaraController extends Controller
             'masa_mula' => 'required',
             'masa_tamat' => 'required',
             'tempat' => 'required',
+            'kepada' => 'required',
             'agenda' => 'required',
+        ], [
+            'nama_mesyuarat.required' => 'Nama Mesyuarat perlu diisi',
+            'masa_mula.required' => 'Masa Mula perlu diisi',
+            'masa_tamat.required' => 'Masa Tamat perlu diisi',
+            'kepada.required' => 'Kepada perlu diisi',
+            'tempat.required' => 'Tempat perlu diisi',
+            'agenda.required' => 'Agenda perlu diisi',
+
         ]);
 
         // dd($date);

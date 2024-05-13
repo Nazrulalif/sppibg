@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PengesahanPenggunaMail;
 use App\Models\Pelajar;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdminPenggunaController extends Controller
@@ -123,6 +125,7 @@ class AdminPenggunaController extends Controller
         $user->verified = 1;
         $user->save();
 
+        Mail::to($user->email)->send(new PengesahanPenggunaMail($user));
 
         return redirect()->back()->with('success', 'Pengguna berjaya di sahkan');
     }
@@ -142,6 +145,14 @@ class AdminPenggunaController extends Controller
             'address' => 'required',
             'akses' => 'required',
             'password' => 'required',
+        ], [
+            'name.required' => 'Nama diperlukan.',
+            'ic.required' => 'Nombor kad Pengenalan diperlukan.',
+            'phone.required' => 'Nombor telefon diperlukan',
+            'address.required' => 'Alamat diperlukan',
+            'email.required' => 'Emel diperlukan',
+            'akses.required' => 'Akses diperlukan',
+            'password.required' => 'Kata laluan diperlukan',
         ]);
 
         $existingUser = User::where('email', $request->email)->first();
@@ -172,7 +183,7 @@ class AdminPenggunaController extends Controller
                             'id_pengguna' => $existingUser->id,
                             'nama_pelajar' => $childName, // Access each child's name by index
                             'kelas' => $request->class[$index], // Access each class by index
-                            'tahun' => $request->year[$index], // Access each class by index
+                            'tahun_pelajar_id' => $request->year[$index], // Access each class by index
                         ]);
                     }
                 }
@@ -205,7 +216,7 @@ class AdminPenggunaController extends Controller
                             'id_pengguna' => $user->id,
                             'nama_pelajar' => $childName, // Access each child's name by index
                             'kelas' => $request->class[$index], // Access each class by index
-                            'tahun' => $request->year[$index], // Access each class by index
+                            'tahun_pelajar_id' => $request->year[$index], // Access each class by index
                         ]);
                     }
                 }
@@ -252,6 +263,24 @@ class AdminPenggunaController extends Controller
 
     public function pengguna_update(Request $request, User $id)
     {
+        $data = $request->validate([
+            'name' => 'required',
+            'ic' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'address' => 'required',
+            'akses' => 'required',
+            'password' => 'required',
+        ], [
+            'name.required' => 'Nama diperlukan.',
+            'ic.required' => 'Nombor kad Pengenalan diperlukan.',
+            'phone.required' => 'Nombor telefon diperlukan',
+            'address.required' => 'Alamat diperlukan',
+            'email.required' => 'Emel diperlukan',
+            'akses.required' => 'Akses diperlukan',
+            'password.required' => 'Kata laluan diperlukan',
+        ]);
+
         $id->name = $request->name;
         $id->no_ic = $request->ic;
         $id->no_phone = $request->phone;

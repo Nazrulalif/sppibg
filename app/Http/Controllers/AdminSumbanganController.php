@@ -80,6 +80,11 @@ class AdminSumbanganController extends Controller
             'sasaran' => 'required',
             'penerangan' => 'required',
 
+        ], [
+            'nama.required' => 'Nama diperlukan.',
+            'sasaran.required' => 'Masukkan sasaran.',
+            'penerangan.required' => 'Penerangan diperlukan.',
+
         ]);
 
         // dd($date);
@@ -104,8 +109,21 @@ class AdminSumbanganController extends Controller
         ]);
     }
 
-    public function sumbangan_update($id)
+    public function sumbangan_update($id, Request $request)
     {
+
+        $data = $request->validate([
+            'nama' => 'required',
+            'sasaran' => 'required',
+            'penerangan' => 'required',
+
+        ], [
+            'nama.required' => 'Nama diperlukan.',
+            'sasaran.required' => 'Masukkan sasaran.',
+            'penerangan.required' => 'Penerangan diperlukan.',
+
+        ]);
+
         $data = Sumbangan::find($id);
 
         $data->update([
@@ -158,6 +176,28 @@ class AdminSumbanganController extends Controller
             ->first();
         return view('admin.admin-resit-sumbangan', [
             'resit' => $resit,
+        ]);
+    }
+
+    public function sumbangan_laporan($id)
+    {
+
+        $data = Sumbangan_pengguna::join('users', 'sumbangan_pengguna.id_pengguna', '=', 'users.id')
+            ->where('sumbangan_pengguna.id_sumbangan', $id)->get();
+
+        $sumbangan = Sumbangan::where('id', $id)->first();
+
+        $jumlah_kutipan = Sumbangan_pengguna::where('id_sumbangan', $id)->sum('jumlah_sumbangan');
+        $jumlah_penyumbang = Sumbangan_pengguna::where('id_sumbangan', $id)->count();
+        $jumlah_sasaran = Sumbangan::where('id', $id)->first();
+
+        // dd($jumlah_kutipan);
+        return view('admin.admin-laporan-sumbangan', [
+            'data' => $data,
+            'sumbangan' => $sumbangan,
+            'jumlah_kutipan' => $jumlah_kutipan,
+            'jumlah_sasaran' => $jumlah_sasaran,
+            'jumlah_penyumbang' => $jumlah_penyumbang,
         ]);
     }
 }

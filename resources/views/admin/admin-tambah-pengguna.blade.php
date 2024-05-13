@@ -95,37 +95,47 @@
                                                 aria-labelledby="logins-part-trigger">
                                                 <div class="form-group">
                                                     <label for="name">Nama Penuh</label>
+                                                    @if($errors->has('name'))
+                                                    <div class="alert alert-danger alert-dismissible">
+                                                        {{ $errors->first('name') }}
+                                                    </div>
+                                                    @endif
                                                     <input type="text" name="name" class="form-control" id="">
-                                                    @error('name')
-                                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                                    @enderror
+                                                    
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Nombor Kad Pengenalan</label>
+                                                            @if($errors->has('ic'))
+                                                            <div class="alert alert-danger alert-dismissible">
+                                                                {{ $errors->first('ic') }}
+                                                            </div>
+                                                            @endif
                                                             <input type="text" name="ic" class="form-control" id="">
-                                                            @error('ic')
-                                                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                                            @enderror
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Nombor Telefon</label>
+                                                            @if($errors->has('phone'))
+                                                            <div class="alert alert-danger alert-dismissible">
+                                                                {{ $errors->first('phone') }}
+                                                            </div>
+                                                            @endif
                                                             <input type="text" name="phone" class="form-control" id="">
-                                                            @error('phone')
-                                                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                                            @enderror
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="address">Alamat</label>
+                                                    @if($errors->has('address'))
+                                                            <div class="alert alert-danger alert-dismissible">
+                                                                {{ $errors->first('address') }}
+                                                            </div>
+                                                    @endif
                                                     <input type="text" name="address" class="form-control" id="">
-                                                    @error('address')
-                                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                                    @enderror
+
                                                 </div>
                                                 <a class="btn btn-primary" onclick="stepper.next()">Seterusnya</a>
                                             </div>
@@ -246,9 +256,6 @@
                                                                 <option value="Ibu">Ibu</option>
                                                                 <option value="Waris">Waris</option>
                                                             </select>
-                                                            @error('hubungan')
-                                                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                                            @enderror
                                                         </div>
                                                     </div>
                                                 </div>
@@ -263,16 +270,24 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Email</label>
+                                                            @if($errors->has('email'))
+                                                            <div class="alert alert-danger alert-dismissible">
+                                                                {{ $errors->first('email') }}
+                                                            </div>
+                                                             @endif
                                                             <input type="email" name="email" class="form-control" id="">
-                                                            @error('email')
-                                                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                                            @enderror
+
                                                         </div>
 
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label>Akses Pengguna</label>
+                                                            @if($errors->has('akses'))
+                                                            <div class="alert alert-danger alert-dismissible">
+                                                                {{ $errors->first('akses') }}
+                                                            </div>
+                                                            @endif
                                                             <select class="form-control select2" name="akses"
                                                                 style="width: 100%;">
                                                                 <option selected="selected">--Pilih--</option>
@@ -283,23 +298,22 @@
                                                                 <option value="4">Ahli Jawatankuasa</option>
                                                                 <option value="5">Ahli</option>
                                                             </select>
-                                                            @error('akses')
-                                                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                                            @enderror
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="name">Kata Laluan</label>
+                                                    @if($errors->has('password'))
+                                                    <div class="alert alert-danger alert-dismissible">
+                                                        {{ $errors->first('password') }}
+                                                    </div>
+                                                    @endif
                                                     <input type="password" name="password" class="form-control" id="">
-                                                    @error('password')
-                                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                                    @enderror
                                                 </div>
                                                 <a class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</a>
                                                 <button type="submit"
-                                                    class="btn btn-success float-right ml-1">Simpan</button>
+                                                    class="btn btn-primary float-right ml-1">Simpan</button>
                                             </div>
                                         </div>
                                     </div>

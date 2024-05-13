@@ -75,6 +75,11 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="year">Tahun Kutipan</label>
+                                                @if($errors->has('year'))
+                                                    <div class="alert alert-danger alert-dismissible">
+                                                        {{ $errors->first('year') }}
+                                                    </div>
+                                                @endif
                                                 <input class="form-control" type="number" name="year" id="year"
                                                     required><br>
                                             </div>
@@ -82,6 +87,11 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="pibg_fee">Yuran (per keluarga) (RM)</label>
+                                                @if($errors->has('pibg_fee'))
+                                                    <div class="alert alert-danger alert-dismissible">
+                                                        {{ $errors->first('pibg_fee') }}
+                                                    </div>
+                                                @endif
                                                 <input class="form-control" type="number" name="pibg_fee" id="pibg_fee"
                                                     required><br>
                                             </div>
@@ -106,7 +116,7 @@
                                 </div>
 
                                 <button type="submit" name="submit"
-                                class="btn btn-success float-right ml-1">Simpan</button>
+                                class="btn btn-primary float-right ml-1">Simpan</button>
                                 </div>
 
 

@@ -37,7 +37,7 @@
 
                 @if (Auth::user()->access_code === 1)
                 <li class="nav-item ">
-                    <a class="nav-link {{ (Request::is('admin/pengguna', 'admin/pengguna-butiran*') ? 'active' : '') }}" href="{{route("admin.pengguna")}}">
+                    <a class="nav-link {{ (Request::is('admin/pengguna', 'admin/pengguna-butiran*', 'admin/pengguna-edit*') ? 'active' : '') }}" href="{{route("admin.pengguna")}}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Pengguna

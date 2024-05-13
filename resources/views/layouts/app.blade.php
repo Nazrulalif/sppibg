@@ -40,7 +40,7 @@
 @yield('guest')
 @endguest
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed" style="font-size: 14px">
     <div class="wrapper">
         @auth
         @yield('auth')

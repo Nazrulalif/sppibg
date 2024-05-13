@@ -173,7 +173,7 @@
 
         // Define the size and position of the new window
         var width = 600;
-        var height = 400;
+        var height = 490;
         var left = (window.innerWidth - width) / 2;
         var top = (window.innerHeight - height) / 2;
 
@@ -202,6 +202,9 @@
             autoWidth: false,
             responsive: true,
             ajax: "{{ route('admin.laman-utama') }}",
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            }, // Load Bahasa Melayu language file
             columnDefs: [{
                     width: '1%',
                     targets: 0
@@ -209,6 +212,10 @@
                 {
                     width: '30%',
                     targets: 1
+                }, // Set 30% width for the second column
+                {
+                    width: '15%',
+                    targets: 4
                 }, // Set 30% width for the second column
             ],
             columns: [{
@@ -250,13 +257,13 @@
                         var assetUrl = '{{ asset('/uploads/buletin', '') }}';
                         return `
                     <div class="">
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" onclick="openViewWindow('${assetUrl}/${data.fail}')">
-                            <i class="fas fa-folder"></i>
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" onclick="openViewWindow('${assetUrl}/${data.fail}')">
+                            <i class="fas fa-eye"></i>
                         </a>
-                        <a type="button" title="kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.buletin-edit', '') }}/${data.id}')">
+                        <a type="button" title="Kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.buletin-edit', '') }}/${data.id}')">
                             <i class="fas fa-pencil-alt"></i>
                         </a>
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
+                        <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
                             <i class="fas fa-trash"></i>
                         </button>
                       </div>`;
@@ -293,8 +300,8 @@
 
     function openEditWindow(url) {
         // Define the size and position of the new window
-        var width = 800;
-        var height = 600;
+        var width = 600;
+        var height = 490;
         var left = (window.innerWidth - width) / 2;
         var top = (window.innerHeight - height) / 2;
 
@@ -323,13 +330,20 @@
             autoWidth: false,
             responsive: true,
             ajax: "{{ route('admin.arkib') }}",
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            }, // Load Bahasa Melayu language file
             columnDefs: [{
                     width: '1%',
                     targets: 0
                 }, // Set 20% width for the first column
                 {
-                    width: '35%',
+                    width: '30%',
                     targets: 1
+                }, // Set 30% width for the second column
+                {
+                    width: '15%',
+                    targets: 4
                 }, // Set 30% width for the second column
             ],
             columns: [{
@@ -343,6 +357,11 @@
                 {
                     data: 'nama_buletin',
                     name: 'nama_buletin',
+                    orderable: true, // Allow ordering for this column
+                },
+                {
+                    data: 'penerangan',
+                    name: 'penerangan',
                     orderable: true, // Allow ordering for this column
                 },
                 {
@@ -366,10 +385,10 @@
                         var assetUrl = '{{ asset('/uploads/buletin', '') }}';
                         return `
                     <div class="">
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" onclick="openViewWindow('${assetUrl}/${data.fail}')">
-                            <i class="fas fa-folder"></i>
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" onclick="openViewWindow('${assetUrl}/${data.fail}')">
+                            <i class="fas fa-eye"></i>
                         </a>
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
+                        <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
                             <i class="fas fa-trash"></i>
                         </button>
                       </div>`;
@@ -400,20 +419,20 @@
         });
     });
 
-    function openViewWindow(url) {
-        window.open(url, '_blank');
-    }
+    // function openViewWindow(url) {
+    //     window.open(url, '_blank');
+    // }
 
-    function openEditWindow(url) {
-        // Define the size and position of the new window
-        var width = 800;
-        var height = 600;
-        var left = (window.innerWidth - width) / 2;
-        var top = (window.innerHeight - height) / 2;
+    // function openEditWindow(url) {
+    //     // Define the size and position of the new window
+    //     var width = 800;
+    //     var height = 600;
+    //     var left = (window.innerWidth - width) / 2;
+    //     var top = (window.innerHeight - height) / 2;
 
-        // Open a new window with the specified URL, size, and position
-        window.open(url, '_blank', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
-    }
+    //     // Open a new window with the specified URL, size, and position
+    //     window.open(url, '_blank', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
+    // }
 
 </script>
 

@@ -67,6 +67,12 @@ class AdminKehadiranController extends Controller
             'mesyuarat' => 'required|integer|exists:mesyuarat,id',
             'kepada' => 'required|array',
             'kepada.*' => 'exists:akses_pengguna,id',
+        ], [
+            'mesyuarat.integer' => 'Nama Mesyuarat perlu dipilih',
+            'mesyuarat.required' => 'Nama Mesyuarat perlu dipilih',
+            'kepada.required' => 'Pilih siapa yang terlibat',
+            'kepada.*.required' => 'Pilih siapa yang terlibat',
+
         ]);
 
         // Create a new attendance record
@@ -219,5 +225,25 @@ class AdminKehadiranController extends Controller
 
         // You can return a success response if needed
         return response()->json(['message' => 'Attendance status updated successfully']);
+    }
+
+    public function kehadiran_qr_laporan($id)
+    {
+        $data = Kehadiran::join('mesyuarat', 'kehadiran.id_mesyuarat', '=', 'mesyuarat.id')
+            ->where('kehadiran.id', $id)
+            ->first();
+
+        $pengguna = Kehadiran::join('kehadiran_pengguna', 'kehadiran.id', '=', 'kehadiran_pengguna.id_kehadiran')
+            ->join('users', 'kehadiran_pengguna.id_pengguna', '=', 'users.id')
+            ->join('akses_pengguna', 'users.access_code', '=', 'akses_pengguna.id')
+            ->where('kehadiran.id', $id)
+            ->get();
+
+        // dd($pengguna);
+
+        return view('admin.admin-laporan-qr-kehadiran', [
+            'data' => $data,
+            'pengguna' => $pengguna,
+        ]);
     }
 }

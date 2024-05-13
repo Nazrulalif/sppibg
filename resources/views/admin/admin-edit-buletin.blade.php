@@ -60,25 +60,29 @@
 
                                     <div class="form-group">
                                         <label for="name">Tajuk</label>
+                                        @if($errors->has('buletin_name'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            {{ $errors->first('buletin_name') }}
+                                        </div>
+                                        @endif
                                         <input type="text" value="{{$data->nama_buletin}}" name="buletin_name"
                                             class="form-control" id="">
-                                        @if($errors->has('file'))
-                                        <span class="text-danger">{{ $errors->first('buletin_name') }}</span>
-                                        @endif
+
                                     </div>
                                     <div class="form-group">
                                         <label for="penerangan">Penerangan</label>
+                                        @if($errors->has('buletin_name'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            {{ $errors->first('penerangan') }}
+                                        </div>
+                                        @endif
                                         <input type="text" value="{{$data->penerangan}}" name="penerangan"
                                             class="form-control" id="">
-                                        @if($errors->has('file'))
-                                        <span class="text-danger">{{ $errors->first('penerangan') }}</span>
-                                        @endif
                                     </div>
                                     <div class="form-group">
-                                        <a class="btn btn-primary btn-sm"
-                                            href="{{asset('uploads/buletin/'. $data->fail)}}"
-                                            style="float: right">Papar</a>
-                                        <label for="exampleInputFile">Fail</label>
+                                        <label for="exampleInputFile">Fail | </label>
+                                        <a href="{{asset('uploads/buletin/'. $data->fail)}}">Lihat</a>
+
                                         <div class="input-group">
 
                                             <div class="custom-file">
@@ -102,8 +106,8 @@
                                     {{-- <iframe src="{{asset('uploads/buletin/'. $data->fail)}}"
                                     frameborder="0"></iframe> --}}
                                     <button type="submit" name="submit" value="2"
-                                        class="btn btn-success float-right ml-1">Simpan</button>
-                                    <button type="submit" name="submit" class="btn btn-info float-right ml-1"
+                                        class="btn btn-primary float-right ml-1">Simpan</button>
+                                    <button type="submit" name="submit" class="btn btn-light float-right ml-1"
                                         value="1">Draf</button>
                                     {{-- <a type="button" onclick="window.close();"
                                         class="btn btn-secondary float-right">Tutup</a> --}}

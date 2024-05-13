@@ -99,6 +99,9 @@
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             ajax: "{{ route('admin.kehadiran') }}",
             columnDefs: [{
                     width: '1%',
@@ -147,10 +150,10 @@
                         return `
                     <div class="">
                         
-                      <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.kehadiran-qr', '') }}/${data.id}">
-                          <i class="fas fa-folder"></i>
+                      <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.kehadiran-qr', '') }}/${data.id}">
+                          <i class="fas fa-eye"></i>
                         </a>
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
+                        <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
                             <i class="fas fa-trash"></i>
                         </button>
                       </div>`;

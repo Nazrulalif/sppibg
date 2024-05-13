@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>SPPIBG</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -19,60 +19,7 @@
     <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            /* background-color: #f4f6f9; */
-        }
 
-        .wrapper {
-            padding: 20px;
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        .card {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        /* img {
-            max-width: 100%;
-            height: auto;
-        } */
-/* 
-        @media (max-width: 767px) {
-            .header {
-                text-align: center;
-            }
-
-            .content {
-                padding-left: 0;
-                padding-right: 0;
-            }
-
-            .print-button-container {
-                text-align: center;
-            }
-
-            .alamat p {
-                text-align: center;
-            }
-
-            .title {
-                text-align: center;
-            }
-
-            .mesyuarat-detail {
-                padding-left: 0;
-            }
-
-            .mesyuarat-detail table {
-                margin: 0 auto;
-            }
-        } */
 
         @media print {
             /* Hide the print button and other non-essential elements */
@@ -95,34 +42,47 @@
                 color: black;
             }
         }
+        
     </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <!-- Content Wrapper. Contains page content -->
     <div class="wrapper" style="background-color: #f4f6f9">
-        <section class="content p-2" id="printable-content">
+
+            <section class="content p-sm-5">
+
             <div class="print-button-container">
                 <a onclick="printCard()" class="btn btn-app bg-secondary">
                     <i class="fas fa-print"></i> Cetak
                 </a>
+                <a onclick="printCard()" class="btn btn-app bg-secondary">
+                    <i class="fas fa-paper-plane"></i> Makluman
+                </a>
             </div>
             <div class="container-fluid">
-                <div class="card">
-                    <div class="card-body">
+                <div class="card" id="printable-content">
+                    <div class="card-body p-sm-5" >
 
                         <div class="header">
-                            <img src="{{asset('assets\img\logo_sekolah.png')}}" class="img-fluid" style="width: 110px; height: 110px;" alt="">
-                            <h4>SEKOLAH KEBANGSAAN JALAN MATANG BULUH</h4>
-                            <p>No 1, Jalan Matang Buluh, Kampung Alor Senggut, </p>
-                            <p>34300 Bagan Serai, Perak</p>
+                            <div class="row align-items-center">
+                                <div class="col-4 col-sm-auto mb-3 mb-sm-0 text-center">
+                                    <img src="{{asset('assets/img/logo_sekolah.png')}}" class="img-fluid"
+                                        style="max-width: 80px;" alt="">
+                                </div>
+                                <div class="col-sm">
+                                    <h4 class="mb-1">SEKOLAH KEBANGSAAN JALAN MATANG BULUH</h4>
+                                    <p class="mb-0">No 1, Jalan Matang Buluh, Kampung Alor Senggut,</p>
+                                    <p class="mb-0">34300 Bagan Serai, Perak</p>
+                                </div>
+                            </div>
                         </div>
-                        <hr style="border: 0; height: 2px; background-color: black; font-weight: bold;">
+                        <hr>
                         <div class="content">
                             <div class="row">
                                 <div class="col">
                                     <div style="text-align: end">
-                                        <p class="rujukan">Rujukan: PIBG/SKJMB {{$data->id_panggilan}}/{{ ucwords(\Carbon\Carbon::parse($data->created_at)->locale('ms_MY')->isoFormat('YYYY')) }}</p>
+                                        <p class="mb-0">Rujukan: PIBG/SKJMB {{$data->id_panggilan}}/{{ ucwords(\Carbon\Carbon::parse($data->created_at)->locale('ms_MY')->isoFormat('YYYY')) }}</p>
                                         <p class="rujukan">Tarikh: {{ ucwords(\Carbon\Carbon::parse($data->created_at)->locale('ms_MY')->isoFormat('D MMMM YYYY')) }}</p>
                                     </div>
                                 </div>
@@ -132,17 +92,15 @@
                                     <div class="alamat">
                                         <p>Ke Majlis,</p>
                                         @foreach($userRole as $role)
-                                        <p>{{ $role }},</p>
+                                        <p class="mb-0">{{ $role }},</p>
                                         @endforeach
                                     </div>
                                 </div>
                             </div>
-                            <br>
-                            <p>Tuan/Puan</p>
+                            <p class="mt-3">Tuan/Puan</p>
                             <div class="title">
-                                <h5 style="text-decoration:underline;">{{$data->nama_panggilan}}</h5>
+                                <h5 style="text-transform:uppercase;"><strong>{{$data->nama_panggilan}}</strong></h5>
                             </div>
-                            <br>
                             <p>Dengan segala hormatnya perkara di atas adalah dirujuk</p>
                             <ol style="list-style: decimal" start='2'>
                                 <li style="text-indent: 20px"> Sehubungan dengan itu, tuan/puan dijemput menghadiri
@@ -204,14 +162,14 @@
                             </ol>
                             <br>
                             <p>Sekian, Terima kasih</p>
-                            <h6 style="font-weight:normal">"BERSAMA KEARAH KECEMERLANGAN"</h6>
+                            <h6><strong>"WAWASAN KEMAKMURAN BERSAMA 2030"</strong></h6>
+                            <h6><strong>"BERKHIDMAT UNTUK NEGARA"</strong></h6>
                             <p>Saya yang Menjalankan Amanah,</p>
                             <img src="{{asset('/uploads/tandatangan/' .$data->tandatangan)}}" alt="" class="img-fluid"
                                 style="width: 200px; height:100px">
                             {{-- <p style="text-transform:uppercase">({{Auth()->user()->name}})</p> --}}
-                            <p>Setiausaha</p>
-                            <p>Persatuan Ibu Bapa dan Guru</p>
-                            <p>SK. Jalan Matang Buluh</p>
+                            <p class="mb-0">Setiausaha Persatuan Ibu Bapa dan Guru</p>
+                            <p >SK. Jalan Matang Buluh</p>
                         </div>
                     </div>
                 </div>

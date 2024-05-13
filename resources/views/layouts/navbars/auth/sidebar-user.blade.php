@@ -42,8 +42,8 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item {{ (Request::is('mesyuarat', 'rekod-kehadiran', 'minit-mesyuarat') ? 'menu-is-opening menu-open' : '') }}">
-                    <a href="#" class="nav-link {{ (Request::is('mesyuarat', 'rekod-kehadiran', 'minit-mesyuarat') ? 'active' : '') }}">
+                <li class="nav-item {{ (Request::is('mesyuarat', 'rekod-kehadiran', 'minit-mesyuarat', 'usul-mesyuarat*') ? 'menu-is-opening menu-open' : '') }}">
+                    <a href="#" class="nav-link {{ (Request::is('mesyuarat', 'rekod-kehadiran', 'minit-mesyuarat', 'usul-mesyuarat*') ? 'active' : '') }}">
                         <i class="nav-icon fas fa-handshake"></i>
                         <p>
                             Mesyuarat
@@ -52,7 +52,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('mesyuarat')}}" class="nav-link {{ (Request::is('mesyuarat') ? 'active' : '') }}">
+                            <a href="{{route('mesyuarat')}}" class="nav-link {{ (Request::is('mesyuarat', 'usul-mesyuarat*') ? 'active' : '') }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Panggilan Mesyuarat</p>
                             </a>

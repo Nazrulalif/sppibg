@@ -90,11 +90,9 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Senarai Pembayar</h3>
-                    {{-- <button type="button" onclick="openNewWindow()"
-                            class="btn btn-primary btn-sm float-right">
-                            Laporan
-                    </button> --}}
-
+                    <div class="pb-3">
+                        <a href="{{route('admin.yuran-laporan', $data)}}" target="_blank" class="btn btn-sm btn-primary float-right">Laporan</a>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -170,6 +168,9 @@
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             ajax: "{{ route('admin.senarai-bayar', $data) }}",
             columnDefs: [{
                     width: '1%',
@@ -245,8 +246,8 @@
                     render: function (data, type, row) {
                         return `
                     <div class="">
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" target="_blank" href="{{ route('admin.yuran-resit', '') }}/${data.id}">
-                            <i class="fas fa-folder"></i>
+                        <a type="button" title="Resit" class="btn btn-primary btn-sm" target="_blank" href="{{ route('admin.yuran-resit', '') }}/${data.id}">
+                            <i class="fas fa-file-invoice"></i>
                         </a>`;
                     },
                     orderable: false,

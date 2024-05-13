@@ -81,9 +81,15 @@
                                             <form action="{{route('admin.ulasan-simpan', [$data->id])}}" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <td><strong>Ulasan</strong> </td>
+                                                
                                                 <td>
 
                                                     <div class="form-group">
+                                                        @if($errors->has('ulasan'))
+                                                    <div class="alert alert-danger alert-dismissible">
+                                                        {{ $errors->first('ulasan') }}
+                                                    </div>
+                                                    @endif
                                                         <textarea class="form-control" rows="3" placeholder="Masukkan Ulasan" name="ulasan">{{ $ulasan ? $ulasan->ulasan : '' }}</textarea>
                                                     </div>
                                                 </td>
@@ -91,7 +97,7 @@
                                             <td style="border-top: 0px"></td>
                                             <td style="border-top: 0px"> 
                                                 <button type="submit"
-                                                    class="btn btn-success float-right ml-1">Simpan</button>
+                                                    class="btn btn-primary float-right ml-1">Simpan</button>
                                             </td>
                                         </tr>
                                         </form>

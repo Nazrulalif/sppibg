@@ -130,6 +130,9 @@
           ], // Order by the first column (index 0) in ascending order
           autoWidth: false,
           responsive: true,
+          language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            }, // Load Bahasa Melayu language file
           ajax: "{{ route('admin.panggilan-mesyuarat') }}",
           columnDefs: [{
                   width: '1%',
@@ -177,25 +180,25 @@
                 render: function (data, type, row) {
                 if (data == 2) {
                     return `
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
                             <i class="fas fa-folder"></i>
                         </a>
-                        <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
+                        <a type="button" title="Notis Panggilan Mesyuarat" class="btn btn-secondary btn-sm" href="{{ route('admin.panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
                             <i class="fas fa-envelope"></i>
                         </a>
-                        <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
+                        <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
                             <i class="fas fa-trash"></i>
                         </button>`;
                     } else {
                         return `
                             <div class="">
-                                <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                                <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
                                     <i class="fas fa-folder"></i>
                                 </a>
-                                <a type="button" title="kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.mesyuarat-edit', '') }}/${row.id}')">
+                                <a type="button" title="Kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.mesyuarat-edit', '') }}/${row.id}')">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
+                                <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>`;
@@ -242,6 +245,9 @@
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            }, // Load Bahasa Melayu language file
             ajax: "{{ route('admin.mesyuarat-arkib') }}",
             columnDefs: [{
                     width: '1%',
@@ -289,22 +295,22 @@
                   render: function (data, type, row) {
                   if (data == 2) {
                       return `
-                      <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
-                            <i class="fas fa-folder"></i>
+                      <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                        <i class="fas fa-folder"></i>
                         </a>
-                          <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
+                          <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
                               <i class="fas fa-trash"></i>
                           </button>`;
                       } else {
                           return `
                               <div class="">
-                                <a type="button" title="papar" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                                <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
                                     <i class="fas fa-folder"></i>
                                 </a>
-                                  <a type="button" title="kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.mesyuarat-edit', '') }}/${row.id}')">
+                                  <a type="button" title="Kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.mesyuarat-edit', '') }}/${row.id}')">
                                       <i class="fas fa-pencil-alt"></i>
                                   </a>
-                                  <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
+                                  <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
                                       <i class="fas fa-trash"></i>
                                   </button>
                               </div>`;

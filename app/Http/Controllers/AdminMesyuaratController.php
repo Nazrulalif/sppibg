@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Usul_mesyuarat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+// use SuratPanggilanMail as GlobalSuratPanggilanMail;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdminMesyuaratController extends Controller
@@ -69,6 +70,9 @@ class AdminMesyuaratController extends Controller
             ->where('id_mesyuarat', $id)
             ->first();
 
+        // Continue with your existing code to fetch the agenda and display the view
+        // $listItems = explode("\n", $data->agenda);
+
         // dd($minit_fail->fail);
 
         return view('admin.admin-butiran-mesyuarat', [
@@ -112,46 +116,6 @@ class AdminMesyuaratController extends Controller
         return view('admin.admin-mesyuarat');
     }
 
-    public function panggilan_mesyuarat_surat($id)
-    {
-        // $mesyuarat = Mesyuarat::find($id);
-
-        $mesyuarat = Mesyuarat::select('*', 'panggilan_mesyuarat.draf as draf', 'mesyuarat.id as id', 'panggilan_mesyuarat.id as id_panggilan')
-            ->leftjoin('panggilan_mesyuarat', 'mesyuarat.id', '=', 'panggilan_mesyuarat.id_mesyuarat')
-            ->where('mesyuarat.id', $id)
-            ->first();
-
-        $penggunaPanggilan = Pengguna_panggilan_mesyuarat::where('id_panggilan', $mesyuarat->id_panggilan)
-            ->get();
-
-        $displayedRoles = [];
-        foreach ($penggunaPanggilan as $item) {
-            $user = User::find($item->id_pengguna);
-
-            // Check if $user is not null before accessing its properties
-            if ($user !== null) {
-                $role = Akses_pengguna::find($user->access_code);
-                if ($role !== null) {
-                    // var_dump($role->nama_akses);
-
-                    if (!in_array($role->nama_akses, $displayedRoles)) {
-                        // var_dump($role->nama_akses);
-                        // Add role to the displayed roles array
-                        $displayedRoles[] = $role->nama_akses;
-                    }
-                }
-            }
-        }
-
-        // Continue with your existing code to fetch the agenda and display the view
-        $listItems = explode("\n", $mesyuarat->agenda);
-
-        return view('admin.admin-surat-panggilan-mesyuarat', [
-            'data' => $mesyuarat,
-            'listItems' => $listItems,
-            'userRole' => $displayedRoles,
-        ]);
-    }
 
     public function mesyuarat_tambah()
     {
@@ -162,11 +126,22 @@ class AdminMesyuaratController extends Controller
     {
         $data = $request->validate([
             'nama_mesyuarat' => 'required',
+            'tarikh' => 'required',
             'masa_mula' => 'required',
             'masa_tamat' => 'required',
             'tempat' => 'required',
+            'kepada' => 'required',
             'agenda' => 'required',
             'tarikh' => 'required',
+        ], [
+            'nama_mesyuarat.required' => 'Nama Mesyuarat perlu diisi',
+            'tarikh.required' => 'Tarikh perlu diisi',
+            'masa_mula.required' => 'Masa Mula perlu diisi',
+            'masa_tamat.required' => 'Masa Tamat perlu diisi',
+            'kepada.required' => 'Kepada perlu diisi',
+            'tempat.required' => 'Tempat perlu diisi',
+            'agenda.required' => 'Agenda perlu diisi',
+
         ]);
 
         // dd($date);
@@ -210,8 +185,27 @@ class AdminMesyuaratController extends Controller
         ]);
     }
 
-    public function mesyuarat_update($id)
+    public function mesyuarat_update($id, Request $request)
     {
+        $data = $request->validate([
+            'nama_mesyuarat' => 'required',
+            'tarikh' => 'required',
+            'masa_mula' => 'required',
+            'masa_tamat' => 'required',
+            'tempat' => 'required',
+            'kepada' => 'required',
+            'agenda' => 'required',
+            'tarikh' => 'required',
+        ], [
+            'nama_mesyuarat.required' => 'Nama Mesyuarat perlu diisi',
+            'tarikh.required' => 'Tarikh perlu diisi',
+            'masa_mula.required' => 'Masa Mula perlu diisi',
+            'masa_tamat.required' => 'Masa Tamat perlu diisi',
+            'kepada.required' => 'Kepada perlu diisi',
+            'tempat.required' => 'Tempat perlu diisi',
+            'agenda.required' => 'Agenda perlu diisi',
+
+        ]);
         $mesyuarat = Mesyuarat::find($id);
 
         $mesyuarat->update([
@@ -248,6 +242,16 @@ class AdminMesyuaratController extends Controller
     public function panggilan_mesyuarat_simpan($id, Request $request)
     {
 
+        // $mesyuarat = Mesyuarat::find($id);
+
+        $mesyuarat = Mesyuarat::select('*', 'panggilan_mesyuarat.draf as draf', 'mesyuarat.id as id', 'panggilan_mesyuarat.id as id_panggilan')
+            ->leftjoin('panggilan_mesyuarat', 'mesyuarat.id', '=', 'panggilan_mesyuarat.id_mesyuarat')
+            ->where('mesyuarat.id', $id)
+            ->first();
+
+        // Continue with your existing code to fetch the agenda and display the view
+        $listItems = explode("\n", $mesyuarat->agenda);
+
         // dd($id);
         $validatedData = $request->validate([
             'nama_panggilan' => 'required|string',
@@ -278,16 +282,12 @@ class AdminMesyuaratController extends Controller
             'draf' => 2
         ]);
 
-        // $mesyuarat = Mesyuarat::find($id);
-
-        // $mesyuarat->update([
-        //     'panggilan_status' => '2',
-        // ]);
-
 
         // Invite users based on their selected roles
         foreach ($validatedData['kepada'] as $roleId) {
-            $users = User::where('access_code', $roleId)->get();
+            $users = User::where('access_code', $roleId)
+                ->where('verified', '1')
+                ->get();
             // dd($users);
 
             foreach ($users as $user) {
@@ -295,10 +295,51 @@ class AdminMesyuaratController extends Controller
                     'id_pengguna' => $user->id,
                     'id_panggilan' => $invitation->id
                 ]);
-                // Mail::to($user->email)->send(new SuratPanggilanMail($invitation));
+                Mail::to($user->email)->send(new SuratPanggilanMail($invitation, $mesyuarat, $listItems));
             }
         }
 
         return redirect()->route('admin.panggilan-mesyuarat');
+    }
+
+    public function panggilan_mesyuarat_surat($id)
+    {
+        // $mesyuarat = Mesyuarat::find($id);
+
+        $mesyuarat = Mesyuarat::select('*', 'panggilan_mesyuarat.draf as draf', 'mesyuarat.id as id', 'panggilan_mesyuarat.id as id_panggilan')
+            ->leftjoin('panggilan_mesyuarat', 'mesyuarat.id', '=', 'panggilan_mesyuarat.id_mesyuarat')
+            ->where('mesyuarat.id', $id)
+            ->first();
+
+        $penggunaPanggilan = Pengguna_panggilan_mesyuarat::where('id_panggilan', $mesyuarat->id_panggilan)
+            ->get();
+
+        $displayedRoles = [];
+        foreach ($penggunaPanggilan as $item) {
+            $user = User::find($item->id_pengguna);
+
+            // Check if $user is not null before accessing its properties
+            if ($user !== null) {
+                $role = Akses_pengguna::find($user->access_code);
+                if ($role !== null) {
+                    // var_dump($role->nama_akses);
+
+                    if (!in_array($role->nama_akses, $displayedRoles)) {
+                        // var_dump($role->nama_akses);
+                        // Add role to the displayed roles array
+                        $displayedRoles[] = $role->nama_akses;
+                    }
+                }
+            }
+        }
+
+        // Continue with your existing code to fetch the agenda and display the view
+        $listItems = explode("\n", $mesyuarat->agenda);
+
+        return view('admin.admin-surat-panggilan-mesyuarat', [
+            'data' => $mesyuarat,
+            'listItems' => $listItems,
+            'userRole' => $displayedRoles,
+        ]);
     }
 }

@@ -12,6 +12,7 @@ use App\Models\Yuran_tambahan_kategori;
 use App\Models\Yuran_tambahan_pelajar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdminYuranController extends Controller
@@ -102,7 +103,7 @@ class AdminYuranController extends Controller
     public function yuran_simpan(Request $request)
     {
         $validatedData = $request->validate([
-            'year' => 'required|numeric',
+            'year' => 'required|numeric|unique:yuran,tahun',
             'pibg_fee' => 'required|numeric',
             'grade_fees.*' => 'required|numeric',
         ]);
@@ -325,5 +326,60 @@ class AdminYuranController extends Controller
         return view('admin.admin-resit-yuran', [
             'resit' => $resit,
         ]);
+    }
+
+    public function yuran_laporan($id)
+    {
+
+        $data = Yuran_bayar::select('*', 'yuran_bayar.id as id')
+            ->join('yuran', 'yuran_bayar.id_yuran', '=', 'yuran.id')
+            ->join('pelajar', 'yuran_bayar.id_pelajar', '=', 'pelajar.id')
+            ->join('users', 'pelajar.id_pengguna', '=', 'users.id')
+            ->where('yuran.tahun', $id)
+            ->where('yuran_bayar.status', 'Selesai')->get();
+
+        $selesai = Yuran_bayar::join('yuran', 'yuran_bayar.id_yuran', '=', 'yuran.id')
+            ->where('yuran.tahun', $id)->count('yuran_bayar.status', 'Selesai');
+
+        $belum_selesai = Pelajar::leftJoin('yuran_bayar', function ($join) use ($id) {
+            $join->on('pelajar.id', '=', 'yuran_bayar.id_pelajar')
+                ->join('yuran', 'yuran_bayar.id_yuran', '=', 'yuran.id')
+                ->where('yuran.tahun', $id);
+        })
+            ->whereNull('yuran_bayar.id')
+            ->count();
+
+        $jumlah_pelajar = Pelajar::count();
+
+        $jumlah_kutipan = Yuran_bayar::join('yuran', 'yuran_bayar.id_yuran', '=', 'yuran.id')
+            ->where('yuran.tahun', $id)->sum('yuran_bayar.jumlah_yuran');
+        // dd($data);
+
+        return view('admin.admin-laporan-yuran', [
+            'tahun' => $id,
+            'data' => $data,
+            'selesai' => $selesai,
+            'belum_selesai' => $belum_selesai,
+            'jumlah_pelajar' => $jumlah_pelajar,
+            'jumlah_kutipan' => $jumlah_kutipan,
+        ]);
+    }
+
+    public function yuran_notis($id)
+    {
+        $data = Yuran::where('tahun', $id)->first();
+
+
+        $fees = Yuran::select('tahun_pelajar_id', DB::raw('SUM(yuran) as total_yuran'), DB::raw('SUM(yuran_tambahan) as total_yuran_tambahan'))
+            ->where('tahun', $id)
+            ->groupBy('tahun_pelajar_id')
+            ->get()
+            ->toArray();
+
+        // dd($fees);
+
+        $years = range(1, 6); // Assuming you have three student years
+
+        return view('admin.admin-notis-yuran', compact('fees', 'years', 'id', 'data'));
     }
 }

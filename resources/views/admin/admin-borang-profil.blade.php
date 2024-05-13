@@ -85,25 +85,50 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name">Nama Penuh</label>
+                                            @if($errors->has('name'))
+                                            <div class="alert alert-danger alert-dismissible">
+                                                {{ $errors->first('name') }}
+                                            </div>
+                                            @endif
                                             <input type="text" name="name" class="form-control" id="" value="{{$user->name}}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="name">Nombor Kad Pengenalan</label>
+                                            @if($errors->has('ic'))
+                                            <div class="alert alert-danger alert-dismissible">
+                                                {{ $errors->first('ic') }}
+                                            </div>
+                                            @endif
                                             <input type="text" name="ic" class="form-control" id="" value="{{$user->no_ic}}">
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Nombor Telefon</label>
+                                            @if($errors->has('phone'))
+                                            <div class="alert alert-danger alert-dismissible">
+                                                {{ $errors->first('phone') }}
+                                            </div>
+                                            @endif
                                             <input type="text" name="phone" class="form-control" id="" value="{{$user->no_phone}}">
                                         </div>
                                         <div class="form-group">
                                             <label for="address">Alamat</label>
+                                            @if($errors->has('address'))
+                                            <div class="alert alert-danger alert-dismissible">
+                                                {{ $errors->first('address') }}
+                                            </div>
+                                            @endif
                                             <input type="text" name="address" class="form-control" id="" value="{{$user->address}}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Email</label>
+                                            @if($errors->has('email'))
+                                            <div class="alert alert-danger alert-dismissible">
+                                                {{ $errors->first('email') }}
+                                            </div>
+                                            @endif
                                             <input type="email" name="email" class="form-control" id="exampleInputEmail1"
                                                 value="{{$user->email}}">
                                         </div>
@@ -116,14 +141,11 @@
                                     </div>
                                 </div>
 
+                                <button type="submit" class="btn btn-primary float-right ml-1">Simpan</button>
 
                             </div>
                             <!-- /.card-body -->
 
-                            <div class="card-footer ">
-                                <button type="submit" class="btn btn-success float-right ml-1">Simpan</button>
-                                <a type="button"  class="btn btn-secondary float-right" onclick="window.history.back();">Kembali</a>
-                            </div>
                         </form>
                     </div>
                 </div>
