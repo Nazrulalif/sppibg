@@ -65,13 +65,17 @@
 
                     <ul class="nav nav-treeview">
                         
-                    @if (Auth::user()->access_code === 1)
+                    @if (Auth::user()->access_code === 1 || Auth::user()->access_code === 2 || Auth::user()->access_code === 3)
                         <li class="nav-item">
                             <a href="{{route('admin.panggilan-mesyuarat')}}" class="nav-link {{ (Request::is('admin/mesyuarat','admin/panggilan-mesyuarat-surat*', 'admin/usul_laporan*', 'admin/mesyuarat-butiran*', ) ? 'active' : '') }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Senarai Mesyuarat</p>
                             </a>
                         </li>
+                    @endif
+
+                    @if (Auth::user()->access_code === 1)
+
                         <li class="nav-item">
                             <a href="{{route('admin.kehadiran')}}" class="nav-link {{ (Request::is('admin/kehadiran', 'admin/kehadiran-qr*') ? 'active' : '') }}">
                                 <i class="far fa-circle nav-icon"></i>

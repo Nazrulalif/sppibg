@@ -187,8 +187,8 @@
                                                 <input type="hidden" name="fee" value="{{ $fee }}">
                                                 <input type="hidden" name="id_yuran" value="{{ $student->id_yuran }}">
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Tutup</button>
                                                 <button type="submit" class="btn btn-primary confirmPayment"
                                                     data-fee="{{ $fee }}">Mengesahkan pembayaran</button>

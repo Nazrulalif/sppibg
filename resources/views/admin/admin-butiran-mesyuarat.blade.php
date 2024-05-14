@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-md-3">
                     {{-- <a href="compose.html" class="btn btn-primary btn-block mb-3">Compose</a> --}}
-                    
+
                     <div class="card">
                         {{-- <div class="card-header">
                       <h3 class="card-title">Folders</h3>
@@ -48,7 +48,7 @@
                         </button>
                       </div>
                     </div> --}}
-                    
+
                         <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
                                 <li class="nav-item">
@@ -59,23 +59,28 @@
                                 @if ($panggilan && $panggilan->draf == 2)
 
 
-                                @else
+                                @elseif(Auth::user()->access_code === 1)
                                 <li class="nav-item">
                                     <a href="#panggilan" data-toggle="tab" class="nav-link">
                                         Panggilan Mesyuarat
                                     </a>
                                 </li>
                                 @endif
+
                                 <li class="nav-item">
                                     <a href="#usul" data-toggle="tab" class="nav-link">
                                         Usul Mesyuarat
                                     </a>
                                 </li>
+
+                                @if (Auth::user()->access_code === 1)
+
                                 <li class="nav-item">
                                     <a href="#minit" data-toggle="tab" class="nav-link">
                                         Minit Mesyuarat
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </div>
                         <!-- /.card-body -->
@@ -89,7 +94,7 @@
                         <div class="card card-primary card-outline active tab-pane" id="butiran">
                             <div class="card-header">
                                 <h3 class="card-title">Butiran</h3>
-                                
+
                                 <!-- /.card-tools -->
                             </div>
                             <!-- /.card-header -->
@@ -123,12 +128,12 @@
                                             <td>
                                                 <ol style="padding-left: 1rem;">
                                                     @foreach (explode("\n", $data->agenda) as $line)
-                                                        <li>{{ $line }}</li>
+                                                    <li>{{ $line }}</li>
                                                     @endforeach
                                                 </ol>
                                             </td>
-                                            
-                                            
+
+
                                         </tr>
 
                                     </tbody>
@@ -136,6 +141,9 @@
                             </div>
                             <!-- /.card-body -->
                         </div>
+                        @if ($panggilan && $panggilan->draf == 2)
+
+                        @else
                         <div class="card card-primary card-outline tab-pane" id="panggilan">
                             <div class="card-header">
                                 <form action="{{route('admin.panggilan-mesyuarat-simpan', [$data->id])}}" method="POST"
@@ -174,17 +182,20 @@
                             </div>
                             <!-- /.card-header -->
                         </div>
+                        @endif
+
                         <div class="card card-primary card-outline tab-pane" id="usul">
                             <div class="card-header">
                                 <h3 class="card-title">Usul Mesyuarat</h3>
                                 @if (!empty($usul) && count($usul) > 0)
-                                <a href="{{ route('admin.usul-laporan', ['id' => $data]) }}" target="_blank" class="btn btn-primary btn-sm float-right">
+                                <a href="{{ route('admin.usul-laporan', ['id' => $data]) }}" target="_blank"
+                                    class="btn btn-primary btn-sm float-right">
                                     Laporan
                                 </a>
                                 @else
-                                    
+
                                 @endif
-                                
+
                                 {{-- <div class="btn-group float-right ">
                                     <button type="button" class="btn btn-default">Laporan</button>
                                     <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
@@ -207,8 +218,8 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="#settings" data-toggle="tab">
                                             Menunggu
-                                        <span class="right badge badge-danger">{{ $count }}</span>
-                        
+                                            <span class="right badge badge-danger">{{ $count }}</span>
+
                                         </a>
                                     </li>
                                 </ul>
@@ -221,11 +232,11 @@
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
-                                                    <th >Usul</th>
+                                                    <th>Usul</th>
                                                     <th>Pengusul</th>
                                                     <th>Tarikh</th>
                                                     <th>Status</th>
-                                                    <th >Tindakan</th>
+                                                    <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -237,7 +248,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
-                                                    <th >Usul</th>
+                                                    <th>Usul</th>
                                                     <th>Kategori</th>
                                                     <th>Pengusul</th>
                                                     <th>Tarikh</th>
@@ -246,43 +257,51 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                        
+
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <!-- /.card-body -->
                         </div>
-                        @if (!empty($minit_mesyuarat) && count($minit_mesyuarat) > 0)
 
-                        
-                        <div class="tab-pane" id="minit">
-                            <a class="btn btn-danger btn-sm float-right mb-3" href="{{ route('admin.minit-padam', ['id' => $data]) }}">
-                                <i class="fas fa-trash"></i> Padam
-                            </a>
-                            <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item pb-5" src="{{ asset('uploads/minit-mesyuarat/' . $minit_fail->fail) }}" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                         @else
-                        <div class="card card-primary card-outline tab-pane" id="minit">
-                            
-                            <div class="card-header">
-                                <h3 class="card-title">Minit Mesyuarat</h3>
-                                <!-- /.card-tools -->
+                        @if(Auth::user()->access_code === 1)
+                            @if (!empty($minit_mesyuarat) && count($minit_mesyuarat) > 0)
+
+
+                            <div class="tab-pane" id="minit">
+                                <a class="btn btn-danger btn-sm float-right mb-3"
+                                    href="{{ route('admin.minit-padam', ['id' => $data]) }}">
+                                    <i class="fas fa-trash"></i> Padam
+                                </a>
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item pb-5"
+                                        src="{{ asset('uploads/minit-mesyuarat/' . $minit_fail->fail) }}" frameborder="0"
+                                        allowfullscreen></iframe>
+                                </div>
                             </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <form action="{{route('admin.minit-simpan', ['id' => $data])}}" class="dropzone" id="myDropzone">
-                                    @csrf
-                                </form>
+                            @else
+                            <div class="card card-primary card-outline tab-pane" id="minit">
+
+                                <div class="card-header">
+                                    <h3 class="card-title">Minit Mesyuarat</h3>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <form action="{{route('admin.minit-simpan', ['id' => $data])}}" class="dropzone"
+                                        id="myDropzone">
+                                        @csrf
+                                    </form>
+                                </div>
+                                    <!-- /.card-body -->
                             </div>
                             @endif
-                           
-                            <!-- /.card-body -->
-                        </div>
+                        @endif
+                       
+                        
 
                     </div>
 
@@ -330,55 +349,54 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 <script>
-Dropzone.options.myDropzone = {
-    maxFilesize: 2, // MB
-    acceptedFiles: '.pdf',
-    addRemoveLinks: true,
-    maxFiles: 1, 
-    dictRemoveFile: 'Remove',
-    init: function() {
-        this.on('success', function(file, response) {
-            console.log('File uploaded:', file);
-            // alert('Minit Mesyuarat berjaya disimpan');
-            console.log('Server response:', response);
-            location.reload();
-        });
-
-        this.on('removedfile', function(file) {
-            // Send an AJAX request to delete the file from the database
-            $.ajax({
-                method: 'POST',
-                url: '{{ route('admin.minit-padam', ['id' => $data]) }}',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    file: file.name // Assuming file.name contains the filename
-                },
-                success: function(response) {
-                    console.log('File deleted:', file.name);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error deleting file:', error);
-                }
+    Dropzone.options.myDropzone = {
+        maxFilesize: 2, // MB
+        acceptedFiles: '.pdf',
+        addRemoveLinks: true,
+        maxFiles: 1,
+        dictRemoveFile: 'Remove',
+        init: function () {
+            this.on('success', function (file, response) {
+                console.log('File uploaded:', file);
+                // alert('Minit Mesyuarat berjaya disimpan');
+                console.log('Server response:', response);
+                location.reload();
             });
-        });
-        // this.on('maxfilesreached', function() {
-        //     // Disable the Dropzone element
-        //     this.disable();
-        // });
 
-        this.on('maxfilesexceeded', function(file) {
-            this.removeAllFiles();
-            this.addFile(file);
-        });
-    }
-};
+            this.on('removedfile', function (file) {
+                // Send an AJAX request to delete the file from the database
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route('admin.minit-padam', ['id' => $data]) }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        file: file.name // Assuming file.name contains the filename
+                    },
+                    success: function (response) {
+                        console.log('File deleted:', file.name);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error deleting file:', error);
+                    }
+                });
+            });
+            // this.on('maxfilesreached', function() {
+            //     // Disable the Dropzone element
+            //     this.disable();
+            // });
 
+            this.on('maxfilesexceeded', function (file) {
+                this.removeAllFiles();
+                this.addFile(file);
+            });
+        }
+    };
 
 </script>
 
 <script>
     // JavaScript to store and retrieve the active tab
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Retrieve the active tab ID from sessionStorage
         var activeTab = sessionStorage.getItem('activeTab');
         if (activeTab) {
@@ -390,11 +408,12 @@ Dropzone.options.myDropzone = {
         }
 
         // Store the active tab ID in sessionStorage when a tab is clicked
-        $('a[data-toggle="tab"]').on('click', function() {
+        $('a[data-toggle="tab"]').on('click', function () {
             var tabId = $(this).attr('href');
             sessionStorage.setItem('activeTab', tabId);
         });
     });
+
 </script>
 
 {{-- Datatable2 --}}
@@ -411,7 +430,7 @@ Dropzone.options.myDropzone = {
             autoWidth: false,
             responsive: true,
             ajax: {
-             url: "{{ route('admin.usul-mesyuarat', ['id' => $data]) }}",
+                url: "{{ route('admin.usul-mesyuarat', ['id' => $data]) }}",
                 method: 'GET',
                 dataSrc: 'data'
             },
@@ -504,7 +523,7 @@ Dropzone.options.myDropzone = {
                 "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
             }, // Load Bahasa Melayu language file
             ajax: {
-             url: "{{ route('admin.usul-mesyuarat-pengesahan', ['id' => $data]) }}",
+                url: "{{ route('admin.usul-mesyuarat-pengesahan', ['id' => $data]) }}",
                 method: 'GET',
                 dataSrc: 'data'
             },
@@ -515,11 +534,11 @@ Dropzone.options.myDropzone = {
                 {
                     width: '50%',
                     targets: 1
-                }, 
+                },
                 {
                     width: '10%',
                     targets: 5
-                },// Set 30% width for the second column
+                }, // Set 30% width for the second column
 
             ],
             columns: [{
@@ -616,24 +635,6 @@ Dropzone.options.myDropzone = {
 </script>
 <script>
     function openEditWindow(url) {
-            // Define the size and position of the new window
-            var width = 800;
-            var height = 600;
-            var left = (window.innerWidth - width) / 2;
-            var top = (window.innerHeight - height) / 2;
-    
-            // Open a new window with the specified URL, size, and position
-            window.open(url, '_blank', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
-        }
-    
-</script>
-    
-    {{-- open new window --}}
-{{-- <script>
-    function openNewWindow() {
-        // Define the URL of the new window
-        var route = '{{ route('admin.usul-laporan', ['id' => $data]) }}'; // Replace with your URL
-
         // Define the size and position of the new window
         var width = 800;
         var height = 600;
@@ -641,8 +642,26 @@ Dropzone.options.myDropzone = {
         var top = (window.innerHeight - height) / 2;
 
         // Open a new window with the specified URL, size, and position
-        window.open(route, '_blank', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
+        window.open(url, '_blank', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
     }
+
+</script>
+
+{{-- open new window --}}
+{{-- <script>
+    function openNewWindow() {
+        // Define the URL of the new window
+        var route = '{{ route('admin.usul-laporan', ['id' => $data]) }}'; // Replace with your URL
+
+// Define the size and position of the new window
+var width = 800;
+var height = 600;
+var left = (window.innerWidth - width) / 2;
+var top = (window.innerHeight - height) / 2;
+
+// Open a new window with the specified URL, size, and position
+window.open(route, '_blank', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
+}
 
 </script> --}}
 <script>

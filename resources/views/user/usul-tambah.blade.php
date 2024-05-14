@@ -59,6 +59,11 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">Kategori</label>
+                                        @if($errors->has('kategori'))
+                                            <div class="alert alert-danger alert-dismissible">
+                                                {{ $errors->first('email') }}
+                                            </div>
+                                            @endif
                                         <select name="kategori" id="" class="form-control">
                                             @foreach ($kategori as $item)
                                                 <option value="{{$item->id}}">{{$item->nama_kategori}}</option>
@@ -68,9 +73,14 @@
 
                                     <div class="form-group">
                                         <label for="name">Usul</label>
+                                        @if($errors->has('usul'))
+                                            <div class="alert alert-danger alert-dismissible">
+                                                {{ $errors->first('usul') }}
+                                            </div>
+                                            @endif
                                         <textarea name="usul" class="form-control" id="" cols="30" rows="5"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-success float-right ml-1">Simpan</button>
+                                    <button type="submit" class="btn btn-primary float-right ml-1">Simpan</button>
                                 </div>
                                 <!-- /.card-body -->
                             </form>

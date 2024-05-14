@@ -66,6 +66,9 @@ class UsulMesyuaratController extends Controller
             'usul' => 'required',
             'kategori' => 'required',
 
+        ], [
+            'usul.required' => 'Usul diperlukan.',
+            'kategori.required' => 'Kategori diperlukan.',
         ]);
 
         // dd($date);

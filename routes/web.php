@@ -135,6 +135,7 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::post('/usul_mesyuarat-ulasan-simpan/{id}', [AdminUsulMesyuaratController::class, 'ulasan_simpan'])->name('admin.ulasan-simpan');
     Route::get('/usul_laporan/{id}', [AdminUsulMesyuaratController::class, 'ulasan_laporan'])->name('admin.usul-laporan');
 
+
     // Minit Mesyuarat
     Route::post('/minit-simpan/{id}', [AdminMinitMesyuaratController::class, 'minit_simpan'])->name('admin.minit-simpan');
     Route::get('/minit-padam/{id}', [AdminMinitMesyuaratController::class, 'minit_padam'])->name('admin.minit-padam');

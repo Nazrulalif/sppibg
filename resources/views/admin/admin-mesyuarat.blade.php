@@ -33,8 +33,13 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Senarai Mesyuarat</h3>
+
+                    @if (Auth::user()->access_code === 1)
                     <button type="button" onclick="openNewWindow()" class="btn btn-primary btn-sm float-right"><i
-                            class="fas fa-plus-circle"></i> Tambah</button>
+                        class="fas fa-plus-circle"></i> Tambah</button>
+                    @endif
+
+                    
                 </div>
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
@@ -117,125 +122,11 @@
 <script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+@if (Auth::user()->access_code === 1)
 {{-- Datatable2 --}}
 <script>
-  $(document).ready(function () {
-      $('#example2').DataTable({
-          processing: true,
-          serverSide: true,
-          searching: true,
-          ordering: true,
-          order: [
-              [0, 'desc']
-          ], // Order by the first column (index 0) in ascending order
-          autoWidth: false,
-          responsive: true,
-          language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
-            }, // Load Bahasa Melayu language file
-          ajax: "{{ route('admin.panggilan-mesyuarat') }}",
-          columnDefs: [{
-                  width: '1%',
-                  targets: 0
-              }, // Set 20% width for the first column
-              {
-                  width: '50%',
-                  targets: 1
-              }, // Set 30% width for the second column
-              // {
-              //     width: '10%',
-              //     targets: 2
-              // } // Set 50% width for the third column
-          ],
-          columns: [{
-                  data: null,
-                  render: function (data, type, row, meta) {
-                      return meta.row + meta.settings._iDisplayStart +
-                          1; // Column for displaying row number
-                  },
-                  orderable: true,
-              },
-              {
-                  data: 'nama_mesyuarat',
-                  name: 'nama_mesyuarat',
-                  orderable: true, // Allow ordering for this column
-              },
-              {
-                  data: 'formatted_date',
-                  name: 'tarikh',
-                  orderable: true, // Allow ordering for this column
-              },
-              {
-                    data: 'formatted_mula',
-                    name: 'masa_mula',
-                    orderable: true // Allow ordering for this column
-              },
-              {
-                    data: 'formatted_tamat',
-                    name: 'masa_tamat',
-                    orderable: true // Allow ordering for this column
-              },
-              {
-                data: 'draf',
-                render: function (data, type, row) {
-                if (data == 2) {
-                    return `
-                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
-                            <i class="fas fa-folder"></i>
-                        </a>
-                        <a type="button" title="Notis Panggilan Mesyuarat" class="btn btn-secondary btn-sm" href="{{ route('admin.panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                        <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>`;
-                    } else {
-                        return `
-                            <div class="">
-                                <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
-                                    <i class="fas fa-folder"></i>
-                                </a>
-                                <a type="button" title="Kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.mesyuarat-edit', '') }}/${row.id}')">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>`;
-                        }   
-                    },
-                orderable: false,
-                searchable: false
-
-              }
-          ],
-      });
-      $('#example2').on('click', '.deleteEvent', function () {
-          var id = $(this).data('id');
-          Swal.fire({
-              title: 'Adakah anda pasti?',
-              text: 'Anda akan memadam rekod ini',
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#28a745',
-              cancelButtonColor: '#dc3545',
-              confirmButtonText: 'Ya, pasti',
-              cancelButtonText: 'Batal',
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  // Perform the delete action
-                  window.location.href = "{{ route('admin.mesyuarat-padam', '') }}/" + id;
-              }
-          });
-      });
-  });
-
-</script>
-
-{{-- Datatable3 --}}
-<script>
     $(document).ready(function () {
-        $('#example3').DataTable({
+        $('#example2').DataTable({
             processing: true,
             serverSide: true,
             searching: true,
@@ -246,9 +137,9 @@
             autoWidth: false,
             responsive: true,
             language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
-            }, // Load Bahasa Melayu language file
-            ajax: "{{ route('admin.mesyuarat-arkib') }}",
+                  "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+              }, // Load Bahasa Melayu language file
+            ajax: "{{ route('admin.panggilan-mesyuarat') }}",
             columnDefs: [{
                     width: '1%',
                     targets: 0
@@ -295,18 +186,21 @@
                   render: function (data, type, row) {
                   if (data == 2) {
                       return `
-                      <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
-                        <i class="fas fa-folder"></i>
-                        </a>
+                          <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                              <i class="fas fa-folder"></i>
+                          </a>
+                          <a type="button" title="Notis Panggilan Mesyuarat" class="btn btn-secondary btn-sm" href="{{ route('admin.panggilan-mesyuarat-surat', '') }}/${row.id}" target="_blank">
+                              <i class="fas fa-envelope"></i>
+                          </a>
                           <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
                               <i class="fas fa-trash"></i>
                           </button>`;
                       } else {
                           return `
                               <div class="">
-                                <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
-                                    <i class="fas fa-folder"></i>
-                                </a>
+                                  <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                                      <i class="fas fa-folder"></i>
+                                  </a>
                                   <a type="button" title="Kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.mesyuarat-edit', '') }}/${row.id}')">
                                       <i class="fas fa-pencil-alt"></i>
                                   </a>
@@ -322,7 +216,7 @@
                 }
             ],
         });
-        $('#example3').on('click', '.deleteEvent', function () {
+        $('#example2').on('click', '.deleteEvent', function () {
             var id = $(this).data('id');
             Swal.fire({
                 title: 'Adakah anda pasti?',
@@ -342,7 +236,326 @@
         });
     });
   
-</script>
+  </script>
+  
+  {{-- Datatable3 --}}
+  <script>
+      $(document).ready(function () {
+          $('#example3').DataTable({
+              processing: true,
+              serverSide: true,
+              searching: true,
+              ordering: true,
+              order: [
+                  [0, 'desc']
+              ], // Order by the first column (index 0) in ascending order
+              autoWidth: false,
+              responsive: true,
+              language: {
+                  "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+              }, // Load Bahasa Melayu language file
+              ajax: "{{ route('admin.mesyuarat-arkib') }}",
+              columnDefs: [{
+                      width: '1%',
+                      targets: 0
+                  }, // Set 20% width for the first column
+                  {
+                      width: '50%',
+                      targets: 1
+                  }, // Set 30% width for the second column
+                  // {
+                  //     width: '10%',
+                  //     targets: 2
+                  // } // Set 50% width for the third column
+              ],
+              columns: [{
+                      data: null,
+                      render: function (data, type, row, meta) {
+                          return meta.row + meta.settings._iDisplayStart +
+                              1; // Column for displaying row number
+                      },
+                      orderable: true,
+                  },
+                  {
+                      data: 'nama_mesyuarat',
+                      name: 'nama_mesyuarat',
+                      orderable: true, // Allow ordering for this column
+                  },
+                  {
+                      data: 'formatted_date',
+                      name: 'tarikh',
+                      orderable: true, // Allow ordering for this column
+                  },
+                  {
+                        data: 'formatted_mula',
+                        name: 'masa_mula',
+                        orderable: true // Allow ordering for this column
+                  },
+                  {
+                        data: 'formatted_tamat',
+                        name: 'masa_tamat',
+                        orderable: true // Allow ordering for this column
+                  },
+                  {
+                    data: 'draf',
+                    render: function (data, type, row) {
+                    if (data == 2) {
+                        return `
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                          <i class="fas fa-folder"></i>
+                          </a>
+                            <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>`;
+                        } else {
+                            return `
+                                <div class="">
+                                  <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                                      <i class="fas fa-folder"></i>
+                                  </a>
+                                    <a type="button" title="Kemaskini" class="btn btn-info btn-sm" onclick="openEditWindow('{{ route('admin.mesyuarat-edit', '') }}/${row.id}')">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${row.id}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>`;
+                            }   
+                        },
+                    orderable: false,
+                    searchable: false
+    
+                  }
+              ],
+          });
+          $('#example3').on('click', '.deleteEvent', function () {
+              var id = $(this).data('id');
+              Swal.fire({
+                  title: 'Adakah anda pasti?',
+                  text: 'Anda akan memadam rekod ini',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#28a745',
+                  cancelButtonColor: '#dc3545',
+                  confirmButtonText: 'Ya, pasti',
+                  cancelButtonText: 'Batal',
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      // Perform the delete action
+                      window.location.href = "{{ route('admin.mesyuarat-padam', '') }}/" + id;
+                  }
+              });
+          });
+      });
+    
+  </script>
+@else
+{{-- Datatable2 --}}
+<script>
+    $(document).ready(function () {
+        $('#example2').DataTable({
+            processing: true,
+            serverSide: true,
+            searching: true,
+            ordering: true,
+            order: [
+                [0, 'desc']
+            ], // Order by the first column (index 0) in ascending order
+            autoWidth: false,
+            responsive: true,
+            language: {
+                  "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+              }, // Load Bahasa Melayu language file
+            ajax: "{{ route('admin.panggilan-mesyuarat') }}",
+            columnDefs: [{
+                    width: '1%',
+                    targets: 0
+                }, // Set 20% width for the first column
+                {
+                    width: '50%',
+                    targets: 1
+                }, // Set 30% width for the second column
+                // {
+                //     width: '10%',
+                //     targets: 2
+                // } // Set 50% width for the third column
+            ],
+            columns: [{
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart +
+                            1; // Column for displaying row number
+                    },
+                    orderable: true,
+                },
+                {
+                    data: 'nama_mesyuarat',
+                    name: 'nama_mesyuarat',
+                    orderable: true, // Allow ordering for this column
+                },
+                {
+                    data: 'formatted_date',
+                    name: 'tarikh',
+                    orderable: true, // Allow ordering for this column
+                },
+                {
+                      data: 'formatted_mula',
+                      name: 'masa_mula',
+                      orderable: true // Allow ordering for this column
+                },
+                {
+                      data: 'formatted_tamat',
+                      name: 'masa_tamat',
+                      orderable: true // Allow ordering for this column
+                },
+                {
+                  data: 'draf',
+                  render: function (data, type, row) {
+                  if (data == 2) {
+                      return `
+                          <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                              <i class="fas fa-folder"></i>
+                          </a>`;
+                      } else {
+                          return `
+                              <div class="">
+                                  <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                                      <i class="fas fa-folder"></i>
+                                  </a>`;
+                          }   
+                      },
+                  orderable: false,
+                  searchable: false
+  
+                }
+            ],
+        });
+        $('#example2').on('click', '.deleteEvent', function () {
+            var id = $(this).data('id');
+            Swal.fire({
+                title: 'Adakah anda pasti?',
+                text: 'Anda akan memadam rekod ini',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: 'Ya, pasti',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Perform the delete action
+                    window.location.href = "{{ route('admin.mesyuarat-padam', '') }}/" + id;
+                }
+            });
+        });
+    });
+  
+  </script>
+  
+  {{-- Datatable3 --}}
+  <script>
+      $(document).ready(function () {
+          $('#example3').DataTable({
+              processing: true,
+              serverSide: true,
+              searching: true,
+              ordering: true,
+              order: [
+                  [0, 'desc']
+              ], // Order by the first column (index 0) in ascending order
+              autoWidth: false,
+              responsive: true,
+              language: {
+                  "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+              }, // Load Bahasa Melayu language file
+              ajax: "{{ route('admin.mesyuarat-arkib') }}",
+              columnDefs: [{
+                      width: '1%',
+                      targets: 0
+                  }, // Set 20% width for the first column
+                  {
+                      width: '50%',
+                      targets: 1
+                  }, // Set 30% width for the second column
+                  // {
+                  //     width: '10%',
+                  //     targets: 2
+                  // } // Set 50% width for the third column
+              ],
+              columns: [{
+                      data: null,
+                      render: function (data, type, row, meta) {
+                          return meta.row + meta.settings._iDisplayStart +
+                              1; // Column for displaying row number
+                      },
+                      orderable: true,
+                  },
+                  {
+                      data: 'nama_mesyuarat',
+                      name: 'nama_mesyuarat',
+                      orderable: true, // Allow ordering for this column
+                  },
+                  {
+                      data: 'formatted_date',
+                      name: 'tarikh',
+                      orderable: true, // Allow ordering for this column
+                  },
+                  {
+                        data: 'formatted_mula',
+                        name: 'masa_mula',
+                        orderable: true // Allow ordering for this column
+                  },
+                  {
+                        data: 'formatted_tamat',
+                        name: 'masa_tamat',
+                        orderable: true // Allow ordering for this column
+                  },
+                  {
+                    data: 'draf',
+                    render: function (data, type, row) {
+                    if (data == 2) {
+                        return `
+                        <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                          <i class="fas fa-folder"></i>
+                          </a>`;
+                        } else {
+                            return `
+                                <div class="">
+                                  <a type="button" title="Lihat" class="btn btn-primary btn-sm" href="{{ route('admin.mesyuarat-butiran', '') }}/${row.id}">
+                                      <i class="fas fa-folder"></i>
+                                  </a>
+                                </div>`;
+                            }   
+                        },
+                    orderable: false,
+                    searchable: false
+    
+                  }
+              ],
+          });
+          $('#example3').on('click', '.deleteEvent', function () {
+              var id = $(this).data('id');
+              Swal.fire({
+                  title: 'Adakah anda pasti?',
+                  text: 'Anda akan memadam rekod ini',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#28a745',
+                  cancelButtonColor: '#dc3545',
+                  confirmButtonText: 'Ya, pasti',
+                  cancelButtonText: 'Batal',
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      // Perform the delete action
+                      window.location.href = "{{ route('admin.mesyuarat-padam', '') }}/" + id;
+                  }
+              });
+          });
+      });
+    
+  </script>
+@endif
+
   
 <script>
 function openEditWindow(url) {

@@ -60,9 +60,14 @@
                 <a onclick="printCard()" class="btn btn-app bg-secondary">
                     <i class="fas fa-print"></i> Cetak
                 </a>
-                <a onclick="printCard()" class="btn btn-app bg-secondary">
-                    <i class="fas fa-paper-plane"></i> Makluman
-                </a>
+
+                @if (Auth::user()->access_code === 1)
+                    
+                    <a onclick="printCard()" class="btn btn-app bg-secondary">
+                        <i class="fas fa-paper-plane"></i> Makluman
+                    </a>
+                @endif
+                
             </div>
             
             <div class="container-fluid" id="printable-content">

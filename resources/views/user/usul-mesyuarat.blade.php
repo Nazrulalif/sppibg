@@ -95,6 +95,9 @@
             serverSide: true,
             searching: true,
             ordering: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             order: [
                 [0, 'desc']
             ], // Order by the first column (index 0) in ascending order
@@ -160,15 +163,15 @@
                         if (row.status === 'Belum Dijawab' || row.status === 'Ditolak'  ) {
                             return `
                             <div class="">
-                                <button title="padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
+                                <button title="Padam" class="btn btn-danger btn-sm deleteEvent" data-id="${data.id}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>`;
                         }
                         return `
                             <div class="">
-                                <a type="button" title="papar" class="btn btn-primary btn-sm" onclick="openNewWindow2('{{ route('usul-butiran', '') }}/${row.id}')">
-                                    <i class="fas fa-folder"></i>
+                                <a type="button" title="Lihat" class="btn btn-primary btn-sm" onclick="openNewWindow2('{{ route('usul-butiran', '') }}/${row.id}')">
+                                    <i class="fas fa-eye"></i>
                                 </a>
                             </div>`;
                         },  
@@ -209,7 +212,7 @@
 
         // Define the size and position of the new window
         var width = 600;
-        var height = 400;
+        var height = 450;
         var left = (window.innerWidth - width) / 2;
         var top = (window.innerHeight - height) / 2;
 

@@ -84,6 +84,9 @@
             serverSide: true,
             searching: true,
             ordering: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             order: [
                 [0, 'desc']
             ], // Order by the first column (index 0) in ascending order
@@ -126,7 +129,7 @@
                   render: function (data, type, row) {
                     var assetUrl = '{{ asset('/uploads/minit-mesyuarat', '') }}';
                       return `
-                      <a type="button" title="papar" class="btn btn-primary btn-sm" onclick="openViewWindow('${assetUrl}/${data.fail}')">
+                      <a type="button" title="Lihat" class="btn btn-primary btn-sm" onclick="openViewWindow('${assetUrl}/${data.fail}')">
                             <i class="fas fa-folder"></i>
                         </a>`;
                       },
@@ -156,6 +159,9 @@
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+            },
             ajax: "{{ route('minit-mesyuarat') }}",
             columnDefs: [{
                     width: '1%',
@@ -193,7 +199,7 @@
                   render: function (data, type, row) {
                     var assetUrl = '{{ asset('/uploads/minit-mesyuarat', '') }}';
                       return `
-                      <a type="button" title="papar" class="btn btn-primary btn-sm" onclick="openViewWindow('${assetUrl}/${data.fail}')">
+                      <a type="button" title="Lihat" class="btn btn-primary btn-sm" onclick="openViewWindow('${assetUrl}/${data.fail}')">
                             <i class="fas fa-folder"></i>
                         </a>`;
                       },

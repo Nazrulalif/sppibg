@@ -39,6 +39,20 @@ class PenggunaController extends Controller
 
     public function profil_update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'ic' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'email' => 'required|email',
+
+        ], [
+            'name.required' => 'Nama diperlukan.',
+            'ic.required' => 'Nombor kad Pengenalan diperlukan.',
+            'phone.required' => 'Nombor telefon diperlukan',
+            'address.required' => 'Alamat diperlukan',
+            'email.required' => 'Emel diperlukan',
+        ]);
 
         $user = User::findOrFail($id);
 

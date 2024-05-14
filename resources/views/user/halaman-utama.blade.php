@@ -25,6 +25,45 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <div class="col-md-12">
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-end">
+                                <!-- Previous Page Link -->
+                                @if ($buletin->onFirstPage())
+                                <li class="page-item disabled">
+                                    <span class="page-link">Sebelumnya</span>
+                                </li>
+                                @else
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $buletin->previousPageUrl() }}"
+                                        rel="prev">Sebelumnya</a>
+                                </li>
+                                @endif
+
+                                <!-- Page Links -->
+                                @foreach ($buletin->getUrlRange(1, $buletin->lastPage()) as $page => $url)
+                                <li class="page-item {{ $page == $buletin->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                                @endforeach
+
+                                <!-- Next Page Link -->
+                                @if ($buletin->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $buletin->nextPageUrl() }}" rel="next">Seterusnya</a>
+                                </li>
+                                @else
+                                <li class="page-item disabled">
+                                    <span class="page-link">Seterusnya</span>
+                                </li>
+                                @endif
+                            </ul>
+                        </nav>
+                        <!-- End Pagination -->
+                    </div>
+            </div>
+            <div class="row">
                 <div class="col-md-3">
 
                     <!-- Profile Image -->
@@ -76,43 +115,7 @@
 
 
                 <div class="col-md-9">
-                    <div class="col-md-12">
-                        <!-- Pagination -->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end">
-                                <!-- Previous Page Link -->
-                                @if ($buletin->onFirstPage())
-                                <li class="page-item disabled">
-                                    <span class="page-link">Sebelumnya</span>
-                                </li>
-                                @else
-                                <li class="page-item">
-                                    <a class="page-link" href="{{ $buletin->previousPageUrl() }}"
-                                        rel="prev">Sebelumnya</a>
-                                </li>
-                                @endif
-
-                                <!-- Page Links -->
-                                @foreach ($buletin->getUrlRange(1, $buletin->lastPage()) as $page => $url)
-                                <li class="page-item {{ $page == $buletin->currentPage() ? 'active' : '' }}">
-                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                </li>
-                                @endforeach
-
-                                <!-- Next Page Link -->
-                                @if ($buletin->hasMorePages())
-                                <li class="page-item">
-                                    <a class="page-link" href="{{ $buletin->nextPageUrl() }}" rel="next">Seterusnya</a>
-                                </li>
-                                @else
-                                <li class="page-item disabled">
-                                    <span class="page-link">Seterusnya</span>
-                                </li>
-                                @endif
-                            </ul>
-                        </nav>
-                        <!-- End Pagination -->
-                    </div>
+                    
                     @foreach ($buletin as $item)
                     <div class="card card-info card-outline">
                         <div class="card-header">
