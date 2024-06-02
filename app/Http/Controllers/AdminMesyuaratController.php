@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\SuratPanggilanMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Akses_pengguna;
+use App\Models\Maklumbalas_kehadiran;
 use App\Models\Mesyuarat;
 use App\Models\Minit_mesyuarat;
 use App\Models\Panggilan_mesyuarat;
@@ -13,6 +14,7 @@ use App\Models\User;
 use App\Models\Usul_mesyuarat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 // use SuratPanggilanMail as GlobalSuratPanggilanMail;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -70,6 +72,20 @@ class AdminMesyuaratController extends Controller
             ->where('id_mesyuarat', $id)
             ->first();
 
+        $maklumbalas_hadir = Maklumbalas_kehadiran::where('id_mesyuarat', $id)
+            ->where('status', '=', 'Hadir')
+            ->count();
+
+        $maklumbalas_belum_jawab = Maklumbalas_kehadiran::where('id_mesyuarat', $id)
+            ->where('status', '=', 'Belum Dijawab')
+            ->count();
+
+        $maklumbalas_tidak_hadir = Maklumbalas_kehadiran::where('id_mesyuarat', $id)
+            ->where('status', '=', 'Tidak Hadir')
+            ->count();
+
+        // dd($maklumbalas_belum_jawab);
+
         // Continue with your existing code to fetch the agenda and display the view
         // $listItems = explode("\n", $data->agenda);
 
@@ -84,6 +100,40 @@ class AdminMesyuaratController extends Controller
             'count' => $count,
             'minit_mesyuarat' => $minit_mesyuarat,
             'minit_fail' => $minit_fail,
+            'maklumbalas_hadir' => $maklumbalas_hadir,
+            'maklumbalas_belum_jawab' => $maklumbalas_belum_jawab,
+            'maklumbalas_tidak_hadir' => $maklumbalas_tidak_hadir,
+        ]);
+    }
+
+    public function maklumbalas_laporan($id)
+    {
+
+        $data = Maklumbalas_kehadiran::join('users', 'maklumbalas_kehadiran.id_pengguna', '=', 'users.id')
+            ->join('mesyuarat', 'maklumbalas_kehadiran.id_mesyuarat', '=', 'mesyuarat.id')
+            ->where('maklumbalas_kehadiran.id_mesyuarat', $id)
+            ->get();
+
+        $maklumbalas_hadir = Maklumbalas_kehadiran::where('id_mesyuarat', $id)
+            ->where('status', '=', 'Hadir')
+            ->count();
+
+        $maklumbalas_belum_jawab = Maklumbalas_kehadiran::where('id_mesyuarat', $id)
+            ->where('status', '=', 'Belum Dijawab')
+            ->count();
+
+        $maklumbalas_tidak_hadir = Maklumbalas_kehadiran::where('id_mesyuarat', $id)
+            ->where('status', '=', 'Tidak Hadir')
+            ->count();
+        $maklumbalas_count = Maklumbalas_kehadiran::where('id_mesyuarat', $id)
+            ->count();
+
+        return view('admin.admin-laporan-maklumbalas', [
+            'data' => $data,
+            'maklumbalas_hadir' => $maklumbalas_hadir,
+            'maklumbalas_belum_jawab' => $maklumbalas_belum_jawab,
+            'maklumbalas_tidak_hadir' => $maklumbalas_tidak_hadir,
+            'maklumbalas_count' => $maklumbalas_count,
         ]);
     }
 
@@ -296,10 +346,36 @@ class AdminMesyuaratController extends Controller
                     'id_panggilan' => $invitation->id
                 ]);
                 Mail::to($user->email)->send(new SuratPanggilanMail($invitation, $mesyuarat, $listItems));
+
+                Maklumbalas_kehadiran::create([
+                    'id_pengguna' => $user->id,
+                    'id_mesyuarat' => $id,
+                    'status' => 'Belum Dijawab',
+                ]);
             }
         }
 
         return redirect()->route('admin.panggilan-mesyuarat');
+    }
+
+    public function maklumbalas_kehadiran(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required',
+        ]);
+        $maklumbalas = Maklumbalas_kehadiran::where('id_mesyuarat', $id)->where('id_pengguna', Auth::user()->id)->first();
+
+
+        $maklumbalas->status = $request->status;
+        $maklumbalas->alasan = $request->alasan;
+        $maklumbalas->save();
+
+        return redirect()->back();
+    }
+
+    public function mesyuarat_panggilan($id)
+    {
+        return response()->json(['success' => 'Makluman sent successfully.']);
     }
 
     public function panggilan_mesyuarat_surat($id)
@@ -314,6 +390,13 @@ class AdminMesyuaratController extends Controller
         $penggunaPanggilan = Pengguna_panggilan_mesyuarat::where('id_panggilan', $mesyuarat->id_panggilan)
             ->get();
 
+        $user = Auth::user();
+
+        $hasResponded = Maklumbalas_kehadiran::where('id_pengguna', $user->id)
+            ->where('id_mesyuarat', $id)
+            ->first();
+
+        // dd($hasResponded->status);
         $displayedRoles = [];
         foreach ($penggunaPanggilan as $item) {
             $user = User::find($item->id_pengguna);
@@ -340,6 +423,7 @@ class AdminMesyuaratController extends Controller
             'data' => $mesyuarat,
             'listItems' => $listItems,
             'userRole' => $displayedRoles,
+            'hasResponded' => $hasResponded,
         ]);
     }
 }

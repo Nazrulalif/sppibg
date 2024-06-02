@@ -48,7 +48,7 @@
                             <div class="card-header">
                                 <h4 class="card-title">Acara Akan Datang</h4>
                             </div>
-                            <div class="card-body overflow-auto" style="max-height: 600px;">
+                            <div class="card-body overflow-auto" style="max-height: 600px; padding:0.5rem">
                                 <!-- the events -->
                                 <div class="timeline timeline-inverse">
                                     <!-- timeline time label -->
@@ -161,6 +161,8 @@
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
+          eventDisplay: "block",
+            allDaySlot: false,
           events: {!! $events->map(function ($event) {
               return [
                   'title' => $event->nama_acara ? $event->nama_acara : $event->nama_mesyuarat,
@@ -201,8 +203,17 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
+        
         var calendar = new FullCalendar.Calendar(calendarEl, {
+            
+
             initialView: 'dayGridMonth',
+            eventDisplay: "block",
+            allDaySlot: false,
+            displayEventTime: false,
+            // aspectRatio: 2,
+            // height: 'auto',
+
             events: {!! $events->map(function ($event) {
                 return [
                     'title' => $event->nama_acara ? $event->nama_acara : $event->nama_mesyuarat,
@@ -214,11 +225,13 @@
                     'id' => $event->id, // Add the event ID
                 ];
             })->toJson() !!},
+            
             eventClick: function (info) {
                 var eventId = info.event.id;
                 var newWindow = window.open('{{ route('admin.kalendar-butiran', '') }}/' + eventId, 'Event Details', 'width=600, height=400, resizable=yes, scrollbars=yes');
                 newWindow.focus();
             },
+            
             themeSystem: 'bootstrap',
             headerToolbar: {
                 left: 'prev,next today',
@@ -236,9 +249,16 @@
             
             dateClick: function (info) {
                 var date = info.dateStr; // Get the clicked date
-                var newWindow = window.open('{{ route('admin.kalendar-tambah', '') }}/' + date, 'Event Details', 'width=600, height=400, resizable=yes, scrollbars=yes');
-                newWindow.focus();
+                var currentDate = moment().format('YYYY-MM-DD');
+
+                if (date < currentDate) {
+                    info.jsEvent.preventDefault(); // Prevent click
+                } else {
+                    var newWindow = window.open('{{ route('admin.kalendar-tambah', '') }}/' + date, 'Event Details', 'width=800, height=800, resizable=yes, scrollbars=yes');
+                    newWindow.focus();
+                }
             },
+                
         });
   
         calendar.render();

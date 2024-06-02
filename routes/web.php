@@ -114,6 +114,10 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::get('/mesyuarat-padam/{id}', [AdminMesyuaratController::class, 'mesyuarat_padam'])->name('admin.mesyuarat-padam');
     Route::get('/mesyuarat-edit/{id}', [AdminMesyuaratController::class, 'mesyuarat_edit'])->name('admin.mesyuarat-edit');
     Route::post('/mesyuarat-update/{id}', [AdminMesyuaratController::class, 'mesyuarat_update'])->name('admin.mesyuarat-update');
+    Route::post('/mesyuarat-panggilan', [AdminMesyuaratController::class, 'mesyuarat_panggilan'])->name('admin.mesyuarat-panggilan');
+    Route::post('/maklumbalas-kehadiran/{id}', [AdminMesyuaratController::class, 'maklumbalas_kehadiran'])->name('admin.maklumbalas-kehadiran');
+    Route::get('/maklumbalas-laporan/{id}', [AdminMesyuaratController::class, 'maklumbalas_laporan'])->name('admin.maklumbalas-laporan');
+
 
 
     // Panggilan Mesyuarat
@@ -203,6 +207,7 @@ Route::middleware('auth', 'web', 'isuser')->group(function () {
 
     //panggilan mesyuarat
     Route::get('/panggilan-mesyuarat-surat/{id}', [AdminMesyuaratController::class, 'panggilan_mesyuarat_surat'])->name('panggilan-mesyuarat-surat');
+    Route::post('/maklumbalas-kehadiran/{id}', [AdminMesyuaratController::class, 'maklumbalas_kehadiran'])->name('maklumbalas-kehadiran');
 
     //usul mesyuarat
     Route::get('/usul-mesyuarat/{id}', [UsulMesyuaratController::class, 'index'])->name('usul-mesyuarat');

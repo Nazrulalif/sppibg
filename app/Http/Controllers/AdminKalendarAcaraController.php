@@ -29,6 +29,21 @@ class AdminKalendarAcaraController extends Controller
         return view('admin.admin-kalendar-acara', ['upcomingEvents' => $upcomingEvents], compact('events'));
     }
 
+    public function kalendar_butiran($id)
+    {
+        $acara = Acara::find($id);
+        $mesyuarat = Mesyuarat::find($id);
+
+        $event = $acara ? $acara : $mesyuarat;
+
+        $formatted_date = Carbon::parse($event->tarikh)->format('l, j F Y');
+
+        return view('admin.admin-butiran-kalendar', [
+            'data' => $event,
+            'formatted_date' => $formatted_date,
+        ]);
+    }
+
     public function kalendar_laporan()
     {
         $activities = []; // Initialize an empty array or collection
@@ -71,20 +86,7 @@ class AdminKalendarAcaraController extends Controller
         ]);
     }
 
-    public function kalendar_butiran($id)
-    {
-        $acara = Acara::find($id);
-        $mesyuarat = Mesyuarat::find($id);
 
-        $event = $acara ? $acara : $mesyuarat;
-
-        $formatted_date = Carbon::parse($event->tarikh)->format('l, j F Y');
-
-        return view('admin.admin-butiran-kalendar', [
-            'data' => $event,
-            'formatted_date' => $formatted_date,
-        ]);
-    }
 
     public function kalendar_delete($id)
     {
@@ -163,7 +165,7 @@ class AdminKalendarAcaraController extends Controller
 
         if ($mesyuarat) {
             $mesyuarat->update([
-                'nama_mesyuarat' => request('nama_mesyuarat'),
+                'nama_mesyuarat' => request('nama_acara'),
                 // 'tarikh' => request('tarikh'),
                 'masa_mula' => request('masa_mula'),
                 'masa_tamat' => request('masa_tamat'),

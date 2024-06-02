@@ -88,7 +88,7 @@
                                                 </div>
                                                 @endif
                                                 {{-- {{$formatted_date}} --}}
-                                                <input type="date" name="tarikh" class="form-control" id="">
+                                                <input type="date" name="tarikh" min="<?php echo date("Y-m-d"); ?>" class="form-control" id="">
         
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                                                 {{ $errors->first('masa_mula') }}
                                             </div>
                                             @endif
-                                                <input type="time" name="masa_mula" class="form-control">
+                                                <input type="time" name="masa_mula"  class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">

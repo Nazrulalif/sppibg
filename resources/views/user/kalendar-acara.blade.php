@@ -114,7 +114,10 @@
   document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
+        initialView: 'dayGridMonth',
+            eventDisplay: "block",
+            allDaySlot: false,
+            displayEventTime: false,
           events: {!! $events->map(function ($event) {
               return [
                   'title' => $event->nama_acara ? $event->nama_acara : $event->nama_mesyuarat,

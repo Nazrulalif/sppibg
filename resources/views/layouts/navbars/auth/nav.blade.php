@@ -15,6 +15,22 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
+        @if (Auth::user()->access_code == 5 )
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('qr-reader')}}">
+                <i class="nav-icon fas fa-qrcode"></i>
+
+            </a>
+            
+        </li>
+        @else
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.qr-reader')}}">
+                <i class="nav-icon fas fa-qrcode"></i>
+            </a>
+        </li>
+        @endif
         <li class="nav-item">
             <a class="nav-link" href="{{route('logout')}}">
                 <i class="fas fa-sign-out-alt" title="Log keluar"></i>

@@ -57,7 +57,11 @@
                                     </a>
                                 </li>
                                 @if ($panggilan && $panggilan->draf == 2)
-
+                                <li class="nav-item">
+                                    <a href="#maklumbalas" data-toggle="tab" class="nav-link">
+                                        Maklum balas Kehadiran
+                                    </a>
+                                </li>
 
                                 @elseif(Auth::user()->access_code === 1)
                                 <li class="nav-item">
@@ -142,6 +146,53 @@
                             <!-- /.card-body -->
                         </div>
                         @if ($panggilan && $panggilan->draf == 2)
+                        <div class="card card-primary card-outline tab-pane" id="maklumbalas">
+                            <div class="card-header">
+                                <h3 class="card-title">Maklum balas Kehadiran</h3>
+                                <a href="{{ route('admin.maklumbalas-laporan', ['id' => $data]) }}" target="_blank"
+                                    class="btn btn-primary btn-sm float-right">
+                                    Laporan
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <div class="info-box bg-success">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Hadir</span>
+                                                <h3 class="info-box-number" id="hadirCount">{{$maklumbalas_hadir}}</h3>
+                                            </div>
+                                            <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <div class="info-box bg-danger">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Tidak Hadir</span>
+                                                <h3 class="info-box-number" id="tidakHadirCount">{{$maklumbalas_tidak_hadir}}</h3>
+                                            </div>
+                                            <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <div class="info-box bg-info">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Belum Jawab</span>
+                                                <h3 class="info-box-number" id="jumlahCount">{{$maklumbalas_belum_jawab}}</h3>
+                                            </div>
+                                            <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                    </div>
+                                </div>
+
+                                    <div id="bar-chart" style="height: 300px;"></div>
+                            </div>
+                            <!-- /.card-header -->
+                        </div>
 
                         @else
                         <div class="card card-primary card-outline tab-pane" id="panggilan">
@@ -348,6 +399,55 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+
+  <!-- FLOT CHARTS -->
+  <script src="{{asset('plugins/flot/jquery.flot.js')}}"></script>
+  <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+  <script src="{{asset('plugins/flot/plugins/jquery.flot.resize.js')}}"></script>
+
+<script>
+    $(function(){
+/*
+       * BAR CHART
+       * ---------
+       */
+
+       var bar_data = {
+        data: [
+          [1, {{$maklumbalas_hadir}}],
+          [2, {{$maklumbalas_tidak_hadir}}],
+          [3, {{$maklumbalas_belum_jawab}}],
+        ],
+        bars: {
+          show: true
+        }
+      }
+      $.plot('#bar-chart', [bar_data], {
+        grid: {
+          borderWidth: 1,
+          borderColor: '#f3f3f3',
+          tickColor: '#f3f3f3'
+        },
+        series: {
+          bars: {
+            show: true,
+            barWidth: 0.9,
+            align: 'center',
+          },
+        },
+        colors: ['#3c8dbc'],
+        xaxis: {
+          ticks: [
+            [1, 'Hadir'],
+            [2, 'Tidak Hadir'],
+            [3, 'Belum Jawab'],
+          ]
+        }
+      })
+      /* END BAR CHART */
+    });
+</script>
+
 <script>
     Dropzone.options.myDropzone = {
         maxFilesize: 2, // MB

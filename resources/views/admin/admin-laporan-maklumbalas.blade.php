@@ -41,9 +41,7 @@
                 display: none;
             }
         }
-        ol {
-        padding: 1rem;
-    }
+
     </style>
 
 </head>
@@ -60,16 +58,7 @@
                 <a onclick="printCard()" class="btn btn-app bg-secondary">
                     <i class="fas fa-print"></i> Cetak
                 </a>
-
-                {{-- @if (Auth::user()->access_code === 1)
-                    
-                    <a onclick="printCard()" class="btn btn-app bg-secondary">
-                        <i class="fas fa-paper-plane"></i> Makluman
-                    </a>
-                @endif --}}
-                
             </div>
-            
             <div class="container-fluid" id="printable-content">
 
                 <div class="card p-5">
@@ -84,113 +73,67 @@
                                 <p class="mb-0">No 1, Jalan Matang Buluh, Kampung Alor Senggut,</p>
                                 <p class="mb-0">34300 Bagan Serai, Perak</p>
                             </div>
-                            {{-- <div class="col-sm-auto text-center text-sm-right">
-                                <h4><strong>Laporan Sumbangan</strong></h4>
+                            <div class="col-sm-auto text-center text-sm-right">
+                                <h4><strong>Laporan Maklum Balas Kehadiran</strong></h4>
                                 <small class="float-right">{{date('l, j F Y')}}</small>
 
-                        </div> --}}
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col">
-                        <div style="text-align: end">
-                            <p class="mb-0">Rujukan: PIBG/SKJMB {{$data->id}}/{{ ucwords(\Carbon\Carbon::parse($data->created_at)->locale('ms_MY')->isoFormat('YYYY')) }}</p>
-                            <p class="">Tarikh: {{date('j F Y')}}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="mb-0">Yang Dihormati</p>
-                        <p class="mb-0">Ibu bapa / Penjaga</p>
-                        <p>Murid-murid SKJMB</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12 p-4"
+                            style="align-items: center; display: flex; justify-content: center; flex-direction: column;">
+                            <h4 class="title"></h4>
+                            <p></p>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p>Tuan/Puan</p>
-                        <h5><strong>MEMAKLUMKAN KUTIPAN BAYARAN TAMBAHAN PERSEKOLAHAN PIBG TAHUN {{$id}} </strong></h5>
-                        <p>dengan hormatnya saya ingin merujuk kepada perkara diatas</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <ol start="2" style="text-indent: 1rem">
-                            <li>Sukacita dimaklumkan bahawa Persatuan Ibu Bapa dan Guru (PIBG) SK Jalan Matang Buluh
-                                telah mendapat kebenaran Jabatan Pendidikan Negeri Perak untuk
-                                membuat kutipan Bayaran Tambahan Persekolahan bagi semua murid. Cadangan kutipan ini
-                                telah dibentangkan dan dipersetujui dalam Mesyuarat Agung PIBG yang lalu.</li><br>
+                    <div class="card-body p-3 pt-1 mb-3">
+                        <table class="table table-bordered bg-light">
+                            <tr>
+                                <th style="width: 30%">Jumlah Terlibat</th>
+                                <td>{{$maklumbalas_count}}</td>
 
-                            <li>Senarai kutipan bayaran tambahan yang telah diluluskan disertakan bersama surat ini.
-                                Ibubapa/Penjaga boleh menjelaskan bayaran tambahan PIG melalui guru kelas anak
-                                masing-masing atau melalui sistem SPPIBG</li><br>
+                                <th style="width: 30%">Jumlah Hadir</th>
+                                <td>{{$maklumbalas_hadir}}</td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%">Jumlah Tidak Hadir</th>
+                                <td>{{$maklumbalas_tidak_hadir}}</td>
 
-                            <li>Diharap tuan/puan dapat memberi kerjasama untuk melancarkan kutipan bayaran ini demi
-                                kebajikan anak masing-masing. Kerjasama dan keprihatinan tuan/puan amat dihargai dan
-                                didahului dengan ucapan terima kasih.</li>
-                        </ol>
+                                <th style="width: 30%">Jumlah Belum Jawab</th>
+                                <td>{{$maklumbalas_belum_jawab}}</td>
 
-                        <p>Sekian.</p>
-                        <h6><strong>"WAWASAN KEMAKMURAN BERSAMA 2030"</strong></h6>
-                        <h6><strong>"BERKHIDMAT UNTUK NEGARA"</strong></h6>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    
-                    <div class="col">
-                        <h5 class="p-4" style="text-align: center"><strong>MEMAKLUMKAN KUTIPAN BAYARAN TAMBAHAN PERSEKOLAHAN PIBG TAHUN 2021 </strong></h5>
+
+                            </tr>
+                        </table>
+
+                        <br>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Perkara</th>
-                                    @for ($i = 1; $i <= 6; $i++)
-                                        <th>Tahun {{ $i }} (RM)</th>
-                                    @endfor
+                                    <th style="width: 10px">#</th>
+                                    <th style="width: 30%">Nama</th>
+                                    <th>Status</th>
+                                    <th>Alasan Tidak Hadir</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($data as $item)
                                 <tr>
-                                    <td>1</td>
-                                    <td>Yuran (Per Keluarga)</td>
-                                    @foreach ($fees as $fee)
-                                        <td>{{ $fee['total_yuran'] }}</td>
-                                    @endforeach
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{$item->name}}</td>
+                                    <td>{{$item->status}}</td>
+                                    <td>{{$item->alasan}}</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Yuran Tambahan</td>
-                                    @foreach ($fees as $fee)
-                                        <td>{{ $fee['total_yuran_tambahan'] }}</td>
-                                    @endforeach
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><strong>Jumlah Besar</strong></td>
-                                    @php
-                                        $total_yuran = array_sum(array_column($fees, 'total_yuran'));
-                                        $total_yuran_tambahan = array_sum(array_column($fees, 'total_yuran_tambahan'));
-                                    @endphp
-                                    @for ($i = 1; $i <= 6; $i++)
-                                        @php
-                                            $total = ($i <= count($fees)) ? $fees[$i-1]['total_yuran'] + $fees[$i-1]['total_yuran_tambahan'] : '';
-                                        @endphp
-                                        <td><strong>{{ $total }}</strong></td>
-                                    @endfor
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
-                        
-
-
                     </div>
                 </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.card-body -->
-    </div>
-    <!-- /.row -->
+            <!-- /.row -->
     </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->

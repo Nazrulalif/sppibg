@@ -85,10 +85,8 @@ class AuthController extends Controller
                     'verified' => 2, // Set verified to 1 for new user
                     'password' => Hash::make($request->password),
                 ]);
-
                 // Delete existing child records
                 Pelajar::where('id_pengguna', $existingUser->id)->delete();
-
                 // Create new child records
                 foreach ($request->child as $index => $childName) {
                     if (!empty($childName) && !empty($request->class[$index])) {
@@ -102,7 +100,6 @@ class AuthController extends Controller
                     }
                 }
 
-                // session()->flash('success', 'Pengguna baharu berjaya ditambah');
                 return redirect()->route('login')->with('success', 'Maklumat akaun ada akan disemak dan disahkan oleh pentadbir sistem');
             } else {
                 // Email already exists but user is not verified
