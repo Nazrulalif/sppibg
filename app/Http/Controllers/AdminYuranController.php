@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NotisYuranMail;
 use App\Models\Pelajar;
 use App\Models\Tahun_pelajar;
 use App\Models\User;
@@ -13,6 +14,7 @@ use App\Models\Yuran_tambahan_pelajar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdminYuranController extends Controller
@@ -381,5 +383,33 @@ class AdminYuranController extends Controller
         $years = range(1, 6); // Assuming you have three student years
 
         return view('admin.admin-notis-yuran', compact('fees', 'years', 'id', 'data'));
+    }
+
+    public function yuran_notis_emel(Request $request, $id)
+    {
+        $user = User::select('users.email')
+            ->join('akses_pengguna', 'users.access_code', '=', 'akses_pengguna.id')
+            ->where('users.id', '!=', auth()->user()->id)
+            ->where('users.verified', '!=', '2')
+            ->where('users.verified', '!=', '3')
+            ->get(); // Include the 'id' column here
+
+        $data = Yuran::where('tahun', $id)->first();
+
+
+        $fees = Yuran::select('tahun_pelajar_id', DB::raw('SUM(yuran) as total_yuran'), DB::raw('SUM(yuran_tambahan) as total_yuran_tambahan'))
+            ->where('tahun', $id)
+            ->groupBy('tahun_pelajar_id')
+            ->get()
+            ->toArray();
+
+
+        $years = range(1, 6); // Assuming you have three student years
+
+        Mail::to($user)->send(new NotisYuranMail($fees, $data, $id));
+        // return response()->json([
+        //     'tahun' => $id,
+        // ]);
+        return redirect()->back()->with('success', 'Success');
     }
 }

@@ -166,6 +166,7 @@ Route::prefix('admin')->middleware('auth', 'isadmin')->group(function () {
     Route::get('/yuran-padam/{id}', [AdminYuranController::class, 'yuran_padam'])->name('admin.yuran-padam');
     Route::get('/yuran-laporan/{id}', [AdminYuranController::class, 'yuran_laporan'])->name('admin.yuran-laporan');
     Route::get('/yuran-notis/{id}', [AdminYuranController::class, 'yuran_notis'])->name('admin.yuran-notis');
+    Route::post('/yuran-notis-emel/{id}', [AdminYuranController::class, 'yuran_notis_emel'])->name('admin.yuran-notis-emel');
 
     Route::get('/yuran-edit/{year}', [AdminYuranController::class, 'yuran_edit'])->name('admin.yuran-edit');
 
