@@ -97,6 +97,9 @@
             ], // Order by the first column (index 0) in ascending order
             autoWidth: false,
             responsive: true,
+            language: {
+                  "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Malay.json"
+              }, // Load Bahasa Melayu language file
             ajax: "{{ route('admin.mesyuarat') }}",
             columnDefs: [{
                     width: '1%',

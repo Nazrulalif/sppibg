@@ -291,7 +291,7 @@
                                                             <select class="form-control select2" name="akses"
                                                                 style="width: 100%;">
                                                                 <option selected="selected">--Pilih--</option>
-                                                                <option value="1">Setiausaha</option>
+                                                                <option value="1">Pentadbir Sistem</option>
                                                                 <option value="2">Yang Di-Pertua</option>
                                                                 <option value="3">Naib Yang Di-Pertua</option>
                                                                 <option value="6">Bendahari</option>

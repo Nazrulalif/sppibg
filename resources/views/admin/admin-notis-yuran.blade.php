@@ -61,7 +61,7 @@
                     <i class="fas fa-print"></i> Cetak
                 </a>
 
-                @if (Auth::user()->access_code === 1)
+                @if (Auth::user()->access_code == 1)
 
                 <a onclick="makluman()" class="btn btn-app bg-secondary">
                     <i class="fas fa-paper-plane"></i> Makluman

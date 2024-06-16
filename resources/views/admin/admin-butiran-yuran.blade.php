@@ -225,9 +225,9 @@
                     orderable: true, // Allow ordering for this column
                     className: 'dt-center',
                     render: function (data, type, row) {
-                        if (data === 'Selesai') {
+                        if (data == 'Selesai') {
                             return '<span class="badge badge-success">Selesai</span>';
-                        } else if (data === 'Bayaran Separa') {
+                        } else if (data == 'Bayaran Separa') {
                             return '<span class="badge badge-warning">Bayaran Separa</span>';
                         } else {
                             return ''; // Return empty string for other cases

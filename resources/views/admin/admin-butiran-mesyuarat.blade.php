@@ -63,7 +63,7 @@
                                     </a>
                                 </li>
 
-                                @elseif(Auth::user()->access_code === 1)
+                                @elseif(Auth::user()->access_code == 1)
                                 <li class="nav-item">
                                     <a href="#panggilan" data-toggle="tab" class="nav-link">
                                         Panggilan Mesyuarat
@@ -77,7 +77,7 @@
                                     </a>
                                 </li>
 
-                                @if (Auth::user()->access_code === 1)
+                                @if (Auth::user()->access_code == 1)
 
                                 <li class="nav-item">
                                     <a href="#minit" data-toggle="tab" class="nav-link">
@@ -318,7 +318,7 @@
                             <!-- /.card-body -->
                         </div>
 
-                        @if(Auth::user()->access_code === 1)
+                        @if(Auth::user()->access_code == 1)
                             @if (!empty($minit_mesyuarat) && count($minit_mesyuarat) > 0)
 
 
@@ -580,9 +580,9 @@
                     name: 'status',
                     orderable: true,
                     render: function (data, type, row) {
-                        if (data === 'Dijawab') {
+                        if (data == 'Dijawab') {
                             return '<span class="badge badge-success">Dijawab</span>';
-                        } else if (data === 'Belum Dijawab') {
+                        } else if (data == 'Belum Dijawab') {
                             return '<span class="badge badge-danger">Belum Dijawab</span>';
                         } else {
                             return ''; // Return empty string for other cases

@@ -49,6 +49,11 @@
     let scanner = new Instascan.Scanner({
         video: document.getElementById('preview')
     });
+
+    function isMobileDevice() {
+        return /Mobi|Android/i.test(navigator.userAgent);
+    }
+
     scanner.addListener('scan', function (content) {
         console.log('Scanned:', content);
         // Send the scanned content to the server
@@ -62,14 +67,14 @@
             success: function (response) {
                 console.log(response);
                 if (response.message === 'User not found') {
-                     // Show SweetAlert2 popup
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Maklumat anda tidak dijumpai',
-                    text: 'Maklumat anda tidak dijumpai dalam mesyuarat ini',
-                    showConfirmButton: false,
-                    timer: 2000 // Close the popup after 2 seconds
-                });
+                    // Show SweetAlert2 popup
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Maklumat anda tidak dijumpai',
+                        text: 'Maklumat anda tidak dijumpai dalam mesyuarat ini',
+                        showConfirmButton: false,
+                        timer: 2000 // Close the popup after 2 seconds
+                    });
                 } else {
                     window.location.href = "{{ route('admin.qr-berjaya') }}";
                 }
@@ -77,19 +82,36 @@
             error: function (xhr, status, error) {
                 console.error(error);
                 // Optionally, show an error message or handle the error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong. Please try again.',
+                    showConfirmButton: true
+                });
             }
         });
     });
+
     Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-            scanner.start(cameras[0]);
+            if (isMobileDevice()) {
+                // Try to find the back camera
+                let backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+                if (backCamera) {
+                    scanner.start(backCamera);
+                } else {
+                    // Fallback to the first camera if back camera not found
+                    scanner.start(cameras[0]);
+                }
+            } else {
+                scanner.start(cameras[0]);
+            }
         } else {
             console.error('No cameras found.');
         }
     }).catch(function (error) {
         console.error('Error accessing camera:', error);
     });
-
 </script>
 
 

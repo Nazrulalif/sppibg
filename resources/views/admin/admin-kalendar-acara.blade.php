@@ -155,7 +155,7 @@
 </script>
 
 
-@if (Auth::user()->access_code === 6 )
+@if (Auth::user()->access_code == 6 )
 <script>
   document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar');

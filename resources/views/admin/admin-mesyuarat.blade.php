@@ -34,7 +34,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Senarai Mesyuarat</h3>
 
-                    @if (Auth::user()->access_code === 1)
+                    @if (Auth::user()->access_code == 1)
                     <button type="button" onclick="openNewWindow()" class="btn btn-primary btn-sm float-right"><i
                         class="fas fa-plus-circle"></i> Tambah</button>
                     @endif
@@ -122,7 +122,7 @@
 <script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-@if (Auth::user()->access_code === 1)
+@if (Auth::user()->access_code == 1)
 {{-- Datatable2 --}}
 <script>
     $(document).ready(function () {
@@ -450,7 +450,7 @@
         });
     });
   
-  </script>
+</script>
   
   {{-- Datatable3 --}}
   <script>

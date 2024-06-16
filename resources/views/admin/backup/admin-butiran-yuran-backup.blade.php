@@ -267,9 +267,9 @@
                     orderable: true, // Allow ordering for this column
                     className: 'dt-center',
                     render: function(data, type, row) {
-                        if (data === 'Bayaran Penuh') {
+                        if (data == 'Bayaran Penuh') {
                             return '<span class="badge badge-success">Bayaran Penuh</span>';
-                        } else if (data === 'Bayaran Separa') {
+                        } else if (data == 'Bayaran Separa') {
                             return '<span class="badge badge-warning">Bayaran Separa</span>';
                         } else {
                             return ''; // Return empty string for other cases

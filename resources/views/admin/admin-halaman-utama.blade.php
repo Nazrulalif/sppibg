@@ -240,9 +240,9 @@
                     data: 'id_draf',
                     className: 'dt-center',
                     render: function (data, type, row) {
-                        if (data === '1') {
+                        if (data == '1') {
                             return '<span class="badge badge-danger">Draf</span>';
-                        } else if (data === '2') {
+                        } else if (data == '2') {
                             return '<span class="badge badge-success">Hantar</span>';
                         } else {
                             return ''; // Return empty string for other cases
@@ -368,9 +368,9 @@
                     data: 'id_draf',
                     className: 'dt-center',
                     render: function (data, type, row) {
-                        if (data === '1') {
+                        if (data == '1') {
                             return '<span class="badge badge-primary">Arkib</span>';
-                        } else if (data === '2') {
+                        } else if (data == '2') {
                             return '<span class="badge badge-primary">Arkib</span>';
                         } else {
                             return ''; // Return empty string for other cases

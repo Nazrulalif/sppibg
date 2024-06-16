@@ -224,7 +224,7 @@
                 data: null,
                 className: 'dt-center',
                 render: function (data, type, row) {
-                    var checked = (data.status === 'Hadir') ? 'checked' : '';
+                    var checked = (data.status == 'Hadir') ? 'checked' : '';
                     return `
                     <div class="">
                          

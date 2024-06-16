@@ -174,9 +174,9 @@
                     data: 'status',
                     className: 'dt-center',
                     render: function (data, type, row) {
-                        if (data === 'aktif') {
+                        if (data == 'aktif') {
                             return '<span class="badge badge-success">Aktif</span>';
-                        } else if (data === 'tidak aktif') {
+                        } else if (data == 'tidak aktif') {
                             return '<span class="badge badge-danger">Tidak Aktif</span>';
                         } else {
                             return ''; // Return empty string for other cases
@@ -307,9 +307,9 @@
                     data: 'status',
                     className: 'dt-center',
                     render: function (data, type, row) {
-                        if (data === 'aktif') {
+                        if (data == 'aktif') {
                             return '<span class="badge badge-success">Aktif</span>';
-                        } else if (data === 'tidak aktif') {
+                        } else if (data == 'tidak aktif') {
                             return '<span class="badge badge-danger">Tidak Aktif</span>';
                         } else {
                             return ''; // Return empty string for other cases
