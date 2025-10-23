@@ -12,11 +12,38 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            // Access and User Management
+            AksesPenggunaSeeder::class,
+            UserSeeder::class,
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+            // Student Management
+            TahunPelajarSeeder::class,
+            PelajarSeeder::class,
+
+            // Meeting Management
+            MesyuaratSeeder::class,
+            PanggilanMesyuaratSeeder::class,
+            PenggunaPanggilanMesyuaratSeeder::class,
+            KehadiranSeeder::class,
+            KehadiranPenggunaSeeder::class,
+            MaklumbalasKehadiranSeeder::class,
+            // MinitMesyuaratSeeder::class,
+
+            // Proposal Management
+            UsulKategoriSeeder::class,
+            UsulMesyuaratSeeder::class,
+            UlasanUsulSeeder::class,
+
+            // Events and Activities
+            AcaraSeeder::class,
+            BuletinSeeder::class,
+
+            // Financial Management
+            // YuranSeeder::class,
+            // YuranBayarSeeder::class,
+            // SumbanganSeeder::class,
+            // SumbanganPenggunaSeeder::class,
+        ]);
     }
 }

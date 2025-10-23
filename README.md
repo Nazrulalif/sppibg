@@ -1,66 +1,345 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Pengurusan PIBG (SPPIBG)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Pengurusan Persatuan Ibu Bapa dan Guru (PIBG) adalah aplikasi web yang direka untuk memudahkan pengurusan aktiviti, mesyuarat, kewangan, dan pentadbiran PIBG sekolah.
 
-## About Laravel
+## 📋 Kandungan
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   [Ciri-ciri Utama](#ciri-ciri-utama)
+-   [Keperluan Sistem](#keperluan-sistem)
+-   [Pemasangan](#pemasangan)
+-   [Konfigurasi](#konfigurasi)
+-   [Penggunaan](#penggunaan)
+-   [Struktur Database](#struktur-database)
+-   [Peranan Pengguna](#peranan-pengguna)
+-   [Teknologi](#teknologi)
+-   [Lesen](#lesen)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Ciri-ciri Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 1. **Pengurusan Pengguna**
 
-## Learning Laravel
+-   Pendaftaran dan pengesahan pengguna
+-   6 Peranan akses: Admin, Setiausaha, Bendahari, Naib Presiden, Ahli Jawatankuasa, Ahli Biasa
+-   Profil pengguna dengan maklumat lengkap (nama, IC, alamat, hubungan, telefon)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 2. **Pengurusan Mesyuarat**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   Cipta dan urus mesyuarat PIBG
+-   Panggilan mesyuarat dengan QR code
+-   Sistem kehadiran digital
+-   Maklum balas kehadiran (Hadir/Tidak Hadir/Tentative)
+-   Minit mesyuarat dengan upload dokumen
+-   Agenda dan tempoh mesyuarat
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3. **Pengurusan Usul**
 
-## Laravel Sponsors
+-   Kemukakan usul untuk mesyuarat
+-   Kategorikan usul (Kewangan, Program, Kemudahan, Akademik, Lain-lain)
+-   Ulasan dan perbincangan usul
+-   Pengesahan dan status usul
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 4. **Pengurusan Acara**
 
-### Premium Partners
+-   Kalendar acara PIBG
+-   Penjadwalan acara dengan masa, tempat, dan agenda
+-   Tinjauan acara
+-   Kod warna untuk kategorikan acara
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 5. **Pengurusan Kewangan**
 
-## Contributing
+-   **Yuran Tahunan:**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    -   Yuran mengikut tahun pelajar
+    -   Yuran tambahan untuk kelas tertentu
+    -   Rekod pembayaran yuran
+    -   Status pembayaran (Dibayar/Belum Dibayar)
 
-## Code of Conduct
+-   **Sumbangan:**
+    -   Kempen sumbangan dengan sasaran jumlah
+    -   Rekod sumbangan pengguna
+    -   Status transaksi
+    -   Penjejakan pembayaran
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 6. **Pengurusan Pelajar**
 
-## Security Vulnerabilities
+-   Maklumat pelajar (nama, kelas, tahun)
+-   Hubungan pelajar dengan pengguna (ibubapa/penjaga)
+-   Rekod akademik mengikut tahun
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 7. **Buletin & Komunikasi**
 
-## License
+-   Penerbitan buletin PIBG
+-   Upload dokumen buletin (PDF)
+-   Sistem draf untuk semakan
+-   Notifikasi email untuk:
+    -   Pengesahan pengguna
+    -   Panggilan mesyuarat
+    -   Notis yuran
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 8. **Sistem QR Code**
+
+-   QR code untuk kehadiran mesyuarat
+-   QR reader untuk scan kehadiran
+-   Kehadiran automatik melalui QR
+
+## 🔧 Keperluan Sistem
+
+-   PHP >= 8.1
+-   Composer
+-   Node.js & NPM
+-   MySQL/MariaDB atau SQLite
+-   Apache/Nginx web server
+
+### Package Utama
+
+-   **Laravel 10.x** - PHP Framework
+-   **Laravel Sanctum** - API Authentication
+-   **Yajra DataTables** - Server-side tables
+-   **Simple QR Code** - QR Code generation
+-   **PayPal SDK** - Payment integration
+-   **Laravel Mail** - Email notifications
+
+## 📥 Pemasangan
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/Nazrulalif/sppibg.git
+cd sppibg
+```
+
+### 2. Install Dependencies
+
+```bash
+# Install PHP dependencies
+composer install
+
+# Install Node dependencies
+npm install
+```
+
+### 3. Environment Setup
+
+```bash
+# Copy environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+```
+
+### 4. Database Setup
+
+Edit `.env` file dengan maklumat database anda:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sppibg
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Atau gunakan SQLite (lalai):
+
+```env
+DB_CONNECTION=sqlite
+```
+
+### 5. Migrate & Seed Database
+
+```bash
+# Run migrations
+php artisan migrate
+
+# Seed database dengan data contoh
+php artisan db:seed
+```
+
+### 6. Build Assets
+
+```bash
+# Development
+npm run dev
+
+# Production
+npm run build
+```
+
+### 7. Jalankan Aplikasi
+
+```bash
+# Development server
+php artisan serve
+```
+
+Aplikasi boleh diakses di: `http://localhost:8000`
+
+## ⚙️ Konfigurasi
+
+### Mail Configuration
+
+Edit `.env` untuk email notifications:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-app-password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your-email@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+### PayPal Configuration (Optional)
+
+```env
+PAYPAL_MODE=sandbox
+PAYPAL_SANDBOX_CLIENT_ID=your-client-id
+PAYPAL_SANDBOX_CLIENT_SECRET=your-client-secret
+```
+
+## 👥 Peranan Pengguna
+
+Sistem ini mempunyai 6 peranan dengan akses berbeza:
+
+| ID  | Peranan           | Keterangan                         |
+| --- | ----------------- | ---------------------------------- |
+| 1   | Admin             | Akses penuh ke semua fungsi sistem |
+| 2   | Setiausaha        | Urus mesyuarat, minit, panggilan   |
+| 3   | Bendahari         | Urus yuran, sumbangan, kewangan    |
+| 6   | Naib Presiden     | Akses mesyuarat dan keputusan      |
+| 4   | Ahli Jawatankuasa | Ahli eksekutif dengan akses terhad |
+| 5   | Ahli Biasa        | Ahli PIBG dengan akses asas        |
+
+### Default Users (After Seeding)
+
+| Email                    | Password | Role              |
+| ------------------------ | -------- | ----------------- |
+| admin@example.com        | password | Admin             |
+| setiausaha@example.com   | password | Setiausaha        |
+| bendahari@example.com    | password | Bendahari         |
+| naibpresiden@example.com | password | Naib Presiden     |
+| jawatankuasa@example.com | password | Ahli Jawatankuasa |
+| ahlibiasa@example.com    | password | Ahli Biasa        |
+
+## 🗄️ Struktur Database
+
+### Jadual Utama
+
+-   `users` - Maklumat pengguna
+-   `akses_pengguna` - Peranan akses
+-   `pelajar` - Data pelajar
+-   `tahun_pelajar` - Tahun persekolahan
+-   `mesyuarat` - Mesyuarat PIBG
+-   `panggilan_mesyuarat` - Panggilan mesyuarat
+-   `kehadiran` & `kehadiran_pengguna` - Kehadiran
+-   `maklumbalas_kehadiran` - Respon kehadiran
+-   `minit_mesyuarat` - Minit mesyuarat
+-   `usul_mesyuarat` - Usul/cadangan
+-   `usul_kategori` - Kategori usul
+-   `ulasan_usul` - Ulasan usul
+-   `acara` - Acara PIBG
+-   `buletin` - Buletin/newsletter
+-   `yuran` - Struktur yuran
+-   `yuran_bayar` - Pembayaran yuran
+-   `sumbangan` - Kempen sumbangan
+-   `sumbangan_pengguna` - Rekod sumbangan
+
+## 💻 Teknologi
+
+### Backend
+
+-   **Laravel 10.x** - PHP Framework
+-   **MySQL/SQLite** - Database
+-   **Laravel Sanctum** - Authentication
+
+### Frontend
+
+-   **Blade Templates** - Templating engine
+-   **Bootstrap/Custom CSS** - Styling
+-   **JavaScript** - Client-side interactions
+-   **DataTables** - Dynamic tables
+-   **QR Code Scanner** - Attendance system
+
+### Tools & Libraries
+
+-   **Composer** - PHP dependency manager
+-   **NPM** - JavaScript package manager
+-   **Vite** - Asset bundler
+-   **Laravel Pint** - Code styling
+-   **PHPUnit** - Testing
+
+## 📝 Penggunaan
+
+### Untuk Admin
+
+1. **Login** ke sistem dengan akaun admin
+2. **Urus Pengguna** - Tambah, edit, hapus pengguna
+3. **Cipta Mesyuarat** - Jadualkan mesyuarat dengan agenda
+4. **Keluarkan Panggilan** - Generate QR code untuk kehadiran
+5. **Urus Kewangan** - Set yuran, terima pembayaran
+6. **Upload Minit** - Muat naik minit mesyuarat
+
+### Untuk Ahli
+
+1. **Login** dengan akaun yang didaftarkan
+2. **Lihat Mesyuarat** - Semak jadual mesyuarat
+3. **Maklum Balas** - Sahkan kehadiran untuk mesyuarat
+4. **Kemukakan Usul** - Submit cadangan untuk mesyuarat
+5. **Bayar Yuran** - Bayar yuran tahunan secara online
+6. **Beri Sumbangan** - Sumbang untuk projek PIBG
+
+## 🔐 Keselamatan
+
+-   Password hashing menggunakan bcrypt
+-   CSRF protection pada semua forms
+-   Middleware authentication
+-   Role-based access control
+-   SQL injection prevention (Eloquent ORM)
+-   XSS protection
+
+## 🚀 Development
+
+### Running Tests
+
+```bash
+php artisan test
+```
+
+### Code Styling
+
+```bash
+./vendor/bin/pint
+```
+
+### Clear Cache
+
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+```
+
+## 📧 Support
+
+Untuk sebarang pertanyaan atau masalah, sila hubungi:
+
+-   Email: support@sppibg.com
+-   GitHub Issues: [Create an issue](https://github.com/Nazrulalif/sppibg/issues)
+
+## 📄 Lesen
+
+Projek ini adalah perisian sumber terbuka di bawah [MIT license](LICENSE).
+
+## 👨‍💻 Pembangunan
+
+Dibangunkan untuk memudahkan pengurusan PIBG sekolah di Malaysia.
+
+---
+
+**SPPIBG** - Sistem Pengurusan Persatuan Ibu Bapa dan Guru
+© 2025 All Rights Reserved

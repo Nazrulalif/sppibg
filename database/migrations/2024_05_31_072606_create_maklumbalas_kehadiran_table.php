@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('id_pengguna');
             $table->integer('id_mesyuarat');
             $table->string('status');
-            $table->string('alasan');
+            $table->string('alasan')->nullable();
             $table->timestamps();
         });
     }

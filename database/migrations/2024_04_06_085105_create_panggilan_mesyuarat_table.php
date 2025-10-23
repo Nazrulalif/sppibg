@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_panggilan');
             $table->integer('id_mesyuarat');
-            $table->string('tandatangan');
+            $table->string('tandatangan')->nullable();
             $table->integer('draf');
             $table->timestamps();
         });

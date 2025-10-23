@@ -14,7 +14,6 @@ class Sumbangan extends Model
         'nama_sumbangan',
         'penerangan',
         'jumlah_sasaran',
-        'jenis_pembayaran',
         'status',
     ];
 }
